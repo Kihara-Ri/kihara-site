@@ -25,7 +25,7 @@ type IPInfo struct {
 }
 
 func getClientIP(r *http.Request) string {
-	ip := r.Header.Get("X-forwarder-For")
+	ip := r.Header.Get("X-Forwarder-For")
 	if ip != "" {
 		return ip
 	}
