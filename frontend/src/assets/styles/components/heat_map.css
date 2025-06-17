@@ -1,0 +1,60 @@
+.month-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  color: #353535;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #666666;
+}
+
+.week-labels {
+  display: grid;
+  grid-template-columns: repeat(7, 2rem);
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #444;
+}
+.week-label {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.cells-container {
+  display: grid;
+  grid-template-columns: repeat(7, 2rem);
+  justify-content: center;
+  gap: 4px;
+  padding-bottom: 20px;
+}
+
+.day-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+
+  width: 2rem;
+  height: 2rem;
+  font-size: 16px;
+  color: #ffffff;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.5s ease;
+}
