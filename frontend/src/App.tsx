@@ -16,9 +16,11 @@ function App() {
   }, [])
 
   return (
-    <div className="main_container">
-      <IPCard />
-      <MonthHeatmap diaryData={diaryData} />
+    <div className="main-container">
+      <div className="info-container">
+        <IPCard />
+        <MonthHeatmap diaryData={diaryData} />
+      </div>
     </div>
   )
 }

@@ -37,8 +37,8 @@ func getClientIP(r *http.Request) string {
 }
 
 func ipInfoHandler(w http.ResponseWriter, r *http.Request) {
-	// ip := getClientIP(r)
-	ip := "126.65.210.162"
+	ip := getClientIP(r)
+	// ip := "126.65.210.162"
 	fmt.Println("访问IP API: ", ip)
 	// 请求API
 	// "https://api.ip2location.io/?key=548A2DB34D7D8FAEF8409EF396739597&ip=126.65.210.162"

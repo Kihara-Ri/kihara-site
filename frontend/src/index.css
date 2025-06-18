@@ -1,12 +1,16 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  --green-deep: #058a00;
+  --green-normal: #2fb548;
+  --orange: #f58f0a;
+  --gray-normal: #b8b8b8;
+  --gray-light: #e0e0e0;
+  --background-white: #f9f9f9;
+  --white-pure: #ffffff;
+  --black-normal: #353535;
 }
 
 body {
