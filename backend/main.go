@@ -6,6 +6,9 @@ import (
 	"log"
 	"net"
 	"net/http"
+
+	"kihara.cn/personal-site/logger"
+	"kihara.cn/personal-site/utils"
 )
 
 // 接收外部API返回结果
@@ -20,12 +23,18 @@ type IPAPIResponse struct {
 
 // 内部API前端显示
 type IPInfo struct {
-	IP       string `json:"ip"`
-	Location string `json:"location"`
+	IP          string  `json:"ip"`
+	Location    string  `json:"location"`
+	CountryName string  `json:"country_name"`
+	Distance    float64 `json:"distance"`
 }
 
+const myLatitude = 35.70798
+const myLontitude = 139.84298
+
 func getClientIP(r *http.Request) string {
-	ip := r.Header.Get("X-Forwarder-For")
+	// Nginx 传递的真实客户端 IP
+	ip := r.Header.Get("X-Forwarded-For")
 	if ip != "" {
 		return ip
 	}
@@ -37,9 +46,17 @@ func getClientIP(r *http.Request) string {
 }
 
 func ipInfoHandler(w http.ResponseWriter, r *http.Request) {
-	ip := getClientIP(r)
-	// ip := "126.65.210.162"
+	// ip := getClientIP(r)
+	ip := r.URL.Query().Get("ip")
+	if ip == "" {
+		ip = getClientIP(r)
+	}
 	fmt.Println("访问IP API: ", ip)
+
+	// 日志记录
+	userAgent := r.UserAgent()
+	logger.LogAccess(ip, userAgent, "访问 /api/ipinfo")
+
 	// 请求API
 	// "https://api.ip2location.io/?key=548A2DB34D7D8FAEF8409EF396739597&ip=126.65.210.162"
 	apiURL := fmt.Sprintf("https://api.ip2location.io/?key=548A2DB34D7D8FAEF8409EF396739597&ip=%s", ip)
@@ -57,9 +74,14 @@ func ipInfoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// 计算距离
+	distance := utils.Haversine(myLatitude, myLontitude, data.Latitude, data.Longitude)
+
 	info := IPInfo{
-		IP:       ip,
-		Location: fmt.Sprintf("%s %s", data.CountryName, data.RegionName),
+		IP:          ip,
+		Location:    fmt.Sprintf("%s %s", data.CountryName, data.RegionName),
+		CountryName: data.CountryName,
+		Distance:    distance,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

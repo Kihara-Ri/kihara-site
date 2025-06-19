@@ -1,12 +1,20 @@
-.ip_card {
+.ip-card {
   display: flex;
   flex-direction: column;
   text-align: center;
   background-color: var(--background-white);
-  padding: 20px 40px;
+  padding: 20px;
   border-radius: 10px;
-  color: #666666;
+  color: var(--black-normal);
   box-shadow: 2px 5px 5px 5px rgba(0, 0, 0, 0.2);
-  max-width: 20rem;
+  max-width: 280px;
   min-width: 8rem;
+}
+
+.poem {
+  margin-top: 12px;
+  font-style: italic;
+  color: #555;
+  border-left: 4px solid #ccc;
+  padding-left: 12px;
 }

@@ -1,13 +1,12 @@
 .month-container {
   width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 0 20px;
-  align-items: center;
+  max-width: 320px;
+  padding: 10px;
   background-color: var(--background-white);
   border-radius: 10px;
   color: var(--black-normal);
   box-shadow: 2px 5px 5px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box; /*存疑*/
 }
 
 .header {
@@ -24,30 +23,46 @@
   color: #666666;
 }
 
-.week-labels {
+/* 让网格使用自适应单位 */
+.week-labels,
+.cells-container {
   display: grid;
-  grid-template-columns: repeat(7, 2rem);
+  grid-template-columns: repeat(7, 1fr);
   justify-content: center;
-  gap: 4px;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #444;
-}
-.week-label {
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
+  gap: 0.2rem;
 }
 
-.cells-container {
+.week-label,
+.day-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  aspect-ratio: 1 / 1; /* 保持正方形 */
+  width: 100%; /* 填满每格 */
+  font-size: clamp(12px, 4vw, 16px);
+  font-weight: bold;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.day-cell {
+  border-radius: 3px;
+  color: var(--white-pure);
+  transition: background-color 0.5 ease;
+  box-shadow: 0 0 1px 1px rgba(0,0,0,0.05);
+}
+
+ /* {
   display: grid;
   grid-template-columns: repeat(7, 2rem);
   justify-content: center;
   gap: 4px;
   padding-bottom: 20px;
-}
+} */
 
-.day-cell {
+ /* {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,4 +74,4 @@
   color: var(--white-pure);
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05);
   transition: background-color 0.5s ease;
-}
+} */
