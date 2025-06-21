@@ -14,10 +14,11 @@ interface IPCardProps {
 }
 
 const myLocation = { lat: 35.6895, lon: 139.6917 }; // Tokyo
-// const visitorLocation = { lat: 37.7749, lon: -122.4194 }; // San Francisco
+const visitorLocation = { lat: 37.7749, lon: -122.4194 }; // San Francisco
 
 const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance, latitude, longitude }) => {
   const [isDay, setIsDay] = useState(true);
+
   const getPoem = () => {
     const myCountry = "Japan"
     if (country_name === myCountry) {
@@ -43,17 +44,31 @@ const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance, l
           <p>我们相距<strong> {distance} </strong>km</p>
           <blockquote className="poem">{getPoem()}</blockquote>
         </div>
-        <div className="globe-container">
+        <div className="globe-container" 
+          style={{ 
+            position: "relative", width: "100%",
+            background: isDay 
+              ? "linear-gradient(to bottom, #cce3f9, #f9f9f9)" 
+              : "radial-gradient(circle at center, #1a1a40, #000011)",
+            transition: "background 0.5s ease",
+            borderRadius: "10px"
+          }}
+        >
           { Number.isFinite(latitude) && Number.isFinite(longitude) ? (
             <GlobeScene
               myLocation={myLocation}
               visitorLocation={{ lat: latitude, lon: longitude }}
+              // visitorLocation={visitorLocation}
               isDay={isDay}
             />
           ) : (
             <p>正在定位...</p>
           )}
-          <button className="button" onClick={() => setIsDay(!isDay)}>
+          <button
+            className="button"
+            onClick={() => setIsDay(!isDay)}
+            style={{ position: "absolute", top: 10, right: 10 }}
+          >
             {isDay ? "白天": "夜晚" }
           </button>
         </div>

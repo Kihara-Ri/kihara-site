@@ -4,7 +4,9 @@
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import React, { useMemo } from "react";
-import { latLongToVector3, createGreatCircleArc } from "../../utils/geo";
+import { latLongToVector3 } from "../../utils/geo";
+import FixedSizeSprite from "./FixedSizeSprite";
+import AnimatedArc from "./AnimatedArc";
 
 interface GlobeProps {
   isDay: boolean;
@@ -20,11 +22,25 @@ const Globe: React.FC<GlobeProps> = ({ isDay, myLocation, visitorLocation, rotat
   const nightTexture = useTexture("/textures/8k_earth_nightmap.jpg");
   const texture = isDay ? dayTexture : nightTexture;
 
-  const myPos = useMemo(() => latLongToVector3(myLocation.lat, myLocation.lon, radius), [myLocation]);
-  const visitorPos = useMemo(() => latLongToVector3(visitorLocation.lat, visitorLocation.lon, radius), [visitorLocation]);
+  // 加载精灵贴图（512px PNG）
+  const [meIcon, visitorIcon] = useTexture([
+    "/icons/my-location.png",
+    "/icons/location.png"
+  ]);
 
-  const arcPoints = useMemo(() => createGreatCircleArc(myPos, visitorPos, 100), [myPos, visitorPos]);
-  const curve = useMemo(() => new THREE.CatmullRomCurve3(arcPoints), [arcPoints]);
+  // 关闭纹理平滑，避免图片变糊
+  meIcon.minFilter = THREE.LinearFilter;
+  meIcon.magFilter = THREE.NearestFilter;
+  visitorIcon.minFilter = THREE.LinearFilter;
+  visitorIcon.magFilter = THREE.NearestFilter;
+
+  // 两个位置
+  const myPos = useMemo(() => latLongToVector3(myLocation.lat, myLocation.lon, radius + 0.01), [myLocation]); // +0.01 防止图标被遮挡和闪烁
+  const visitorPos = useMemo(() => latLongToVector3(visitorLocation.lat, visitorLocation.lon, radius + 0.01), [visitorLocation]);
+
+  // 球面路径
+  // const arcPoints = useMemo(() => createGreatCircleArc(myPos, visitorPos, 100), [myPos, visitorPos]);
+  // const curve = useMemo(() => new THREE.CatmullRomCurve3(arcPoints), [arcPoints]);
 
   return (
     <group rotation={[0, rotationY, 0]}>
@@ -33,19 +49,14 @@ const Globe: React.FC<GlobeProps> = ({ isDay, myLocation, visitorLocation, rotat
         <meshStandardMaterial map={texture} />
       </mesh>
 
-      <mesh position={myPos}>
-        <sphereGeometry args={[0.05, 16, 16]} />
-        <meshStandardMaterial color="red" />
-      </mesh>
-      <mesh position={visitorPos}>
-        <sphereGeometry args={[0.05, 16, 16]} />
-        <meshStandardMaterial color="yellow" />
-      </mesh>
+      {/* 位置图标：动态缩放保持视觉不变 */}
+      <FixedSizeSprite texture={meIcon} position={myPos} size={0.05} />
+      <FixedSizeSprite texture={visitorIcon} position={visitorPos} size={0.05} />
 
-      <mesh>
-        <tubeGeometry args={[curve, 100, 0.015, 3, false]} />
-        <meshStandardMaterial emissive="#408eed" color="#434ff7" emissiveIntensity={1.0} />
-      </mesh>
+      <AnimatedArc
+        from={myLocation}
+        to={visitorLocation}
+      />
     </group>
   );
 };
