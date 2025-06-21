@@ -18,3 +18,8 @@
   border-left: 4px solid #ccc;
   padding-left: 12px;
 }
+
+.globe-container {
+  border-radius: 10px;
+  background-color: #393939;
+}

@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import "../assets/styles/components/ip_card.css"
+import GlobeScene from "./GlobeScene";
 
 interface IPCardProps {
   ip: string;
@@ -6,12 +8,16 @@ interface IPCardProps {
   distance: number;
   country_name: string;
   // region_name: string;
-  // latitude: GLfloat;
-  // longitude: GLfloat;
+  latitude: number;
+  longitude: number;
   // is_proxy: boolean;
 }
 
-const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance}) => {
+const myLocation = { lat: 35.6895, lon: 139.6917 }; // Tokyo
+// const visitorLocation = { lat: 37.7749, lon: -122.4194 }; // San Francisco
+
+const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance, latitude, longitude }) => {
+  const [isDay, setIsDay] = useState(true);
   const getPoem = () => {
     const myCountry = "Japan"
     if (country_name === myCountry) {
@@ -33,13 +39,23 @@ const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance}) 
       <div className="card-info">
         <p><strong>IP: </strong> {ip} </p>
         <p><strong>位置: </strong> {location} </p>
-        {/* <p><strong>地区: </strong> {info.region_name} </p> */}
-        {/* <p><strong>纬度: </strong> {info.latitude} </p> */}
-        {/* <p><strong>经度: </strong> {info.longitude} </p> */}
-        {/* <p><strong>是否代理: </strong> {info.ip} ? 是 : 否 </p> */}
         <div className="distance">
           <p>我们相距<strong> {distance} </strong>km</p>
           <blockquote className="poem">{getPoem()}</blockquote>
+        </div>
+        <div className="globe-container">
+          { Number.isFinite(latitude) && Number.isFinite(longitude) ? (
+            <GlobeScene
+              myLocation={myLocation}
+              visitorLocation={{ lat: latitude, lon: longitude }}
+              isDay={isDay}
+            />
+          ) : (
+            <p>正在定位...</p>
+          )}
+          <button className="button" onClick={() => setIsDay(!isDay)}>
+            {isDay ? "白天": "夜晚" }
+          </button>
         </div>
       </div>
     </div>

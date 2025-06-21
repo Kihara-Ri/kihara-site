@@ -9,6 +9,8 @@ interface IPCardProps {
   location: string; 
   distance: number;
   country_name: string;
+  latitude: number;
+  longitude: number;
 }
 
 function App() {
@@ -51,7 +53,7 @@ function App() {
         ) : (
           <p>获取访问信息...</p>
         )}
-        <MonthHeatmap diaryData={diaryData} />
+        {/* <MonthHeatmap diaryData={diaryData} /> */}
       </div>
       {/* <div className="notable-work">代表作</div> */}
       {/* <div className="contact-card">联系我</div> */}

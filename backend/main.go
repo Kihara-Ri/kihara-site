@@ -26,11 +26,13 @@ type IPInfo struct {
 	IP          string  `json:"ip"`
 	Location    string  `json:"location"`
 	CountryName string  `json:"country_name"`
+	Latitude    float64 `json:"latitude"`
+	Longtitude  float64 `json:"longitude"`
 	Distance    float64 `json:"distance"`
 }
 
 const myLatitude = 35.70798
-const myLontitude = 139.84298
+const myLongitude = 139.84298
 
 func getClientIP(r *http.Request) string {
 	// Nginx 传递的真实客户端 IP
@@ -75,13 +77,15 @@ func ipInfoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 计算距离
-	distance := utils.Haversine(myLatitude, myLontitude, data.Latitude, data.Longitude)
+	distance := utils.Haversine(myLatitude, myLongitude, data.Latitude, data.Longitude)
 
 	info := IPInfo{
 		IP:          ip,
 		Location:    fmt.Sprintf("%s %s", data.CountryName, data.RegionName),
 		CountryName: data.CountryName,
 		Distance:    distance,
+		Latitude:    data.Latitude,
+		Longtitude:  data.Longitude,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
