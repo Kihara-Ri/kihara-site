@@ -1,0 +1,118 @@
+.function-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.function-dropdown {
+  position: absolute;
+  bottom: 100%; 
+  left: 0;
+  margin-bottom: 8px;
+  background-color: var(--background-white);
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+  padding: 4px 0;
+  min-width: 120px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.function-option {
+  width: 80%;
+  padding: 8px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.function-option:hover {
+  background-color: #efefef;
+}
+
+
+/* 以下是 TranslateSelector 组件 */
+.trans-selector {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 40px;
+}
+
+.lan-selector-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.enhancement-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* 工具按钮样式 */
+.tools-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+.tools-button.disabled {
+  background-color: #444;
+  cursor: not-allowed;
+}
+.tools-button.available {
+  background-color: #dddddd;
+}
+.tools-button:hover:not(.disabled) {
+  filter: brightness(1.1);
+}
+
+/* 箭头图标状态 */
+.arrow-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+.arrow-icon.right {
+  transform: rotate(180deg);
+}
+.arrow-icon.left {
+  transform: rotate(0deg);
+}
+
+/* 增强选项滑出动画 */
+.enhancement-options {
+  display: flex;
+  gap: 8px;
+  overflow: hidden;
+  max-width: 0;
+  transition: max-width 0.4s ease, margin-left 0.3s ease;
+  margin-left: 0;
+}
+.enhancement-options.expanded {
+  max-width: 400px;
+  margin-left: 10px;
+}
+.enhancement-btn {
+  padding: 6px 12px;
+  border-radius: 15px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #555;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+.enhancement-btn:hover {
+  border-color: #888;
+}
+.enhancement-btn.selected {
+  border-color: #007bff;
+  color: #007bff;
+}

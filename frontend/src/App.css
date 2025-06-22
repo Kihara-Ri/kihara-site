@@ -51,4 +51,5 @@
 .main-container {
   padding: 10px;
   min-height: 100dvh; /* 动态视口高度 */
+  width: 100%;
 }

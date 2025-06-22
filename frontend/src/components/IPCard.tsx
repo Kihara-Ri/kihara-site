@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import "../assets/styles/components/ip_card.css"
+import "../assets/styles/ip_card.css"
 import GlobeScene from "./GlobeScene";
 
 interface IPCardProps {

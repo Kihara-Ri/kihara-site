@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import IPCard from './components/IPCard';
 import MonthHeatmap from './components/MonthHeatMap';
+import AIPanel from './components/AIPanel';
 
 const IP_API = 'https://api.ipify.org?format=json';
 interface IPCardProps {
@@ -53,12 +54,13 @@ function App() {
         ) : (
           <p>获取访问信息...</p>
         )}
-        {/* <MonthHeatmap diaryData={diaryData} /> */}
+        <MonthHeatmap diaryData={diaryData} />
       </div>
+      <AIPanel />
       {/* <div className="notable-work">代表作</div> */}
       {/* <div className="contact-card">联系我</div> */}
     </div>
   )
 }
 
-export default App
+export default App;

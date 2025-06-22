@@ -1,0 +1,83 @@
+.ai-panel {
+  display: flex;
+  background-color: var(--background-white);
+  width: 100%;
+  border-radius: 20px;
+}
+
+.ai-interface {
+  flex: 4;
+}
+
+.trans-selector {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+}
+
+.lan-selector-container {
+  /* display: flex; */
+  align-items: center;
+}
+
+.ai-form {
+  background: var(--background-white);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lan-selector-container {
+  display: flex;
+}
+
+.function-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+}
+
+.ai-form select {
+  font-size: 16px;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: #fff;
+  resize: none; /* 禁止手动缩放 */
+  overflow: hidden; /* 禁止横向滚动 */
+  line-height: 1.5;
+}
+.ai-form textarea {
+  width: 100%;
+}
+
+.ai-form textarea:focus {
+  outline: none;
+  border-color: #888;
+}
+
+.ai-result,
+.history-list {
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: #ddd;
+  width: 200px;
+}
+
+.history-list ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.history-list li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}

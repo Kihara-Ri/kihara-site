@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import "../assets/styles/components/heat_map.css"
+import "../assets/styles/heat_map.css"
 
 type DayStatus = 'past' | 'today' | 'future' | 'empty'
 type DiaryData = Record<string, string> // <日期, 记录>
