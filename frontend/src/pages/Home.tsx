@@ -36,7 +36,6 @@ const Home: React.FC = () => {
   return (
     <div className="page-wrapper">
       <div className="main-container">
-        {/* <div>NavBar</div> */}
         {/* <div className="introduction-card">我是谁</div> */}
         <div className="info-container">
           {ipinfo ? (

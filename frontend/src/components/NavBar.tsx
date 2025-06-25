@@ -34,8 +34,16 @@ const NavBar: React.FC = () => {
           </li>
           <li>
             <Link to="/about">About</Link>
+            {/* 做一个下拉菜单 */}
+            {/* about this website */}
+            {/* book reading */}
+            {/* my musings, my experiences */}
           </li>
           <li>
+            {/* 记录我正在做的事情 */}
+            {/* 我已经学会的技术 */}
+            {/* 完成的项目 */}
+            {/* 放简历，并提供PDF下载 */}
             <Link to="/skills">Skills</Link>
           </li>
           <li>
