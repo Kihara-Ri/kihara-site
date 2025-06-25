@@ -3,7 +3,7 @@ import { AIResponse } from "../types/ai";
 import AIForm from "./AI-widget/AIForm";
 import HistoryList from "./AI-widget/HistoryList";
 import "../assets/styles/ai-widgets.css";
-import ChatZone from "./AI-widget/chat-zone";
+import ChatZone from "./AI-widget/ChatZone";
 
 const AIPanel = () => {
   const [result, setResult] = useState<AIResponse | null>(null);

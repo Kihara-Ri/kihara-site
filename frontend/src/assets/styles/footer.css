@@ -1,0 +1,83 @@
+.footer {
+  width: 60%;
+  height: 100px;
+  background-color: #222;
+  color: #ffffff;
+  padding: 20px 20%;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between; /* 保证子元素等间距分布 */
+  align-items: center;
+}
+
+.copy-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* 左对齐 */
+  /* line-height: 1.6; */
+}
+
+.copy-right p {
+  margin: 0;
+  font-weight: lighter;
+}
+
+.copy-right .react-link {
+  display: inline-flex;
+  align-items: baseline; /* 使文本基线对齐 */
+  text-decoration: none;
+  color: #61dafb;
+  font-weight: bold;
+}
+
+.copy-right .react-link:hover {
+  text-decoration: underline;
+}
+
+.react-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  position: relative;
+  top: 2px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.copy-right .footer-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.center-info {
+  flex: 1;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-container {
+  flex: 1;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+.footer-container img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.footer-container img:hover {
+  transform: scale(1.1);
+  filter: brightness(1.5);
+}

@@ -13,12 +13,22 @@
   --black-normal: #353535;
 }
 
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  background-color: var(--background-white);
+  min-height: 100dvh;
+  min-width: 100dvw;
+
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100dvh;
 }
 
 .button {

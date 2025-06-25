@@ -43,17 +43,19 @@ export default function BetterInput({
         resize: 'none',
         overflow: 'hidden',
         lineHeight: '1.6',
-        padding: '10px 14px',
+        marginTop: '4px',
+        padding: '0 12px',
         fontSize: '16px',
-        border: '1px solid #ddd',
-        borderRadius: '8px',
+        // border: '1px solid #ddd',
+        border: 'none',
+        borderRadius: '24px',
+        backgroundColor: 'var(--background-white)',
         width: '100%',
         boxSizing: 'border-box',
         whiteSpace: 'pre-wrap',
         wordBreak: 'break-word',
         minHeight: '40px',
         maxHeight: '300px',
-        background: 'white',
       }}
     />
   );

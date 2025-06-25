@@ -1,65 +1,29 @@
-import { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'
-import IPCard from './components/IPCard';
-import MonthHeatmap from './components/MonthHeatMap';
-import AIPanel from './components/AIPanel';
-
-const IP_API = 'https://api.ipify.org?format=json';
-interface IPCardProps {
-  ip: string;
-  location: string; 
-  distance: number;
-  country_name: string;
-  latitude: number;
-  longitude: number;
-}
+import NavBar from './components/NavBar';
+import Home from './pages/Home';
+import About from './pages/About';
+import Skills from './pages/Skills';
+import Blogs from './pages/Blogs';
+import AIChat from './pages/AIChat';
 
 function App() {
-  const [diaryData, setDiaryData] = useState<Record<string, string>>({});
-  const [ipinfo, setipInfo] = useState<IPCardProps | null>(null);
-  // 获取日期数据
-  useEffect(() => {
-    const today = new Date;
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    fetch(`/diary/${year}-${month}.json`)
-    .then(res => res.json())
-    .then(data => setDiaryData(data))
-    .catch(console.error)
-  }, [])
-
-  // 获取ip数据
-  useEffect (() => {
-    fetch(IP_API)
-      .then(res => res.json())
-      .then(data => {
-        // 将公网IP作为参数传给后端
-        fetch(`/api/ipinfo?ip=${data.ip}`)
-          .then(res => res.json())
-          .then(setipInfo)
-        .catch((err) => {
-          console.error("内部API: /api/ipinfo/ 请求出现错误")
-          console.error(err);
-        });
-      })
-  }, [])
+    // * 为什么需要指定路由？
+    // 用户点击链接并不会触发浏览器重新加载页面
+    // 只有一个入口 HTML 单页面应用
+    // React Router 拦截了链接跳转行为，在前端决定“该显示哪个组件”，实现“看起来像是跳转页面”，实质上是“切换组件视图”
 
   return (
-    <div className="main-container">
-      {/* <div>NavBar</div> */}
-      {/* <div className="introduction-card">我是谁</div> */}
-      <div className="info-container">
-        {ipinfo ? (
-            <IPCard {...ipinfo} />
-        ) : (
-          <p>获取访问信息...</p>
-        )}
-        <MonthHeatmap diaryData={diaryData} />
-      </div>
-      <AIPanel />
-      {/* <div className="notable-work">代表作</div> */}
-      {/* <div className="contact-card">联系我</div> */}
-    </div>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/skills" element={<Skills />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/aichat" element={<AIChat />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

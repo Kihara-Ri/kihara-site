@@ -1,15 +1,27 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0;
-  text-align: center;
-  background-color: var(--gray-light);
-  min-height: 100dvh;
-  min-width: 100dvw;
-
+/* 自适应高度文档流页面 */
+/* 内容不足一屏时，将主容器撑大到填满剩余高度，footer 推到页面底部 */
+/* 内容超出视窗时，main 高度随着内容增长，页面变长，footer 继续在末尾 */
+.page-wrapper {
+  width: 100dvw;
+  /* 动态高度 */
+  min-height: calc(100dvh - 40px);
   display: flex;
   flex-direction: column;
-  text-align: center;
+  /* 底部保留 40px 的空隙 */
+  padding-bottom: 40px;
+}
+
+.main-container {
+  /* 防止导航栏遮住内容 */
+  padding-top: 60px;
+  /* 允许增长，至少占 0，高度可被撑开 */
+  flex: 1 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  background-color: var(--background-white);
 }
 
 .info-container {
@@ -48,8 +60,8 @@
   padding: 12px;
 }
 
-.main-container {
-  padding: 10px;
-  min-height: 100dvh; /* 动态视口高度 */
-  width: 100%;
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
