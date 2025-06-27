@@ -1,9 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import mdx from '@mdx-js/rollup'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    // 先让 MDX 运行在 pre 阶段，避免和 React 插件冲突
+    mdx(),
+    react()
+  ],
   build: {
     outDir: '/var/www/personal-site/dist',
     emptyOutDir: true // 显式允许清空非项目目录

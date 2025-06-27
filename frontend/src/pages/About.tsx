@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
+import { Outlet } from "react-router-dom";
 import MonthHeatmap from "../components/MonthHeatMap";
 
 const About: React.FC = () => {
@@ -17,7 +18,9 @@ const About: React.FC = () => {
 
   return (
     <div className="main-container">
+      <h2>关于</h2>
       <MonthHeatmap diaryData={diaryData} />
+      <Outlet />
     </div>
   );
 };

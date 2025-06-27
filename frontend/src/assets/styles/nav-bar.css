@@ -11,7 +11,7 @@
   z-index: 999;
 }
 .navbar.with-shadow {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .division {
@@ -25,4 +25,16 @@
 .navbar-displays {
   display: flex;
   gap: 20px;
+}
+
+.nav-icon {
+  cursor: pointer;
+  fill: #5242a3;
+  width: 20px;
+  height: 20px;
+  transition: fill 0.2s ease, transform 0.2s ease;
+}
+.nav-icon:hover {
+  fill: #1e90ff;
+  transform: scale(1.05);
 }

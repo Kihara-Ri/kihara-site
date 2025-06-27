@@ -1,0 +1,91 @@
+/* ---------------------------- 毛玻璃卡片背景 --------------------------------- */
+.book-card {
+  width: 600px;
+  max-width: 100%;
+  gap: 16px;
+  margin: 24px 0;
+  padding: 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: stretch;
+
+  /* 毛玻璃效果 */
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+}
+
+/* ---------------------------- 封面图片 --------------------------------- */
+
+.book-card .img-container {
+  /* 卡片默认高度 */
+  height: 240px;
+  /* 不伸缩 */
+  flex: 0 0 160px;
+}
+
+.cover {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(0 0 0 / .7);
+}
+
+/* ---------------------------- 右侧内容区 --------------------------------- */
+
+.content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  /* 让 header 顶部 | footer 底部 */
+  justify-content: space-between;
+  /* 防止 overflow */
+  min-width: 0;
+}
+
+.content .book-title {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+}
+
+.content .author, 
+content .translator {
+  margin: 0 0 2px;
+  font-size:  .9rem;
+  color: #555;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 6px 0;
+}
+.tags li {
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  color: #4ddf74;
+  border: 1px solid currentColor;
+}
+
+.content .intro {
+  flex: 1 1 auto;
+  margin: 8px 0;
+  line-height: 1.4;
+  overflow: auto;
+}
+
+footer a {
+  align-self: flex-start;
+  font-size: .9rem;
+  color: #1390ff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}

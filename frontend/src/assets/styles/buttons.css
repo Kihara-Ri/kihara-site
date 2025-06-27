@@ -4,6 +4,7 @@ button {
 }
 
 .function-button {
+  color: var(--black-normal);
   display: flex;
   align-items: center;
   gap: 0.5rem;

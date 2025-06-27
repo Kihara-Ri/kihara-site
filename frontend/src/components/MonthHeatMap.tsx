@@ -123,14 +123,14 @@ const MonthHeatmap: React.FC<MonthHeatmapProps> = ({ diaryData }) => {
           )}
         )}
       </div>
-
       {tooltip && tooltipPos && (
         <div
           className="tooltip"
           style={{
-            top: tooltipPos.y - 60,
+            top: tooltipPos.y,
             left: tooltipPos.x,
-            transform: 'translateX(-50%)',
+            pointerEvents: 'none', // 防止闪烁
+            transform: 'translate(-50%, 40px)',
             position: 'absolute',
             zIndex: 1000,
             background: 'white',

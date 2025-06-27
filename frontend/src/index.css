@@ -17,7 +17,6 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 0;
-  text-align: center;
   background-color: var(--background-white);
   min-height: 100dvh;
   min-width: 100dvw;
@@ -31,7 +30,8 @@ body {
   display: flex;
 }
 
-.button {
+/* 按钮默认样式 */
+button {
   background-color: #3279db;       /* 主色调，蓝色 */
   color: white;                   /* 字体白色 */
   border: none;                   /* 无边框 */
@@ -44,17 +44,42 @@ body {
   user-select: none;              /* 禁止文本选中 */
 }
 
-.button:hover {
+button:hover {
   background-color: #265bb5;      /* 悬停颜色更深 */
   transform: scale(1.05);         /* 悬停时微微放大 */
 }
 
-.button:active {
+button:active {
   background-color: #1c428a;      /* 点击时颜色更深 */
   transform: scale(0.95);         /* 点击时微缩 */
 }
 
-.button:focus {
+button:focus {
   outline: none;                  /* 去除默认焦点框 */
   box-shadow: 0 0 0 3px rgba(50, 121, 219, 0.5); /* 自定义焦点高亮 */
+}
+
+/* 列表 */
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  color: var(--black-normal);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+a:hover {
+  color: #1e90ff;
+  transform: translateY(-2px);
 }
