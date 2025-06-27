@@ -48,7 +48,7 @@ const NavBar: React.FC = () => {
     <nav className={`navbar ${scrolledDown ? 'with-shadow' : ''}`}>
       <div className="division">
         <div className="navbar-logo">
-          <Link to="/" className="navbar-logo-link">logo</Link>
+          <Link to="/" className="minecraft"><h2>Kihara</h2></Link>
         </div>
         <ul className="navbar-displays">
           <li>

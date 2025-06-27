@@ -1,7 +1,10 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --text-font: 'Alibaba Sans', sans-serif;
   --font-size-base: 16px;
   --font-size-lg: 18px;
+  line-height: 1.5;
+  font-weight: 400;
 
   --green-deep: #058a00;
   --green-normal: #2fb548;
@@ -11,6 +14,11 @@
   --background-white: #f9f9f9;
   --white-pure: #ffffff;
   --black-normal: #353535;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
@@ -25,9 +33,21 @@
   flex-direction: column;
 }
 
-body {
+html, body {
+  font-family: var(--text-font);
+  /* Mac 上更锐利 */
+  -webkit-font-smoothing: antialiased;
+
   margin: 0;
+  padding: 0;
   display: flex;
+}
+
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.5rem;
 }
 
 /* 按钮默认样式 */
@@ -74,6 +94,8 @@ li {
 }
 
 a {
+  display: flex;
+  align-items: center;
   color: var(--black-normal);
   text-decoration: none;
   border-radius: 8px;
@@ -83,3 +105,45 @@ a:hover {
   color: #1e90ff;
   transform: translateY(-2px);
 }
+
+/* ---------------------------- 字体引入 ----------------------------------------------- */
+
+/* Medium 500 (正常正文) */
+@font-face {
+  font-family: 'Alibaba Sans';
+  src: url('/fonts/Alibaba_PuHuiTi_2.0_65_Medium_65_Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold 700 */
+@font-face {
+  font-family: 'Alibaba Sans';
+  src: url('/fonts/Alibaba_PuHuiTi_2.0_55_Regular_85_Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Light 300 */
+@font-face {
+  font-family: 'Alibaba Sans';
+  src: url('/fonts/Alibaba_PuHuiTi_2.0_55_Regular_85_Bold.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Minecraft Ten */
+@font-face {
+  font-family: 'minecraft ten';
+  src: url('/fonts/MinecraftTen-VGORe.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.light-text   { font-weight: 300; } /* 细体 */
+.bold-text    { font-weight: 700; } /* 粗体 */
+.minecraft    { font-family: 'Minecraft Ten', monospace; font-weight: 500; }
