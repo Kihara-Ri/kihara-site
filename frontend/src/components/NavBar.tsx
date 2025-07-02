@@ -70,6 +70,7 @@ const NavBar: React.FC = () => {
             {/* 放简历，并提供PDF下载 */}
             <Link to="/skills">Skills</Link>
           </li>
+
           <li>
             <Link to="/blogs">Blogs</Link>
           </li>

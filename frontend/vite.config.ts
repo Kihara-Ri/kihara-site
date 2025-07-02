@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import mdx from '@mdx-js/rollup'
+import { resolve } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -9,6 +10,11 @@ export default defineConfig({
     mdx(),
     react()
   ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'), // @ -> /absolute/path/to/arc
+    }
+  },
   build: {
     outDir: '/var/www/personal-site/dist',
     emptyOutDir: true // 显式允许清空非项目目录

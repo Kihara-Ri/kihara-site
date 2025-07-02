@@ -1,0 +1,49 @@
+/* 专门用于存放标签样式 */
+
+/* -----------------------------------blog 用标签样式 ------------------------------------------- */
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 6px 0;
+}
+
+.post-tag {
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: #6e6e6e;
+  /* border: 1px solid currentColor; */
+  transition: background-color 0.2s ease,
+              color 0.2s ease;
+  cursor: pointer;
+}
+.post-tag:hover {
+  background-color: #af5ddb;
+  color: #fff;
+}
+
+/* -----------------------------------book 用标签样式 ------------------------------------------- */
+
+.book-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 6px 0;
+}
+
+.book-tag {
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: var(--black-normal);
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: border 0.2s ease,
+              background-color 0.2s ease;
+}
+.book-tag:hover {
+  background-color: #efefef;
+  border: 1px solid #efefef;
+}

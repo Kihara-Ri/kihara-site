@@ -4,13 +4,24 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import About from './pages/About';
 import Skills from './pages/Skills';
-import Blogs from './pages/Blogs';
+import Blogs from './pages/layouts/BlogsMainLayout';
 import AIChat from './pages/AIChat';
 
+// 导航栏 About 页面
 import AboutMe from './pages/About/Me';
 import AboutSite from './pages/About/Site.mdx';
 import AboutMusings from './pages/About/Musings';
 import AboutBooks from './pages/About/Books';
+
+// blog 页面
+import BlogPost from './pages/BlogPage/BlogPost';
+import BlogByTag from './pages/BlogPage/BlogByTag';
+import BlogArchive from './pages/BlogPage/BlogArchive';
+import BlogsMainLayout from './pages/layouts/BlogsMainLayout';
+import BlogsHomeLayout from './pages/layouts/BlogsHomeLayout';
+import BlogHome from './pages/BlogPage/BlogHome';
+import BlogPostLayout from './pages/layouts/BlogPostLayout';
+import TagOnlyLayout from './pages/layouts/TagOnlyLayout';
 
 function App() {
     // * 为什么需要指定路由？
@@ -33,7 +44,33 @@ function App() {
         </Route>
 
         <Route path="/skills" element={<Skills />} />
-        <Route path="/blogs" element={<Blogs />} />
+        
+        {/* -------------------------- Blog 页面------------------------------------------------------------ */}
+        <Route path="/blogs" element={<BlogsMainLayout />}>
+
+          {/* ── ① 首页（左+中+右） */}
+          <Route element={<BlogsHomeLayout />}>
+            <Route index element={<BlogHome />} />
+          </Route>
+
+          {/* ── ② 单篇文章（左+中+右，但右侧大纲不同） */}
+          <Route element={<BlogPostLayout />}>
+            {/* /blogs/:slug -> 单篇文章 */}
+            <Route path=":slug" element={<BlogPost />}></Route>
+          </Route>
+
+          {/* ── ③ 标签页（仅中栏，左右隐藏） */}
+          <Route element={<TagOnlyLayout />}>
+            {/* /blogs/tag/:tag -> 标签页 */}
+            <Route path="tag/:tag" element={<BlogByTag />}></Route>
+          </Route>
+          {/* /blogs/archive/2025(/06) -> 归档 */}
+          <Route path="archive/:year/:month?" element={<BlogArchive />}></Route>
+
+          {/* 404 */}
+          <Route path="*" element={<h1>😰 404 Not Found 不存在你要找的文章</h1>}></Route>
+        </Route>
+        
         <Route path="/aichat" element={<AIChat />} />
 
         {/* 404 处理 */}
