@@ -2,10 +2,12 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"sync"
 
 	"kihara.cn/personal-site/model"
+	"kihara.cn/personal-site/repository"
 	"kihara.cn/personal-site/service"
 )
 
@@ -34,12 +36,25 @@ func AskHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 保存到历史
-	mu.Lock()
-	history = append(history, *resp)
-	mu.Unlock()
+	// ----------------------------- 写入数据库 --------------------------------------------
+	repoItem := repository.History{
+		ID:          resp.HistoryID,
+		Type:        string(resp.Type),
+		Question:    req.Question,
+		Answer:      resp.Answer,
+		FromLang:    resp.FromLang,
+		ToLang:      req.ToLang,
+		Enhancement: string(req.Enhancement),
+	}
+	if err := repository.Save(&repoItem); err != nil {
+		log.Printf("保存历史失败: %v", err)
+	}
 
-	w.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(w).Encode(resp)
+	// 保存到内存历史
+	// mu.Lock()
+	// history = append(history, *resp)
+	// mu.Unlock()
 
+	// w.Header().Set("Content-Type", "application/json")
+	// _ = json.NewEncoder(w).Encode(resp)
 }

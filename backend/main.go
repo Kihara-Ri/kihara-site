@@ -6,15 +6,15 @@ import (
 	"time"
 
 	"kihara.cn/personal-site/config"
+	"kihara.cn/personal-site/repository"
 	"kihara.cn/personal-site/router"
 	"kihara.cn/personal-site/service"
 )
 
 func main() {
-	// 读取环境变量
-	config.LoadConfig()
-	// 初始化 DeepSeek 客户端
-	service.InitAIClient()
+	config.LoadConfig()    // 读取环境变量
+	repository.InitDB()    // 初始化数据库
+	service.InitAIClient() // 初始化 DeepSeek 客户端
 
 	// 路由
 	r := router.NewRouter()
