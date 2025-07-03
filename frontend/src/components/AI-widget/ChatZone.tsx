@@ -1,17 +1,21 @@
-import React, { useState } from 'react'
-import AIResult from './AIResult'
-import { AIResponse } from '../../types/ai';
 import '../../assets/styles/ai-widgets.css';
+import { useAI } from '@/hooks/useAI';
+import ChatBubble from './ChatBubble';
 
 
 export default function ChatZone() {
-  const [result, setResult] = useState<AIResponse | null>(null);
+  const { currentQA, history, loading, error } = useAI();
+
+  if (!currentQA) {
+    return <p className="welcome">👋 你好！请输入你的问题</p>
+  }
   return (
-    <div className="chat-zone">
-      {result 
-      ? <AIResult result={result} />
-      : <div className="say-something">问点什么吧</div>
-    }
-    </div>
+    <>
+      <ChatBubble text={currentQA.question} role="question" />
+      <ChatBubble text={currentQA.answer} role="answer" />
+      
+      {loading && <p>🤖 正在思考…</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </>
   )
 }

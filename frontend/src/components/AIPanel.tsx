@@ -4,24 +4,27 @@ import AIForm from "./AI-widget/AIForm";
 import HistoryList from "./AI-widget/HistoryList";
 import "../assets/styles/ai-widgets.css";
 import ChatZone from "./AI-widget/ChatZone";
+import { AIProvider } from "@/context/AIContext";
 
 const AIPanel = () => {
   const [result, setResult] = useState<AIResponse | null>(null);
   const [history, setHistory] = useState<AIResponse[]>([]);
-
+  
   const handleResult = (res: AIResponse) => {
     setResult(res);
     setHistory(prev => [res, ...prev]);
   };
 
   return (
-    <div className="ai-panel">
-      <div className="ai-interface">
-        <ChatZone />
-        <AIForm onResult={handleResult} />
+    <AIProvider>
+      <div className="ai-panel">
+        <div className="ai-interface">
+          <ChatZone />
+          <AIForm />
+        </div>
+        <HistoryList />
       </div>
-      <HistoryList history={history} />
-    </div>
+    </AIProvider>
   )
 }
 
