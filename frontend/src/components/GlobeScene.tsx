@@ -74,7 +74,7 @@ const GlobeScene: React.FC<GlobeSceneProps> = ({ myLocation, visitorLocation, is
   };
 
   return (
-    <div style={{ width: "100%", height: 400, position: "relative" }}>
+    <div style={{ width: "100%", height: 400, position: "relative"}}>
       <Canvas camera={{ position: [0, 0, maxDistance], fov: 45 }}>
         <Lighting date={date} />
         <EarthRotation />

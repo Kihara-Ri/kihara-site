@@ -15,17 +15,35 @@
   --white-pure: #ffffff;
   --black-normal: #353535;
 
+  /* 默认：浅色模式 */
+  --background: #f9f9f9;
+  --text-color: #353535;
+  --navbar-bg: #f9f9f9;
+  --footer-bg: #222;
+  --link-color: #5242a3;
+  --selected: #efefef;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 深色模式 */
+[data-theme="dark"] {
+  --background: #222;
+  --text-color: #e5e5e5;
+  --navbar-bg: #222;
+  --footer-bg: #151515;
+  --link-color: #7aa2ff;
+  --selected: #3d3d3d;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0;
-  background-color: var(--background-white);
+  background-color: var(--background);
   min-height: 100dvh;
   min-width: 100dvw;
 
@@ -37,6 +55,9 @@ html, body {
   font-family: var(--text-font);
   /* Mac 上更锐利 */
   -webkit-font-smoothing: antialiased;
+
+  background-color: var(--background);
+  color: var(--text-color);
 
   margin: 0;
   padding: 0;
@@ -98,7 +119,7 @@ li {
 a {
   display: flex;
   align-items: center;
-  color: var(--black-normal);
+  color: var(--text-color);
   text-decoration: none;
   border-radius: 8px;
   transition: color 0.2s ease, transform 0.2s ease;

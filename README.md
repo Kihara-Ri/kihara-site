@@ -155,3 +155,6 @@ blog页，包含一个主页面用于布局一些展示，点击blog卡片进入
 
 ### 7/3
 
+加入数据库 postgreSQL和 Goose 用于管理数据库版本，使用docker compose 部署
+
+完成前后端基本通信

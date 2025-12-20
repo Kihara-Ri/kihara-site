@@ -2,9 +2,9 @@
   width: 100%;
   max-width: 320px;
   padding: 10px;
-  background-color: var(--background-white);
+  background-color: var(--background);
   border-radius: 10px;
-  color: var(--black-normal);
+  color: var(--text-color);
   box-shadow: 2px 5px 5px 5px rgba(0, 0, 0, 0.2);
   box-sizing: border-box; /*存疑*/
 }

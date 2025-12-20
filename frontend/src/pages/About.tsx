@@ -18,7 +18,6 @@ const About: React.FC = () => {
 
   return (
     <div className="main-container">
-      <h2>关于</h2>
       <MonthHeatmap diaryData={diaryData} />
       <Outlet />
     </div>

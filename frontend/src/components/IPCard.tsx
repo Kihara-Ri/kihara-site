@@ -22,11 +22,11 @@ const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance, l
   const getPoem = () => {
     const myCountry = "Japan"
     if (country_name === myCountry) {
-      return distance < 100
+      return distance < 150
         ? "咫尺天涯近，相逢笑语频。"
         : "山川虽异域，风月亦同天。"
     } else {
-      return distance < 1000
+      return distance < 4000
         ? "青山一道同云雨，明月何曾是两乡。"
         : distance < 8000
         ? "海上生明月，天涯共此时。"
@@ -36,42 +36,42 @@ const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance, l
 
   return (
     <div className="ip-card">
-      <h2>你的 IP 信息</h2>
       <div className="card-info">
+        <h2>你的 IP 信息</h2>
         <p><strong>IP: </strong> {ip} </p>
         <p><strong>位置: </strong> {location} </p>
         <div className="distance">
-          <p>我们相距<strong> {distance} </strong>km</p>
+          <p>相距<strong> {distance} </strong>km</p>
           <blockquote className="poem">{getPoem()}</blockquote>
         </div>
-        <div className="globe-container" 
-          style={{ 
-            position: "relative", width: "100%",
-            background: isDay 
-              ? "linear-gradient(to bottom, #cce3f9, #f9f9f9)" 
-              : "radial-gradient(circle at center, #1a1a40, #000011)",
-            transition: "background 0.5s ease",
-            borderRadius: "10px"
-          }}
+      </div>
+      <div className="globe-container" 
+        style={{ 
+          position: "relative", width: "100%",
+          background: isDay 
+            ? "linear-gradient(to bottom, #cce3f9, #f9f9f9)" 
+            : "radial-gradient(circle at center, #1a1a40, #000011)",
+          transition: "background 0.5s ease",
+          borderRadius: "10px"
+        }}
+      >
+        { Number.isFinite(latitude) && Number.isFinite(longitude) ? (
+          <GlobeScene
+            myLocation={myLocation}
+            visitorLocation={{ lat: latitude, lon: longitude }}
+            // visitorLocation={visitorLocation}
+            isDay={isDay}
+          />
+        ) : (
+          <p>正在定位...</p>
+        )}
+        <button
+          className="button"
+          onClick={() => setIsDay(!isDay)}
+          style={{ position: "absolute", top: 10, right: 10 }}
         >
-          { Number.isFinite(latitude) && Number.isFinite(longitude) ? (
-            <GlobeScene
-              myLocation={myLocation}
-              visitorLocation={{ lat: latitude, lon: longitude }}
-              // visitorLocation={visitorLocation}
-              isDay={isDay}
-            />
-          ) : (
-            <p>正在定位...</p>
-          )}
-          <button
-            className="button"
-            onClick={() => setIsDay(!isDay)}
-            style={{ position: "absolute", top: 10, right: 10 }}
-          >
-            {isDay ? "白天": "夜晚" }
-          </button>
-        </div>
+          {isDay ? "昼": "夜" }
+        </button>
       </div>
     </div>
   )

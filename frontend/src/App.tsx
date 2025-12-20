@@ -5,7 +5,6 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Skills from './pages/Skills';
 import Blogs from './pages/layouts/BlogsMainLayout';
-import AIChat from './pages/AIChat';
 
 // 导航栏 About 页面
 import AboutMe from './pages/About/Me';
@@ -22,6 +21,10 @@ import BlogsHomeLayout from './pages/layouts/BlogsHomeLayout';
 import BlogHome from './pages/BlogPage/BlogHome';
 import BlogPostLayout from './pages/layouts/BlogPostLayout';
 import TagOnlyLayout from './pages/layouts/TagOnlyLayout';
+import { useEffect } from 'react';
+
+// Context
+import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
     // * 为什么需要指定路由？
@@ -30,6 +33,7 @@ function App() {
     // React Router 拦截了链接跳转行为，在前端决定“该显示哪个组件”，实现“看起来像是跳转页面”，实质上是“切换组件视图”
 
   return (
+    <ThemeProvider>
     <BrowserRouter>
       <NavBar />
       <Routes>
@@ -71,12 +75,11 @@ function App() {
           <Route path="*" element={<h1>😰 404 Not Found 不存在你要找的文章</h1>}></Route>
         </Route>
         
-        <Route path="/aichat" element={<AIChat />} />
-
         {/* 404 处理 */}
         <Route path="*" element={<h1>😳 404 Not Found</h1>}></Route>
       </Routes>
     </BrowserRouter>
+    </ThemeProvider>
   )
 }
 
