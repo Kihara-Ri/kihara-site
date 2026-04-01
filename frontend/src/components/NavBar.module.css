@@ -1,0 +1,140 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  background-color: color-mix(in srgb, var(--navbar-bg) 88%, transparent);
+  color: var(--text-color);
+  backdrop-filter: blur(14px);
+}
+
+.navbarScrolled {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.inner {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  min-width: 0;
+}
+
+.brandLink {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Minecraft Ten', monospace;
+  font-weight: 500;
+}
+
+.brandTitle {
+  margin: 0;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navItem {
+  position: relative;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 128px;
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 12px;
+  background-color: color-mix(in srgb, var(--background) 96%, white 4%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.dropdown:hover .dropdownMenu {
+  display: flex;
+}
+
+.dropdownMenu li {
+  display: block;
+}
+
+.menuLink {
+  display: block;
+  padding: 6px 8px;
+}
+
+.menuLink:hover {
+  background-color: var(--selected);
+}
+
+.musicLink {
+  display: inline-flex;
+  align-items: center;
+}
+
+.musicIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.iconButton:hover,
+.iconButton:active {
+  background: transparent;
+  transform: none;
+}
+
+.navIcon {
+  width: 20px;
+  height: 20px;
+  fill: var(--link-color);
+  transition: fill 0.2s ease, transform 0.2s ease;
+}
+
+.iconButton:hover .navIcon {
+  fill: #1e90ff;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .inner {
+    padding: 0 12px;
+  }
+
+  .navList {
+    gap: 12px;
+    font-size: 0.95rem;
+  }
+
+  .dropdownMenu {
+    left: auto;
+    right: 0;
+  }
+}

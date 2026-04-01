@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
-import "../../assets/styles/tags-grid.css";
-
 import { posts } from "../../types/posts-data";
 import { useNavigate } from "react-router-dom";
+import styles from './TagsGrid.module.css';
 
 const TagsGrid: React.FC = () => {
   const navigate = useNavigate();
@@ -14,11 +13,11 @@ const TagsGrid: React.FC = () => {
   );
   
   return (
-    <ul className="tags-grid">
+    <ul className={styles.grid}>
       {tags.map(tag => (
         <li
           key={tag}
-          className="post-tag"
+          className={styles.tag}
           onClick={() => navigate(`/blogs/tag/${encodeURIComponent(tag)}`)}
         >
           #{tag}

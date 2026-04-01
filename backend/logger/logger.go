@@ -2,6 +2,7 @@ package logger
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"time"
@@ -15,7 +16,7 @@ func init() {
 	if err != nil {
 		log.Fatalf("无法打开日志文件: %v", err)
 	}
-	log.SetOutput(logFile)
+	log.SetOutput(io.MultiWriter(os.Stdout, logFile))
 }
 
 // 记录一次访问日志

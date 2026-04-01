@@ -1,34 +1,30 @@
 import React from 'react';
-import '../assets/styles/footer.css';
 import react_icon from '/icons/react.svg';
 import github from '/icons/github.svg';
 import wechat from '/icons/wechat.svg';
+import styles from './Footer.module.css';
 
 const Footer: React.FC = () => {
 
   return (
-    <footer className="footer">
-      <div className="footer-inner">
-        <div className="copy-right">
+    <footer className={styles.footer}>
+      <div className={styles.inner}>
+        <div className={styles.copyRight}>
           <p>Copyright © 2024-2025 Kihara Ri</p>
           <p>Made with{' '}
-            <a href="https://react.dev/" target="_blank" rel="noopener noreferrer" className="react-link">
-            <img src={react_icon} alt="React logo" className="react-icon" /> React </a></p>
+            <a href="https://react.dev/" target="_blank" rel="noopener noreferrer" className={styles.reactLink}>
+            <img src={react_icon} alt="React logo" className={styles.reactIcon} /> React </a></p>
           <p>ver1.0.0</p>
         </div>
-        <div className="center-info">
+        <div className={styles.centerInfo}>
           DEV
           </div>
-        <div className="footer-container">
+        <div className={styles.actions}>
           <a href="https://github.com/Kihara-Ri" target="_blank" rel="noopener noreferrer">
-          <img src={github} alt="GitHub logo" className="footer-icon" /></a>
-          {/* <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=ELMIzibXwJ9f6NJsHV-YWhKdxR71msIi&authKey=CwJ3FopgAxUucg3OlyAqP4EYiKfRsFkzOdYnO7gyiutiglBjL0HcVcMU38mddlk0&noverify=0&group_code=750301419" target="_blank" rel="noopener noreferrer"> */}
-          {/* <img src={QQ} alt="QQ logo" className="footer-icon" /></a> */}
-          {/* <a href="https://space.bilibili.com/631081975" target="_blank" rel="noopener noreferrer"> */}
-          {/* <img src={bilibili} alt="logo" className="footer-icon" /></a> */}
-          <div className='wechat-wrapper'>
-            <img src={wechat} alt="wechat logo" className="footer-icon" />
-            <span className='wechat-tooltip'>联系我: kihara0045</span>
+          <img src={github} alt="GitHub logo" className={styles.footerIcon} /></a>
+          <div className={styles.wechatWrapper}>
+            <img src={wechat} alt="wechat logo" className={styles.footerIcon} />
+            <span className={styles.wechatTooltip}>联系我: kihara0045</span>
           </div>
         </div>
       </div>

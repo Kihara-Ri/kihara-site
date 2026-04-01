@@ -1,0 +1,74 @@
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  color: var(--text-color);
+  background-color: var(--background);
+  box-shadow: 2px 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.navButton {
+  padding: 4px 10px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: #666;
+  font-size: 18px;
+}
+
+.navButton:hover,
+.navButton:active {
+  background: none;
+  transform: none;
+  color: var(--link-color);
+}
+
+.weekLabels,
+.cellsContainer {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.weekLabel,
+.dayCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  font-size: clamp(12px, 4vw, 16px);
+  font-weight: bold;
+  line-height: 1;
+}
+
+.dayCell {
+  border-radius: 3px;
+  color: var(--white-pure);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.5s ease;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1000;
+  max-width: 200px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+  pointer-events: none;
+}

@@ -1,9 +1,10 @@
 import MyLearn from "../components/MyLearn";
 import MySkills from "../components/MySkills";
+import layout from '../components/layout/PageLayout.module.css';
 
 const Skills: React.FC = () => {
   return (
-    <div className="main-container">
+    <div className={[layout.page, layout.main, layout.mainStretch].join(' ')}>
       <MyLearn
         items={[
           { name: '信息论', score: 6/7*100 },

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom";
 import MonthHeatmap from "../components/MonthHeatMap";
+import layout from '../components/layout/PageLayout.module.css';
 
 const About: React.FC = () => {
   const [diaryData, setDiaryData] = useState<Record<string, string>>({});
@@ -17,7 +18,7 @@ const About: React.FC = () => {
   }, [])
 
   return (
-    <div className="main-container">
+    <div className={[layout.page, layout.main, layout.mainStretch].join(' ')}>
       <MonthHeatmap diaryData={diaryData} />
       <Outlet />
     </div>

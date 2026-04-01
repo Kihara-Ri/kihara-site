@@ -1,0 +1,96 @@
+.card {
+  width: 600px;
+  max-width: 100%;
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  margin: 24px 0;
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+}
+
+.imageWrap {
+  height: 240px;
+  flex: 0 0 160px;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(0 0 0 / 0.7);
+}
+
+.content {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+}
+
+.author {
+  margin: 0 0 2px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 6px 0;
+}
+
+.tag {
+  padding: 2px 6px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  color: var(--black-normal);
+  font-size: 0.9rem;
+  transition: border 0.2s ease, background-color 0.2s ease;
+}
+
+.tag:hover {
+  border-color: #efefef;
+  background-color: #efefef;
+}
+
+.intro {
+  flex: 1 1 auto;
+  margin: 8px 0;
+  overflow: auto;
+  line-height: 1.4;
+}
+
+.detailLink {
+  align-self: flex-start;
+  font-size: 0.9rem;
+  color: #1390ff;
+}
+
+.detailLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 680px) {
+  .card {
+    flex-direction: column;
+  }
+
+  .imageWrap {
+    height: 220px;
+    flex-basis: auto;
+  }
+}

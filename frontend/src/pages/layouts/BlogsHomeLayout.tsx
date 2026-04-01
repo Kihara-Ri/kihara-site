@@ -4,29 +4,31 @@ import SiteInfo from "@/components/blog/SiteInfo";
 import TagsGrid from "@/components/blog/TagsGrid";
 import React from "react";
 import { Outlet } from "react-router-dom";
+import styles from './BlogsLayout.module.css';
 
 const BlogsHomeLayout: React.FC = () => {
   return (
-    <>
-      <aside className="sidebar-left"><CategoryNav /></aside>
+    <div className={styles.content}>
+      <aside className={styles.sidebar}>
+        <div className={styles.panel}><CategoryNav /></div>
+      </aside>
 
-      <main className="main-column">
-        {/* 渲染主要展示内容 */}
+      <main className={styles.mainColumn}>
         <Outlet />
       </main>
 
-      <aside className="sidebar-right">
-        <section>
+      <aside className={styles.sidebar}>
+        <section className={styles.panel}>
           <TagsGrid />
         </section>
-        <section>
+        <section className={styles.panel}>
           <ArchiveNav />
         </section>
-        <section>
+        <section className={styles.panel}>
           <SiteInfo />
         </section>
       </aside>
-    </>
+    </div>
   )
 }
 

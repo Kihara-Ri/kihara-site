@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import '../../assets/styles/post-card.css';
-import '../../assets/styles/tags.css';
 import React from 'react';
 import { BlogCategoryKey, blogCategoryMap } from '../../types/posts-data';
+import styles from './PostCard.module.css';
 
 export interface PostInfo {
   id: string;
@@ -18,16 +17,16 @@ export interface PostInfo {
 
 const PostCard: React.FC<PostInfo> = ( post: PostInfo ) => {
   return (
-    <article className="post-card">
-      <h3 className="post-title"><Link to={`/blogs/${post.id}`}>{post.title}</Link></h3>
-      <p className="abstract">{post.abstract}</p>
-      <div className="meta">
-        <p className="category">
+    <article className={styles.card}>
+      <h3 className={styles.title}><Link to={`/blogs/${post.id}`}>{post.title}</Link></h3>
+      <p className={styles.abstract}>{post.abstract}</p>
+      <div className={styles.meta}>
+        <p className={styles.category}>
           {blogCategoryMap[post.category].label} 
         </p>
-        <div className="post-tags">{
+        <div className={styles.tags}>{
           post.tags.map( tag => (
-            <li key={tag} className='post-tag'>#{tag}</li>
+            <li key={tag} className={styles.tag}>#{tag}</li>
           ))
         }
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import "../assets/styles/heat_map.css"
+import styles from './MonthHeatMap.module.css'
 
 type DayStatus = 'past' | 'today' | 'future' | 'empty'
 type DiaryData = Record<string, string> // <日期, 记录>
@@ -22,7 +22,7 @@ const DayCell: React.FC<DayCellProps> = ({ day, status, diary, onClick, onHover,
 
   return (
     <div 
-      className="day-cell"
+      className={styles.dayCell}
       title={`Day ${day}`}
       style={{ backgroundColor: bgColor, cursor: status !== 'empty' ? 'pointer' : "default" }}
       onClick={onClick}
@@ -92,20 +92,20 @@ const MonthHeatmap: React.FC<MonthHeatmapProps> = ({ diaryData }) => {
   }
 
   return (
-    <div className="month-container">
-      <div className="header">
-        <button type="button" onClick={handlePrevMonth}>←</button>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <button className={styles.navButton} type="button" onClick={handlePrevMonth}>←</button>
         <h2>{year} 年 {month + 1} 月</h2>
-        <button type="button" onClick={handleNextMonth}>→</button>
+        <button className={styles.navButton} type="button" onClick={handleNextMonth}>→</button>
       </div>
 
-      <div className="week-labels">
+      <div className={styles.weekLabels}>
         {weekLabels.map(label => (
-          <div className="week-label" key={label}>{label}</div>
+          <div className={styles.weekLabel} key={label}>{label}</div>
         ))}
       </div>
 
-      <div className="cells-container">
+      <div className={styles.cellsContainer}>
         {cells.map((cell, index) => {
           const key = cell.day ? `${month + 1}-${cell.day}` : undefined;
           return (
@@ -125,21 +125,12 @@ const MonthHeatmap: React.FC<MonthHeatmapProps> = ({ diaryData }) => {
       </div>
       {tooltip && tooltipPos && (
         <div
-          className="tooltip"
+          className={styles.tooltip}
           style={{
             top: tooltipPos.y,
             left: tooltipPos.x,
             pointerEvents: 'none', // 防止闪烁
             transform: 'translate(-50%, 40px)',
-            position: 'absolute',
-            zIndex: 1000,
-            background: 'white',
-            border: '1px solid #ccc',
-            padding: '8px',
-            fontSize: '13px',
-            maxWidth: '200px',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
-            borderRadius: '4px'
           }}
         >
           {tooltip}

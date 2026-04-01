@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import IPCard from '../components/IPCard';
 import Footer from "../components/Footer";
+import layout from '../components/layout/PageLayout.module.css';
 
 const IP_API = 'https://api.ipify.org?format=json';
 
@@ -32,19 +33,16 @@ const Home: React.FC = () => {
       })
   }, [])
   return (
-    <div className="page-wrapper">
-      <div className="main-container">
-        {/* <div className="introduction-card">我是谁</div> */}
-        <div className="info-container">
+    <div className={[layout.page, layout.pageWithFooter].join(' ')}>
+      <main className={layout.main}>
+        <div className={layout.contentGrid}>
           {ipinfo ? (
               <IPCard {...ipinfo} />
           ) : (
-            <p>获取访问信息...</p>
+            <p className={layout.placeholder}>获取访问信息...</p>
           )}
         </div>
-        {/* <div className="notable-work">代表作</div> */}
-        {/* <div className="contact-card">联系我</div> */}
-    </div>
+      </main>
         <Footer />
     </div>
   )

@@ -1,0 +1,28 @@
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.yearBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.yearBlock ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date {
+  color: color-mix(in srgb, var(--text-color) 70%, transparent);
+  font-size: 0.9rem;
+}

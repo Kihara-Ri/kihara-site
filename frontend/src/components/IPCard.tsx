@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import "../assets/styles/ip_card.css"
 import GlobeScene from "./GlobeScene";
+import styles from './IPCard.module.css';
 
 interface IPCardProps {
   ip: string;
@@ -34,40 +34,29 @@ const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance, l
   };
 
   return (
-    <div className="ip-card">
-      <div className="card-info">
+    <div className={styles.card}>
+      <div className={styles.info}>
         <h2>你的 IP 信息</h2>
         <p><strong>IP: </strong> {ip} </p>
         <p><strong>位置: </strong> {location} </p>
-        <div className="distance">
+        <div className={styles.distance}>
           <p>相距<strong> {distance} </strong>km</p>
-          <blockquote className="poem">{getPoem()}</blockquote>
+          <blockquote className={styles.poem}>{getPoem()}</blockquote>
         </div>
       </div>
-      <div className="globe-container" 
-        style={{ 
-          position: "relative", width: "100%",
-          background: isDay 
-            ? "linear-gradient(to bottom, #cce3f9, #f9f9f9)" 
-            : "radial-gradient(circle at center, #1a1a40, #000011)",
-          transition: "background 0.5s ease",
-          borderRadius: "10px"
-        }}
-      >
+      <div className={[styles.globePanel, isDay ? styles.day : styles.night].join(' ')}>
         { Number.isFinite(latitude) && Number.isFinite(longitude) ? (
           <GlobeScene
             myLocation={myLocation}
             visitorLocation={{ lat: latitude, lon: longitude }}
-            // visitorLocation={visitorLocation}
             isDay={isDay}
           />
         ) : (
-          <p>正在定位...</p>
+          <p className={styles.loading}>正在定位...</p>
         )}
         <button
-          className="button"
+          className={styles.toggleButton}
           onClick={() => setIsDay(!isDay)}
-          style={{ position: "absolute", top: 10, right: 10 }}
         >
           {isDay ? "昼": "夜" }
         </button>

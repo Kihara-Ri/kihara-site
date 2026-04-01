@@ -9,6 +9,7 @@ import React from "react";
 import { posts } from "../../types/posts-data";
 import { useParams } from "react-router-dom";
 import PostCard from "../../components/blog/PostCard";
+import layout from '../layouts/BlogsLayout.module.css';
 
 const BlogByTag: React.FC = () => {
   const { tag } = useParams<{ tag: string }>();
@@ -17,7 +18,7 @@ const BlogByTag: React.FC = () => {
   const list = posts.filter(post => post.tags.includes(tag));
 
   return (
-    <main className="main-content">
+    <main className={layout.mainColumn}>
       <h2>标签: #{tag}</h2>
       {list.length
         ? list.map(post => <PostCard key={post.id} {...post} />)
