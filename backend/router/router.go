@@ -13,8 +13,6 @@ func NewRouter() http.Handler {
 
 	// API
 	r.Get("/api/ipinfo", handler.IpInfoHandler)
-	r.Post("/api/ask", handler.AskHandler)
-	r.Get("/api/history", handler.HistoryHandler)
 
 	// 健康检查
 	r.Get("/healthz", func(w http.ResponseWriter, _ *http.Request) {

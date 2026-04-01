@@ -5,7 +5,6 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Skills from './pages/Skills';
 import Music from './pages/Music';
-import Blogs from './pages/layouts/BlogsMainLayout';
 
 // 导航栏 About 页面
 import AboutMe from './pages/About/Me';
@@ -22,7 +21,6 @@ import BlogsHomeLayout from './pages/layouts/BlogsHomeLayout';
 import BlogHome from './pages/BlogPage/BlogHome';
 import BlogPostLayout from './pages/layouts/BlogPostLayout';
 import TagOnlyLayout from './pages/layouts/TagOnlyLayout';
-import { useEffect } from 'react';
 
 // Context
 import { ThemeProvider } from './context/ThemeContext';

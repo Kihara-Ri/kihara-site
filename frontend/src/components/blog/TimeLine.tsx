@@ -2,8 +2,6 @@ import { posts } from '../../types/posts-data';
 import { Link } from 'react-router-dom';
 import "../../assets/styles/timeline.css";
 import React from 'react';
-import { MeshPostProcessingMaterial } from 'three/examples/jsm/Addons.js';
-import { div, string } from 'three/tsl';
 
 const TimeLine: React.FC = () => {
   const byYear = posts.reduce<Record<string, typeof posts>>((acc, p) => {

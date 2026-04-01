@@ -14,7 +14,6 @@ interface IPCardProps {
 }
 
 const myLocation = { lat: 35.6895, lon: 139.6917 }; // Tokyo
-const visitorLocation = { lat: 37.7749, lon: -122.4194 }; // San Francisco
 
 const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance, latitude, longitude }) => {
   const [isDay, setIsDay] = useState(true);

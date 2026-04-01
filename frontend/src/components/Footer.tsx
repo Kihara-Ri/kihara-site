@@ -2,8 +2,6 @@ import React from 'react';
 import '../assets/styles/footer.css';
 import react_icon from '/icons/react.svg';
 import github from '/icons/github.svg';
-import bilibili from '/icons/bilibili.svg';
-import QQ from '/icons/QQ.svg';
 import wechat from '/icons/wechat.svg';
 
 const Footer: React.FC = () => {

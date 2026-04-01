@@ -11,5 +11,4 @@ export const techList = [
 ]
 
 export const uiList = [
-  { name: 'AIchat', icon: '/UI/aichat.svg' },
 ]

@@ -4,6 +4,7 @@ import { OrbitControls } from "@react-three/drei";
 import Globe from "./Globe-widget/Globe";
 import Lighting from "./Globe-widget/Lightning";
 import * as THREE from "three";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 interface GlobeSceneProps {
   myLocation: { lat: number; lon: number };
@@ -16,7 +17,7 @@ const GlobeScene: React.FC<GlobeSceneProps> = ({ myLocation, visitorLocation, is
   const maxDistance = 8.0;
   const minDistance = 3.0;
   const [zoom, setZoom] = useState(maxDistance);
-  const controlsRef = useRef<any>(null);
+  const controlsRef = useRef<OrbitControlsImpl | null>(null);
   const cameraInitRef = useRef(false);
 
   const latLongToVector3 = (lat: number, lon: number, radius: number) => {
@@ -29,7 +30,7 @@ const GlobeScene: React.FC<GlobeSceneProps> = ({ myLocation, visitorLocation, is
   };
 
   const CameraUpdater = ({ zoom }: { zoom: number }) => {
-    const { camera, gl } = useThree();
+    const { camera } = useThree();
     useFrame(() => {
       if (!controlsRef.current) return;
 

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import IPCard from '../components/IPCard';
-import MonthHeatmap from '../components/MonthHeatMap';
 import Footer from "../components/Footer";
-import { div } from "three/tsl";
 
 const IP_API = 'https://api.ipify.org?format=json';
 

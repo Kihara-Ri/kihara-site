@@ -8,7 +8,6 @@ import MusicIcon from '/icons/UI/music.svg';
 const NavBar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const [scrolledDown, setScrolledDown] = useState(false);
-  const [toggleLang, setToggleLang] = useState(true); // true中 | false英
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -26,15 +25,6 @@ const NavBar: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleLangToggle = () => {
-    setToggleLang(!toggleLang);
-    if (toggleLang) {
-      console.log("zh");
-    } else {
-      console.log("en");
-    }
-  }
 
   return (
     // 使用 <Link> 标签替代 <a> 实现无刷新跳转

@@ -10,8 +10,7 @@ const BlogPost: React.FC = () => {
   return (
     <article>
       <div className="info-container">
-        <p>加上AI摘要</p>
-        <p>以及一些元数据</p>
+        <p>这里会放文章元数据</p>
       </div>
        文章详情: {slug}
     </article>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import '../../assets/styles/post-card.css';
 import '../../assets/styles/tags.css';
 import React from 'react';
-import { blogCategories, BlogCategoryKey, blogCategoryMap } from '../../types/posts-data';
+import { BlogCategoryKey, blogCategoryMap } from '../../types/posts-data';
 
 export interface PostInfo {
   id: string;

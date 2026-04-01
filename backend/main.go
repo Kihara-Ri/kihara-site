@@ -3,24 +3,23 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
 
-	"kihara.cn/personal-site/config"
-	"kihara.cn/personal-site/repository"
 	"kihara.cn/personal-site/router"
-	"kihara.cn/personal-site/service"
 )
 
 func main() {
-	config.LoadConfig()    // 读取环境变量
-	repository.InitDB()    // 初始化数据库
-	service.InitAIClient() // 初始化 DeepSeek 客户端
-
 	// 路由
 	r := router.NewRouter()
 
 	// 启动 HTTP 服务器
-	addr := ":8080"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	addr := ":" + port
 	srv := &http.Server{
 		Addr:              addr,
 		Handler:           r,

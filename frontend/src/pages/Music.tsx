@@ -1,11 +1,10 @@
 import React from "react";
-import TerminalDarkSide from "../components/PixelDarkSideBitmap/PixelDarkSideBitmap";
-import PixelDarkSideBitmap from "../components/PixelDarkSideBitmap/PixelDarkSideBitmap";
 
 const Music: React.FC = () => {
   return (
-    <>
-    </>
+    <div className="main-container">
+      <p>Music 页面正在整理中。</p>
+    </div>
   )
 }
 

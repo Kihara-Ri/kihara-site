@@ -61,14 +61,20 @@ export const blogCategoryMap: Record<BlogCategoryKey, {
   label: string;
   icon: string;
   slug: string;
-}> = blogCategories.reduce((map, cat) => {
-  map[cat.key] = {
-    label: cat.label,
-    icon: cat.icon,
-    slug: cat.slug,
-  };
-  return map;
-}, {} as any)
+}> = Object.fromEntries(
+  blogCategories.map((cat) => [
+    cat.key,
+    {
+      label: cat.label,
+      icon: cat.icon,
+      slug: cat.slug,
+    },
+  ]),
+) as Record<BlogCategoryKey, {
+  label: string;
+  icon: string;
+  slug: string;
+}>;
 
 export const posts: PostInfo[] = [
   {

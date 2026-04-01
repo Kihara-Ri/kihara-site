@@ -1,6 +1,6 @@
 // 所有 blog 页面的骨架
 
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import '@/assets/styles/blog.css';
 
@@ -12,7 +12,7 @@ const BlogsMainLayout: React.FC = () => {
       <Levitation />
       <Outlet />
     </div>
-    );
+  );
 };
 
 export default BlogsMainLayout;
