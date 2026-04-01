@@ -3,6 +3,7 @@ import  '../assets/styles/nav-bar.css';
 import '../assets/styles/dropdown.css';
 import { useEffect, useState } from 'react';
 import { useTheme } from "@/context/ThemeContext";
+import MusicIcon from '/icons/UI/music.svg';
 
 const NavBar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -60,8 +61,10 @@ const NavBar: React.FC = () => {
             {/* 我已经学会的技术 */}
             {/* 完成的项目 */}
             {/* 放简历，并提供PDF下载 */}
-            <Link to="/skills">Skills</Link>
+            <Link to="/skills/">Skills</Link>
           </li>
+
+          <Link to="/music/"><img src={MusicIcon} alt="logo" /></Link>
 
           <li>
             {/* <Link to="/blogs">Blogs</Link> */}

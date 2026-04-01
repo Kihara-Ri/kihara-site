@@ -4,6 +4,7 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import About from './pages/About';
 import Skills from './pages/Skills';
+import Music from './pages/Music';
 import Blogs from './pages/layouts/BlogsMainLayout';
 
 // 导航栏 About 页面
@@ -48,6 +49,7 @@ function App() {
         </Route>
 
         <Route path="/skills" element={<Skills />} />
+        <Route path="/music" element={<Music />} />
         
         {/* -------------------------- Blog 页面------------------------------------------------------------ */}
         <Route path="/blogs" element={<BlogsMainLayout />}>
