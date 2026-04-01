@@ -1,0 +1,72 @@
+.poemPanel {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  color: rgba(255, 248, 242, 0.94);
+}
+
+.poemText {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.poemLine {
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  line-height: 1.72;
+  letter-spacing: 0.12em;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  text-shadow: 0 3px 22px rgba(0, 0, 0, 0.3);
+}
+
+.poemMeta {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.88rem;
+  letter-spacing: 0.16em;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+}
+
+@media (max-width: 900px) {
+  .poemPanel {
+    min-height: 0;
+    gap: 8px;
+  }
+
+  .poemText {
+    gap: 8px;
+  }
+
+  .poemLine {
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .poemMeta {
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .poemPanel {
+    gap: 6px;
+  }
+
+  .poemText {
+    gap: 6px;
+  }
+
+  .poemLine {
+    font-size: 0.96rem;
+    line-height: 1.55;
+    letter-spacing: 0.08em;
+  }
+
+  .poemMeta {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+}

@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useTheme } from "@/context/ThemeContext";
 import MusicIcon from '/icons/UI/music.svg';
 import styles from './NavBar.module.css';
 
 const NavBar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const location = useLocation();
   const [scrolledDown, setScrolledDown] = useState(false);
+  const [inHero, setInHero] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -18,20 +22,62 @@ const NavBar: React.FC = () => {
       } else if (currentY < lastScrollY) {
         setScrolledDown(false); // 向上滚动
       }
+
+      const heroThreshold = window.innerHeight * 0.72;
+      setInHero(location.pathname === '/' && currentY < heroThreshold);
+
       lastScrollY = currentY;
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
+  const navClassName = [
+    styles.navbar,
+    inHero ? styles.navbarHero : '',
+    scrolledDown ? styles.navbarScrolled : '',
+  ].join(' ').trim();
 
   return (
-    <nav className={[styles.navbar, scrolledDown ? styles.navbarScrolled : ''].join(' ').trim()}>
+    <nav className={navClassName}>
       <div className={styles.inner}>
         <div className={styles.brand}>
           <Link to="/" className={styles.brandLink}><h2 className={styles.brandTitle}>Kihara</h2></Link>
         </div>
-        <ul className={styles.navList}>
+        <button
+          type="button"
+          className={styles.menuButton}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span className={styles.menuBar} />
+          <span className={styles.menuBar} />
+          <span className={styles.menuBar} />
+        </button>
+        <div
+          className={[styles.mobileBackdrop, menuOpen ? styles.mobileBackdropOpen : ''].join(' ').trim()}
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
+        <ul className={[styles.navList, menuOpen ? styles.navListOpen : ''].join(' ').trim()}>
+          <li className={styles.mobileHeader}>
+            <span className={styles.mobileTitle}>Navigation</span>
+            <button type="button" className={styles.mobileClose} onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button>
+          </li>
           <li className={styles.navItem}>
             <Link to="/">Home</Link>
           </li>

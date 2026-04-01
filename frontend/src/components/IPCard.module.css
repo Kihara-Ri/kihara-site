@@ -1,64 +1,171 @@
 .card {
   display: flex;
   flex-direction: column;
-  min-width: 8rem;
-  max-width: 380px;
-  padding: 20px;
-  border-radius: 20px;
-  text-align: center;
+  gap: 20px;
+  width: 100%;
+  padding: 24px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  border-radius: 26px;
   color: var(--text-color);
-  background: color-mix(in srgb, var(--background) 85%, white 15%);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--background) 92%, white 8%) 0%, color-mix(in srgb, var(--background) 86%, white 14%) 100%);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
 }
 
-.info {
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: color-mix(in srgb, var(--text-color) 54%, transparent);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+}
+
+.distanceBadge {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-end;
+  padding: 10px 12px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--background) 78%, white 22%);
 }
 
-.info h2,
-.info p {
+.distanceValue {
   margin: 0;
+  color: #127da8;
+  font-size: 1.15rem;
 }
 
-.distance {
-  margin-top: 8px;
+.distanceLabel {
+  color: color-mix(in srgb, var(--text-color) 56%, transparent);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-.poem {
-  margin: 12px 0 0;
-  padding-left: 12px;
-  border-left: 4px solid #ccc;
-  color: color-mix(in srgb, var(--text-color) 72%, transparent);
-  font-style: italic;
-  text-align: left;
+.primaryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.globePanel {
-  position: relative;
-  width: 100%;
-  margin-top: 16px;
-  border-radius: 14px;
-  overflow: hidden;
-  transition: background 0.5s ease;
+.primaryCard,
+.secondaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--background) 82%, white 18%);
 }
 
-.day {
-  background: linear-gradient(to bottom, #cce3f9, #f9f9f9);
+.label {
+  color: color-mix(in srgb, var(--text-color) 52%, transparent);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-.night {
-  background: radial-gradient(circle at center, #1a1a40, #000011);
+.value {
+  font-size: 1.08rem;
+  line-height: 1.4;
 }
 
-.toggleButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
+.secondaryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
 }
 
-.loading {
-  padding: 24px 16px;
+.secondaryValue {
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.poemBlock {
+  padding-top: 2px;
+  border-top: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+}
+
+.poemLines {
+  margin: 14px 0 0;
+  color: color-mix(in srgb, var(--text-color) 78%, transparent);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.poemMeta {
+  margin: 10px 0 0;
+  color: color-mix(in srgb, var(--text-color) 56%, transparent);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 720px) {
+  .card {
+    gap: 14px;
+    padding: 16px;
+    border-radius: 22px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .distanceBadge {
+    align-items: flex-start;
+    padding: 8px 10px;
+  }
+
+  .title {
+    font-size: 1.28rem;
+  }
+
+  .kicker {
+    margin-bottom: 6px;
+    font-size: 0.72rem;
+  }
+
+  .primaryGrid,
+  .secondaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .primaryCard,
+  .secondaryItem {
+    padding: 11px 12px;
+    border-radius: 16px;
+  }
+
+  .label {
+    font-size: 0.7rem;
+  }
+
+  .value,
+  .secondaryValue {
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .poemLines {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    line-height: 1.62;
+  }
+
+  .poemMeta {
+    margin-top: 6px;
+    font-size: 0.78rem;
+  }
 }

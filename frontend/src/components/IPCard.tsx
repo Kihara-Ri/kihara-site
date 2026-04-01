@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import GlobeScene from "./GlobeScene";
+import { getArrivalPoem } from '../utils/poems';
 import styles from './IPCard.module.css';
 
 interface IPCardProps {
@@ -7,59 +6,66 @@ interface IPCardProps {
   location: string; 
   distance: number;
   country_name: string;
-  // region_name: string;
   latitude: number;
   longitude: number;
-  // is_proxy: boolean;
+  visitor_ordinal?: number;
+  visit_count?: number;
 }
 
-const myLocation = { lat: 35.6895, lon: 139.6917 }; // Tokyo
-
-const IPCard: React.FC<IPCardProps> = ({ ip, country_name, location, distance, latitude, longitude }) => {
-  const [isDay, setIsDay] = useState(true);
-
-  const getPoem = () => {
-    const myCountry = "Japan"
-    if (country_name === myCountry) {
-      return distance < 150
-        ? "咫尺天涯近，相逢笑语频。"
-        : "山川虽异域，风月亦同天。"
-    } else {
-      return distance < 4000
-        ? "青山一道同云雨，明月何曾是两乡。"
-        : distance < 8000
-        ? "海上生明月，天涯共此时。"
-        : "相去万余里，各在天一涯。"
-    }
-  };
+const IPCard: React.FC<IPCardProps> = ({
+  ip,
+  country_name,
+  location,
+  distance,
+  latitude,
+  longitude,
+  visitor_ordinal,
+  visit_count,
+}) => {
+  const poem = getArrivalPoem(country_name, distance, visit_count ?? visitor_ordinal ?? 0);
 
   return (
     <div className={styles.card}>
-      <div className={styles.info}>
-        <h2>你的 IP 信息</h2>
-        <p><strong>IP: </strong> {ip} </p>
-        <p><strong>位置: </strong> {location} </p>
-        <div className={styles.distance}>
-          <p>相距<strong> {distance} </strong>km</p>
-          <blockquote className={styles.poem}>{getPoem()}</blockquote>
+      <div className={styles.header}>
+        <div>
+          <p className={styles.kicker}>Visitor Record</p>
+          <h2 className={styles.title}>这一次抵达</h2>
+        </div>
+        <div className={styles.distanceBadge}>
+          <span className={styles.distanceValue}>{distance.toFixed(0)} km</span>
+          <span className={styles.distanceLabel}>Route</span>
         </div>
       </div>
-      <div className={[styles.globePanel, isDay ? styles.day : styles.night].join(' ')}>
-        { Number.isFinite(latitude) && Number.isFinite(longitude) ? (
-          <GlobeScene
-            myLocation={myLocation}
-            visitorLocation={{ lat: latitude, lon: longitude }}
-            isDay={isDay}
-          />
-        ) : (
-          <p className={styles.loading}>正在定位...</p>
-        )}
-        <button
-          className={styles.toggleButton}
-          onClick={() => setIsDay(!isDay)}
-        >
-          {isDay ? "昼": "夜" }
-        </button>
+
+      <div className={styles.primaryGrid}>
+        <div className={styles.primaryCard}>
+          <span className={styles.label}>Location</span>
+          <strong className={styles.value}>{location}</strong>
+        </div>
+        <div className={styles.primaryCard}>
+          <span className={styles.label}>Visitor No.</span>
+          <strong className={styles.value}>{visitor_ordinal ? `第 ${visitor_ordinal} 位` : '记录中'}</strong>
+        </div>
+      </div>
+
+      <div className={styles.secondaryGrid}>
+        <div className={styles.secondaryItem}>
+          <span className={styles.label}>IP</span>
+          <span className={styles.secondaryValue}>{ip}</span>
+        </div>
+        <div className={styles.secondaryItem}>
+          <span className={styles.label}>Coordinates</span>
+          <span className={styles.secondaryValue}>{latitude.toFixed(2)}, {longitude.toFixed(2)}</span>
+        </div>
+        <div className={styles.secondaryItem}>
+          <span className={styles.label}>Visits</span>
+          <span className={styles.secondaryValue}>{visit_count ? `第 ${visit_count} 次` : '初次抵达'}</span>
+        </div>
+      </div>
+
+      <div className={styles.poemBlock}>
+        <p className={styles.poemLines}>{poem.lines.join(' / ')}</p>
+        <p className={styles.poemMeta}>《{poem.title}》 {poem.author}</p>
       </div>
     </div>
   )

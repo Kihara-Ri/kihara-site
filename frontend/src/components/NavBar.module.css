@@ -10,10 +10,23 @@
   background-color: color-mix(in srgb, var(--navbar-bg) 88%, transparent);
   color: var(--text-color);
   backdrop-filter: blur(14px);
+  transition:
+    background-color 0.28s ease,
+    color 0.28s ease,
+    backdrop-filter 0.28s ease,
+    box-shadow 0.28s ease,
+    transform 0.28s ease;
 }
 
 .navbarScrolled {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.navbarHero {
+  background: linear-gradient(180deg, rgba(4, 9, 18, 0.58) 0%, rgba(4, 9, 18, 0.22) 38%, rgba(4, 9, 18, 0.04) 70%, transparent 100%);
+  color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: none;
+  box-shadow: none;
 }
 
 .inner {
@@ -35,10 +48,37 @@
   align-items: center;
   font-family: 'Minecraft Ten', monospace;
   font-weight: 500;
+  color: inherit;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.36);
 }
 
 .brandTitle {
   margin: 0;
+}
+
+.menuButton {
+  display: none;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--background) 72%, transparent);
+  box-shadow: none;
+}
+
+.menuButton:hover,
+.menuButton:active {
+  transform: none;
+}
+
+.menuBar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin: 3px auto;
+  border-radius: 999px;
+  background: currentColor;
 }
 
 .navList {
@@ -47,8 +87,26 @@
   gap: 20px;
 }
 
+.mobileBackdrop {
+  display: none;
+}
+
+.mobileHeader {
+  display: none;
+}
+
 .navItem {
   position: relative;
+  color: inherit;
+}
+
+.navItem > a {
+  color: inherit;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.34);
+}
+
+.navItem > a:hover {
+  color: inherit;
 }
 
 .dropdown {
@@ -94,6 +152,7 @@
 .musicIcon {
   width: 20px;
   height: 20px;
+  filter: drop-shadow(0 1px 10px rgba(0, 0, 0, 0.4));
 }
 
 .iconButton {
@@ -118,6 +177,17 @@
   transition: fill 0.2s ease, transform 0.2s ease;
 }
 
+.navbarHero .navIcon {
+  fill: rgba(255, 255, 255, 0.96);
+  filter: drop-shadow(0 1px 10px rgba(0, 0, 0, 0.38));
+}
+
+.navbarHero .navItem > a,
+.navbarHero .brandLink {
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+}
+
 .iconButton:hover .navIcon {
   fill: #1e90ff;
   transform: scale(1.05);
@@ -128,13 +198,120 @@
     padding: 0 12px;
   }
 
+  .menuButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobileBackdrop {
+    position: fixed;
+    inset: 0;
+    display: block;
+    background: rgba(4, 8, 16, 0.42);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.24s ease;
+  }
+
+  .mobileBackdropOpen {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .navList {
-    gap: 12px;
-    font-size: 0.95rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    width: min(320px, 82vw);
+    height: 100svh;
+    margin: 0;
+    padding: 18px 16px 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: color-mix(in srgb, var(--background) 90%, black 10%);
+    color: var(--text-color);
+    box-shadow: -20px 0 40px rgba(0, 0, 0, 0.28);
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+  }
+
+  .navbarHero .navList {
+    color: rgba(255, 255, 255, 0.96);
+    background: rgba(8, 14, 24, 0.96);
+  }
+
+  .navListOpen {
+    transform: translateX(0);
+  }
+
+  .mobileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  }
+
+  .mobileTitle {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, currentColor 60%, transparent);
+  }
+
+  .mobileClose {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 1.8rem;
+    line-height: 1;
+    box-shadow: none;
+  }
+
+  .navItem {
+    padding: 14px 0;
+    border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+  }
+
+  .navItem > a,
+  .menuLink {
+    display: block;
+    text-shadow: none;
   }
 
   .dropdownMenu {
-    left: auto;
-    right: 0;
+    position: static;
+    min-width: 0;
+    margin-top: 10px;
+    padding: 0;
+    display: flex;
+    gap: 6px;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .menuLink {
+    padding: 8px 0 8px 12px;
+    color: color-mix(in srgb, currentColor 74%, transparent);
+  }
+
+  .musicLink {
+    justify-content: flex-start;
+  }
+
+  .iconButton {
+    justify-content: flex-start;
+  }
+
+  .dropdown:hover .dropdownMenu {
+    display: flex;
   }
 }
