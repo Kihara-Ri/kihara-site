@@ -1,0 +1,8 @@
+{
+  "name": "kihara-site-workspace",
+  "private": true,
+  "scripts": {
+    "dev": "./scripts/dev.sh",
+    "dev:open": "OPEN_BROWSER=1 ./scripts/dev.sh"
+  }
+}

@@ -1,0 +1,349 @@
+.stage {
+  position: relative;
+  width: 100%;
+  min-height: calc(100dvh - 132px);
+  --player-scale: 0.333333;
+  --base-player-size: min(80vmin, 760px);
+  --base-stand-width: min(calc(90vmin + (0.2 * 80vmin)), 980px);
+  --base-stand-height: min(90vmin, 860px);
+}
+
+.stageEmbedded {
+  min-height: 100%;
+  height: 100%;
+}
+
+.stageActive {
+  filter: drop-shadow(0 0 0.9rem color-mix(in srgb, var(--accent-soft) 85%, transparent));
+}
+
+.playerShell {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--base-stand-width);
+  height: var(--base-stand-height);
+  transform: translate(-50%, -50%) scale(var(--player-scale));
+  transform-origin: center;
+}
+
+.playerStand {
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  background: color-mix(in srgb, #5242a3 88%, black 12%);
+  transform: translate3d(calc(0.06 * var(--base-player-size)), 0, 0);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 36px 60px rgba(0, 0, 0, 0.22);
+  pointer-events: none;
+}
+
+.player {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.playerElement {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--base-player-size);
+  height: var(--base-player-size);
+  margin: calc(var(--base-player-size) / -2) 0 0 calc(var(--base-player-size) / -2);
+}
+
+.playerElementLp {
+  transform: perspective(2000px);
+}
+
+.playerElementLpCurrent {
+  z-index: 1;
+}
+
+.playerElementLpOutgoing {
+  z-index: 2;
+}
+
+.playerElementLpLoaded {
+  opacity: 1;
+}
+
+.playerElementLpExiting {
+  animation: recordLiftOut 0.62s cubic-bezier(0.22, 0.78, 0.24, 1) both;
+}
+
+.playerElementLpEntering {
+  animation: recordLiftIn 0.82s cubic-bezier(0.18, 0.84, 0.24, 1) both;
+}
+
+.playerElementLpPlaceholder {
+  opacity: 0.56;
+}
+
+.playerElementInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.recordPlaceholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, rgba(224, 194, 159, 0.14) 0 11%, rgba(20, 20, 22, 0.08) 11% 20%, transparent 20% 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(224, 194, 159, 0.28),
+    inset 0 0 0 22px rgba(0, 0, 0, 0.08);
+  z-index: 0;
+}
+
+.recordPlaceholderGrooves {
+  position: absolute;
+  inset: 16%;
+  border-radius: 999px;
+  border: 1px dashed rgba(224, 194, 159, 0.28);
+  box-shadow:
+    0 0 0 18px rgba(224, 194, 159, 0.08),
+    0 0 0 38px rgba(224, 194, 159, 0.05),
+    0 0 0 58px rgba(224, 194, 159, 0.04);
+}
+
+.recordPlaceholderCenter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background: rgba(245, 240, 232, 0.9);
+  border: 2px solid rgba(15, 15, 16, 0.7);
+}
+
+.playerSvgLp {
+  width: 100%;
+  height: 100%;
+  animation: spinAroundA 10s linear infinite forwards;
+  animation-play-state: paused;
+}
+
+.playerElementLpSpinning .playerSvgLp {
+  animation-play-state: running;
+}
+
+@keyframes spinAroundA {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes recordLiftIn {
+  0% {
+    opacity: 0;
+    transform: perspective(2000px) translateY(34%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: perspective(2000px) translateY(0);
+  }
+}
+
+@keyframes recordLiftOut {
+  0% {
+    opacity: 1;
+    transform: perspective(2000px) translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: perspective(2000px) translateY(-28%);
+  }
+}
+
+.playerSvgTonearm {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+
+.tonearmBody {
+  fill: #696969;
+  opacity: 1;
+}
+
+.tonearmFixed {
+  fill: #fff;
+  opacity: 1;
+}
+
+.grabbableHead {
+  fill: #fff;
+  opacity: 1;
+}
+
+.recordCoverRing {
+  fill: #e0c29f;
+}
+
+.playerElementTonearm {
+  margin: calc((var(--base-player-size) / -2) - (0.13 * var(--base-player-size))) 0 0 calc(0.11 * var(--base-player-size));
+  transform-origin: 50% 50%;
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 3;
+}
+
+.tonearmMotion {
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+}
+
+.tonearmMotionPlay {
+  animation: tonearmSpringIn 0.72s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.tonearmMotionPause {
+  animation: tonearmSpringOut 0.72s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+@keyframes tonearmSpringIn {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  24% {
+    transform: rotate(-2.2deg);
+  }
+
+  54% {
+    transform: rotate(1.15deg);
+  }
+
+  76% {
+    transform: rotate(-0.55deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes tonearmSpringOut {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  22% {
+    transform: rotate(1.8deg);
+  }
+
+  50% {
+    transform: rotate(-0.9deg);
+  }
+
+  72% {
+    transform: rotate(0.45deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.playButton {
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  min-width: 110px;
+  padding: 0.75rem 1.2rem;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 100%),
+    rgba(18, 19, 22, 0.76);
+  color: #f5f5f6;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 16px 34px rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.playButton:hover,
+.playButton:active {
+  transform: translateX(-50%);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%),
+    rgba(20, 21, 25, 0.82);
+}
+
+.playButton:disabled {
+  opacity: 0.48;
+  cursor: default;
+}
+
+.playButtonLabel {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1100px) {
+  .stage {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .playerShell {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: min(100%, 860px);
+    height: min(100vw, 86vh);
+    transform: scale(var(--player-scale));
+    margin: 0 auto;
+  }
+
+  .playerStand {
+    transform: none;
+  }
+
+  .player {
+    position: absolute;
+    inset: 0;
+  }
+
+  .playButton {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    justify-self: center;
+    transform: none;
+    margin-top: 1rem;
+  }
+
+  .playButton:hover,
+  .playButton:active {
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .stage {
+    --base-player-size: 74vmin;
+    --base-stand-height: min(100vw, 72vh);
+  }
+
+  .playerShell {
+    height: min(100vw, 72vh);
+  }
+}

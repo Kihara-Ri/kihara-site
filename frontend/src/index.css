@@ -16,12 +16,25 @@
   --black-normal: #353535;
 
   /* 默认：浅色模式 */
-  --background: #f9f9f9;
+  --background: #e6e6e6;
   --text-color: #353535;
-  --navbar-bg: #f9f9f9;
+  --navbar-bg: #e6e6e6;
   --footer-bg: #222;
   --link-color: #5242a3;
   --selected: #efefef;
+  --ink: #1f2937;
+  --muted: #667085;
+  --line: rgba(15, 23, 42, 0.1);
+  --line-strong: rgba(15, 23, 42, 0.18);
+  --panel: rgba(255, 255, 255, 0.88);
+  --panel-strong: rgba(255, 255, 255, 0.96);
+  --accent-soft: rgba(37, 99, 235, 0.08);
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --warn: #b54708;
+  --code-bg: #0f172a;
+  --shadow-sm: 0 10px 26px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 24px 48px rgba(15, 23, 42, 0.12);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -37,6 +50,19 @@
   --footer-bg: #151515;
   --link-color: #7aa2ff;
   --selected: #3d3d3d;
+  --ink: #e5e7eb;
+  --muted: #a0aec0;
+  --line: rgba(226, 232, 240, 0.12);
+  --line-strong: rgba(226, 232, 240, 0.22);
+  --panel: rgba(30, 41, 59, 0.72);
+  --panel-strong: rgba(30, 41, 59, 0.86);
+  --accent-soft: rgba(96, 165, 250, 0.12);
+  --accent: #60a5fa;
+  --accent-strong: #93c5fd;
+  --warn: #f59e0b;
+  --code-bg: #020617;
+  --shadow-sm: 0 10px 26px rgba(2, 6, 23, 0.24);
+  --shadow-md: 0 24px 48px rgba(2, 6, 23, 0.32);
 }
 
 #root {
@@ -62,6 +88,20 @@ html, body {
   margin: 0;
   padding: 0;
   display: flex;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 0;
+}
+
+::view-transition-new(root) {
+  z-index: 1;
 }
 
 h1 {
@@ -101,7 +141,7 @@ button:active {
 
 button:focus {
   outline: none;                  /* 去除默认焦点框 */
-  box-shadow: 0 0 0 3px rgba(50, 121, 219, 0.5); /* 自定义焦点高亮 */
+  box-shadow: none;
 }
 
 /* 列表 */

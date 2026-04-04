@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import IPCard from '../components/IPCard';
-import Footer from "../components/Footer";
 import AmazingGlobeScene from '../components/amazing-globe/AmazingGlobeScene';
 import ArrivalPoem from '../components/home/ArrivalPoem';
 import { siteConfig } from '../config/site';
+import { fetchArticles } from '../features/blog/api/blogApi';
+import type { ArticleMeta } from '../features/blog/types';
+import { formatDate as formatBlogDate } from '../features/blog/utils/formatDate';
 import { getOrCreateVisitorId } from '../utils/visitor';
+import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 
 const IP_API = 'https://api.ipify.org?format=json';
@@ -86,7 +88,9 @@ function loadVisitorSnapshot() {
 
 const Home: React.FC = () => {
   const [visitor, setVisitor] = useState<VisitorSnapshot | null>(null);
+  const [articles, setArticles] = useState<ArticleMeta[]>([]);
   const [tokyoTime, setTokyoTime] = useState(() => formatTokyoTime(new Date()));
+  const heroRef = React.useRef<HTMLElement | null>(null);
   const contentRef = React.useRef<HTMLElement | null>(null);
 
   useEffect (() => {
@@ -99,6 +103,17 @@ const Home: React.FC = () => {
   }, [])
 
   useEffect(() => {
+    fetchArticles()
+      .then((data) => {
+        setArticles(data);
+      })
+      .catch((err) => {
+        console.error('首页博客摘要获取失败');
+        console.error(err);
+      });
+  }, []);
+
+  useEffect(() => {
     const timer = window.setInterval(() => {
       setTokyoTime(formatTokyoTime(new Date()));
     }, 30000);
@@ -106,13 +121,59 @@ const Home: React.FC = () => {
     return () => window.clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    let frameId = 0;
+
+    const updateGlassProgress = () => {
+      frameId = 0;
+      const hero = heroRef.current;
+      if (!hero) {
+        return;
+      }
+      const viewportHeight = window.innerHeight || 1;
+      const progress = Math.min(1, Math.max(0, window.scrollY / (viewportHeight * 0.32)));
+
+      hero.style.setProperty('--hero-glass-opacity', progress.toFixed(3));
+      hero.style.setProperty('--hero-glass-blur', `${(progress * 20).toFixed(2)}px`);
+      hero.style.setProperty('--hero-glass-tint', (progress * 0.12).toFixed(3));
+      hero.style.setProperty('--hero-glass-sheen', (progress * 0.32).toFixed(3));
+    };
+
+    const requestUpdate = () => {
+      if (frameId !== 0) {
+        return;
+      }
+      frameId = window.requestAnimationFrame(updateGlassProgress);
+    };
+
+    requestUpdate();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+
+    return () => {
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+    };
+  }, []);
+
   const scrollToContent = () => {
     contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const latestArticle = articles[0] ?? null;
+  const featuredWorks = siteConfig.homeContent.blogHighlights.featuredWorks
+    .map((entry) => ({
+      ...entry,
+      article: articles.find((item) => item.slug === entry.slug) ?? null,
+    }))
+    .filter((entry) => entry.article);
+
   return (
     <div className={styles.page}>
-      <section className={styles.hero}>
+      <section ref={heroRef} className={styles.hero}>
         <div className={styles.overlay}>
           <div className={styles.heroInner}>
             <div className={styles.globeColumn}>
@@ -195,6 +256,8 @@ const Home: React.FC = () => {
           </div>
         </div>
 
+        <div className={styles.heroGlassOverlay} aria-hidden="true" />
+
         <div className={styles.arrowWrap}>
           <button className={styles.arrowButton} type="button" onClick={scrollToContent} aria-label="Scroll to content">
             <span className={styles.arrowIcon} aria-hidden="true" />
@@ -202,72 +265,109 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      <section ref={contentRef} className={styles.content}>
-        <section className={styles.homeIntro}>
-          <p className={styles.sectionEyebrow}>{siteConfig.homeContent.introduction.eyebrow}</p>
-          <h2 className={styles.sectionTitle}>{siteConfig.homeContent.introduction.title}</h2>
-          <p className={styles.sectionText}>{siteConfig.homeContent.introduction.text}</p>
-        </section>
+      <section ref={contentRef} className={styles.contentSection}>
+        <div className={styles.content}>
+          <section className={styles.homeIntro}>
+            <p className={styles.sectionEyebrow}>{siteConfig.homeContent.introduction.eyebrow}</p>
+            <h2 className={styles.sectionTitle}>{siteConfig.homeContent.introduction.title}</h2>
+            <p className={styles.sectionText}>{siteConfig.homeContent.introduction.text}</p>
+          </section>
 
-        <section className={styles.contentGrid}>
-          <div className={styles.mainColumn}>
-            <section className={styles.writingSection}>
-              <div className={styles.sectionHead}>
-                <p className={styles.sectionEyebrow}>Featured Writing</p>
-                <h3 className={styles.subTitle}>最近应该先看到的内容</h3>
-              </div>
-              <div className={styles.storyList}>
-                {siteConfig.homeContent.featuredWriting.map((item) => (
-                  <article key={item.title} className={styles.storyCard}>
-                    <p className={styles.storyCategory}>{item.category}</p>
-                    <h4 className={styles.storyTitle}>{item.title}</h4>
-                    <p className={styles.storySummary}>{item.summary}</p>
-                  </article>
-                ))}
-              </div>
-            </section>
+          <section className={styles.contentGrid}>
+            <div className={styles.mainColumn}>
+              <section className={styles.writingSection}>
+                <div className={styles.sectionHead}>
+                  <p className={styles.sectionEyebrow}>Featured Writing</p>
+                  <h3 className={styles.subTitle}>最近应该先看到的内容</h3>
+                </div>
+                <div className={styles.storyList}>
+                  {siteConfig.homeContent.featuredWriting.map((item) => (
+                    <article key={item.title} className={styles.storyCard}>
+                      <p className={styles.storyCategory}>{item.category}</p>
+                      <h4 className={styles.storyTitle}>{item.title}</h4>
+                      <p className={styles.storySummary}>{item.summary}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
 
-            <section className={styles.signalsSection}>
-              <div className={styles.sectionHead}>
-                <p className={styles.sectionEyebrow}>Current Signals</p>
-                <h3 className={styles.subTitle}>正在展开的几件事</h3>
-              </div>
-              <div className={styles.signalList}>
-                {siteConfig.homeContent.currentSignals.map((item) => (
-                  <p key={item} className={styles.signalItem}>{item}</p>
-                ))}
-              </div>
-            </section>
-          </div>
+              <section className={styles.blogShowcaseSection}>
+                <div className={styles.sectionHead}>
+                  <p className={styles.sectionEyebrow}>Selected Blogs</p>
+                  <h3 className={styles.subTitle}>得意之作</h3>
+                </div>
+                <div className={styles.featuredTiles}>
+                  {featuredWorks.map(({ slug, label, note, article }) => (
+                    article ? (
+                      <Link key={slug} to={`/blogs/${article.slug}`} className={styles.featuredTile}>
+                        <span className={styles.featuredLabel}>{label}</span>
+                        <h4 className={styles.featuredTitle}>{article.title}</h4>
+                        <p className={styles.featuredSummary}>{article.summary ?? note}</p>
+                        <div className={styles.featuredMeta}>
+                          <span>{formatBlogDate(article.date)}</span>
+                          <span>{article.wordCount} words</span>
+                        </div>
+                      </Link>
+                    ) : null
+                  ))}
+                </div>
+              </section>
 
-          <aside className={styles.sideColumn}>
-            <section className={styles.visitorPanel}>
-              {visitor ? (
-                <IPCard {...visitor} />
-              ) : (
-                <p className={styles.sectionText}>等待定位数据返回后，这里会显示访客的 IP、区域和距离摘要。</p>
-              )}
-            </section>
+              <section className={styles.signalsSection}>
+                <div className={styles.sectionHead}>
+                  <p className={styles.sectionEyebrow}>Current Signals</p>
+                  <h3 className={styles.subTitle}>正在展开的几件事</h3>
+                </div>
+                <div className={styles.signalList}>
+                  {siteConfig.homeContent.currentSignals.map((item) => (
+                    <p key={item} className={styles.signalItem}>{item}</p>
+                  ))}
+                </div>
+              </section>
+            </div>
 
-            <section className={styles.shelfPanel}>
-              <div className={styles.sectionHead}>
-                <p className={styles.sectionEyebrow}>Shelves</p>
-                <h3 className={styles.subTitle}>内容将来会长成的样子</h3>
-              </div>
-              <div className={styles.shelfList}>
-                {siteConfig.homeContent.shelves.map((item) => (
-                  <div key={item.label} className={styles.shelfItem}>
-                    <span className={styles.shelfLabel}>{item.label}</span>
-                    <span className={styles.shelfValue}>{item.value}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </aside>
-        </section>
+            <aside className={styles.sideColumn}>
+              <section className={styles.shelfPanel}>
+                <div className={styles.sectionHead}>
+                  <p className={styles.sectionEyebrow}>{siteConfig.homeContent.blogHighlights.latestLabel}</p>
+                  <h3 className={styles.subTitle}>最新文章</h3>
+                </div>
+                {latestArticle ? (
+                  <Link to={`/blogs/${latestArticle.slug}`} className={styles.latestPostCard}>
+                    <p className={styles.latestPostDate}>{formatBlogDate(latestArticle.date)}</p>
+                    <h4 className={styles.latestPostTitle}>{latestArticle.title}</h4>
+                    <p className={styles.latestPostSummary}>
+                      {latestArticle.summary ?? '进入文章查看完整内容。'}
+                    </p>
+                    <div className={styles.latestPostTags}>
+                      {latestArticle.tags.slice(0, 3).map((tag) => (
+                        <span key={tag} className={styles.latestPostTag}>#{tag}</span>
+                      ))}
+                    </div>
+                  </Link>
+                ) : (
+                  <p className={styles.sectionText}>博客数据加载完成后，这里会展示最新发布的一篇文章。</p>
+                )}
+              </section>
+
+              <section className={styles.shelfPanel}>
+                <div className={styles.sectionHead}>
+                  <p className={styles.sectionEyebrow}>Shelves</p>
+                  <h3 className={styles.subTitle}>内容将来会长成的样子</h3>
+                </div>
+                <div className={styles.shelfList}>
+                  {siteConfig.homeContent.shelves.map((item) => (
+                    <div key={item.label} className={styles.shelfItem}>
+                      <span className={styles.shelfLabel}>{item.label}</span>
+                      <span className={styles.shelfValue}>{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </aside>
+          </section>
+        </div>
       </section>
-
-        <Footer />
     </div>
   )
 }

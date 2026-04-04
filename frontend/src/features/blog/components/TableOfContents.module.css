@@ -1,0 +1,116 @@
+.toc {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel);
+  padding: 0.85rem;
+  max-height: calc(100vh - 3rem);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+}
+
+.title {
+  margin: 0 0 0.65rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.group {
+  border-radius: 18px;
+  padding: 0.08rem;
+  transition: background-color 0.18s ease;
+}
+
+.groupActive {
+  background: color-mix(in srgb, var(--accent-soft) 90%, transparent);
+}
+
+.children {
+  display: flex;
+  flex-direction: column;
+  gap: 0.02rem;
+  padding: 0.02rem 0 0.14rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.58rem;
+  color: var(--muted);
+  text-decoration: none;
+  line-height: 1.4;
+  border-radius: 14px;
+  padding: 0.34rem 0.5rem;
+  transition:
+    color 0.16s ease,
+    background-color 0.16s ease,
+    transform 0.16s ease;
+}
+
+.item:hover {
+  color: var(--accent-strong);
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.level2 {
+  font-size: 0.92rem;
+}
+
+.level3 {
+  margin-left: 2.2rem;
+  padding-top: 0.18rem;
+  padding-bottom: 0.18rem;
+  font-size: 0.86rem;
+}
+
+.badge {
+  flex: none;
+  width: 1.72rem;
+  height: 1.72rem;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--accent-soft) 82%, white 18%);
+  color: var(--accent-strong);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.childDot {
+  flex: none;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent-soft) 88%, white 12%);
+}
+
+.text {
+  min-width: 0;
+}
+
+.active {
+  color: var(--accent-strong) !important;
+  font-weight: 700;
+}
+
+.active .badge {
+  background: color-mix(in srgb, var(--accent) 24%, var(--background) 76%);
+  color: var(--accent-strong);
+}
+
+.active .childDot {
+  background: var(--accent);
+}

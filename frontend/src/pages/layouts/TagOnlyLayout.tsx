@@ -4,9 +4,9 @@ import styles from './BlogsLayout.module.css';
 
 const TagOnlyLayout: React.FC = () => {
   return (
-    <main className={styles.mainColumn}>
+    <div className={styles.blogShell}>
       <Outlet />
-    </main>
+    </div>
   )
 }
 

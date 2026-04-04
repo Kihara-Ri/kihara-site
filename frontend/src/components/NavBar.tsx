@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from "@/context/ThemeContext";
-import MusicIcon from '/icons/UI/music.svg';
 import styles from './NavBar.module.css';
+
+const isCurrentPath = (pathname: string, target: string) => {
+  if (target === '/') {
+    return pathname === '/';
+  }
+  return pathname === target || pathname.startsWith(target);
+};
 
 const NavBar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -11,6 +17,7 @@ const NavBar: React.FC = () => {
   const [scrolledDown, setScrolledDown] = useState(false);
   const [inHero, setInHero] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const themeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -51,6 +58,28 @@ const NavBar: React.FC = () => {
     scrolledDown ? styles.navbarScrolled : '',
   ].join(' ').trim();
 
+  const homeActive = isCurrentPath(location.pathname, '/');
+  const aboutActive = isCurrentPath(location.pathname, '/about/');
+  const skillsActive = isCurrentPath(location.pathname, '/skills/');
+  const musicActive = isCurrentPath(location.pathname, '/music/');
+  const blogsActive = isCurrentPath(location.pathname, '/blogs/');
+
+  const handleThemeToggle = (event: MouseEvent<HTMLButtonElement>) => {
+    const rect = themeButtonRef.current?.getBoundingClientRect();
+
+    toggleTheme(
+      rect
+        ? {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+          }
+        : {
+            x: event.clientX,
+            y: event.clientY,
+          },
+    );
+  };
+
   return (
     <nav className={navClassName}>
       <div className={styles.inner}>
@@ -79,27 +108,41 @@ const NavBar: React.FC = () => {
             <button type="button" className={styles.mobileClose} onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button>
           </li>
           <li className={styles.navItem}>
-            <Link to="/">Home</Link>
+            <Link className={homeActive ? styles.navLinkActive : undefined} to="/">Home</Link>
           </li>
           <li className={[styles.navItem, styles.dropdown].join(' ')}>
-            <Link to="/about">About</Link>
+            <Link className={aboutActive ? styles.navLinkActive : undefined} to="/about">About</Link>
             <ul className={styles.dropdownMenu}>
-              <li><Link className={styles.menuLink} to="/about/me/">关于我</Link></li>
-              <li><Link className={styles.menuLink} to="/about/site/">关于网站</Link></li>
-              <li><Link className={styles.menuLink} to="/about/musings/">一些想法</Link></li>
-              <li><Link className={styles.menuLink} to="/about/books/">看书</Link></li>
+              <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/about/me/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/about/me/">关于我</Link></li>
+              <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/about/site/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/about/site/">关于网站</Link></li>
+              <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/about/now/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/about/now/">最近</Link></li>
+              <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/about/books/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/about/books/">看书</Link></li>
+            </ul>
+          </li>
+          <li className={[styles.navItem, styles.dropdown].join(' ')}>
+            <Link className={skillsActive ? styles.navLinkActive : undefined} to="/skills/">Skills</Link>
+            <ul className={styles.dropdownMenu}>
+              <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/skills/stack/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/skills/stack/">技术栈</Link></li>
+              <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/skills/experience/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/skills/experience/">经验</Link></li>
+              <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/skills/learning/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/skills/learning/">学习中</Link></li>
             </ul>
           </li>
           <li className={styles.navItem}>
-            <Link to="/skills/">Skills</Link>
+            <Link className={musicActive ? styles.navLinkActive : undefined} to="/music/">Music</Link>
           </li>
 
           <li className={styles.navItem}>
-            <Link className={styles.musicLink} to="/music/"><img className={styles.musicIcon} src={MusicIcon} alt="Music" /></Link>
+            <Link className={blogsActive ? styles.navLinkActive : undefined} to="/blogs/">Blogs</Link>
           </li>
 
           <li className={styles.navItem}>
-            <button className={styles.iconButton} type="button" title="mode-toggle" onClick={toggleTheme}>
+            <button
+              ref={themeButtonRef}
+              className={styles.iconButton}
+              type="button"
+              title="mode-toggle"
+              onClick={handleThemeToggle}
+            >
             {theme === "dark"
             ? <svg className={styles.navIcon} viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                 <path d="M450.275556 14.563556a499.712 499.712 0 1 0 559.217777 559.217777 42.666667 42.666667 0 0 0-64.910222-41.585777 328.647111 328.647111 0 0 1-452.721778-452.721778 42.666667 42.666667 0 0 0-41.528889-64.910222z m-70.769778 103.537777l-3.982222 12.231111a413.980444 413.980444 0 0 0 395.377777 536.803556l18.033778-0.398222a413.240889 413.240889 0 0 0 104.846222-18.204445l12.117334-4.039111-3.697778 10.467556a414.72 414.72 0 0 1-388.323556 269.539555A414.321778 414.321778 0 0 1 99.555556 510.179556a414.72 414.72 0 0 1 269.539555-388.323556l10.410667-3.754667z"

@@ -1,0 +1,1483 @@
+[
+  {
+    "id": "album-2b08dce1ac",
+    "title": "夏草が邪魔をする",
+    "artist": "ヨルシカ",
+    "purchase": {
+      "date": "2026-01-04",
+      "display": "1/4",
+      "location": "メルカリ",
+      "priceText": "1000",
+      "priceValue": 1000.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1000",
+    "cover": {
+      "file": "/music/covers/album-2b08dce1ac.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "夏草が邪魔をする"
+    },
+    "releaseYear": 2017
+  },
+  {
+    "id": "album-4c95e67796",
+    "title": "恋文",
+    "artist": "中島みゆき",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "1430",
+      "priceValue": 1430.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1430",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "greeeen",
+    "title": "キセキ",
+    "artist": "GReeeeN",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "550",
+      "priceValue": 550.0,
+      "currency": "JPY"
+    },
+    "note": "初回限定盤",
+    "rawRemark": "550 初回限定盤",
+    "cover": {
+      "file": "/music/covers/greeeen.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "キセキ - Single"
+    },
+    "releaseYear": 2008
+  },
+  {
+    "id": "kick-back",
+    "title": "チェンソーマン:KICK BACK",
+    "artist": "米津玄師",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "550",
+      "priceValue": 550.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "550",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "oasis-don-t-believe-the-truth",
+    "title": "Don't Believe the Truth",
+    "artist": "Oasis",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "550",
+      "priceValue": 550.0,
+      "currency": "JPY"
+    },
+    "note": "輸入盤",
+    "rawRemark": "550 輸入盤",
+    "cover": {
+      "file": "/music/covers/oasis-don-t-believe-the-truth.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Don't Believe the Truth"
+    },
+    "releaseYear": 2005
+  },
+  {
+    "id": "oasis-standing-on-the-shoulder-of-giants",
+    "title": "Standing on the Shoulder of Giants",
+    "artist": "Oasis",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "550",
+      "priceValue": 550.0,
+      "currency": "JPY"
+    },
+    "note": "輸入盤",
+    "rawRemark": "550 輸入盤",
+    "cover": {
+      "file": "/music/covers/oasis-standing-on-the-shoulder-of-giants.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Standing on the Shoulder of Giants"
+    },
+    "releaseYear": 2000
+  },
+  {
+    "id": "melodies",
+    "title": "MELODIES",
+    "artist": "山下達郎",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "1210",
+      "priceValue": 1210.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1210",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "for-you",
+    "title": "FOR YOU",
+    "artist": "山下達郎",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "2090",
+      "priceValue": 2090.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "2090",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "first-love",
+    "title": "First Love",
+    "artist": "宇多田ヒカル",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "570",
+      "priceValue": 570.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "570",
+    "cover": {
+      "file": "/music/covers/first-love.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "First Love - EP"
+    },
+    "releaseYear": 1999
+  },
+  {
+    "id": "request",
+    "title": "REQUEST",
+    "artist": "竹内まりや",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "1900",
+      "priceValue": 1900.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1900",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "supercell",
+    "title": "君の知らない物語",
+    "artist": "supercell",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "680",
+      "priceValue": 680.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "680",
+    "cover": {
+      "file": "/music/covers/supercell.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Today Is A Beautiful Day"
+    },
+    "releaseYear": 2009
+  },
+  {
+    "id": "album-c4106b2210",
+    "title": "トレジャーズ",
+    "artist": "山下達郎",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "480",
+      "priceValue": 480.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "480",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "album-d9ac3c5236",
+    "title": "伝説から神話へ 日本武道館さよ",
+    "artist": "山口百恵",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "2450",
+      "priceValue": 2450.0,
+      "currency": "JPY"
+    },
+    "note": "DVD 但是有点买贵了",
+    "rawRemark": "2450 DVD 但是有点买贵了",
+    "cover": {
+      "file": "/music/covers/album-d9ac3c5236.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "伝説から神話へ 日本武道館さよならコンサート・ライブ"
+    },
+    "releaseYear": 1980
+  },
+  {
+    "id": "pink-floyd-wall-rehearsals-1980",
+    "title": "WALL REHEARSALS 1980",
+    "artist": "Pink Floyd",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "3450",
+      "priceValue": 3450.0,
+      "currency": "JPY"
+    },
+    "note": "买的第一张平克弗洛伊德",
+    "rawRemark": "3450 买的第一张平克弗洛伊德",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "album-2c5b6b6454",
+    "title": "ハチミツ",
+    "artist": "スピッツ",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "280",
+      "priceValue": 280.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "280",
+    "cover": {
+      "file": "/music/covers/album-2c5b6b6454.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "ハチミツ"
+    },
+    "releaseYear": 1995
+  },
+  {
+    "id": "boots",
+    "title": "BOOTS",
+    "artist": "福山雅治",
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "1/11",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "100",
+      "priceValue": 100.0,
+      "currency": "JPY"
+    },
+    "note": "随手拿的",
+    "rawRemark": "100 随手拿的",
+    "cover": {
+      "file": "/music/covers/boots.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "BOOTS"
+    },
+    "releaseYear": 1992
+  },
+  {
+    "id": "pink-floyd-the-dark-side-of-the-moon",
+    "title": "The Dark Side of the Moon",
+    "artist": "Pink Floyd",
+    "purchase": {
+      "date": "2026-01-13",
+      "display": "1/13",
+      "location": "丸善ジュンク堂書店 丸善お茶の水店",
+      "priceText": "1628",
+      "priceValue": 1628.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1628",
+    "cover": {
+      "file": "/music/covers/pink-floyd-the-dark-side-of-the-moon.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "The Dark Side of the Moon"
+    },
+    "releaseYear": 1973
+  },
+  {
+    "id": "pink-floyd-wish-you-were-here",
+    "title": "Wish You Were Here",
+    "artist": "Pink Floyd",
+    "purchase": {
+      "date": "2026-01-13",
+      "display": "1/13",
+      "location": "丸善ジュンク堂書店 丸善お茶の水店",
+      "priceText": "1446",
+      "priceValue": 1446.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1446",
+    "cover": {
+      "file": "/music/covers/pink-floyd-wish-you-were-here.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Wish You Were Here"
+    },
+    "releaseYear": 1975
+  },
+  {
+    "id": "the-police-synchronicity",
+    "title": "Synchronicity",
+    "artist": "The Police",
+    "purchase": {
+      "date": "2026-01-13",
+      "display": "1/13",
+      "location": "BOOKOFF 秋葉原駅前店",
+      "priceText": "550",
+      "priceValue": 550.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "550",
+    "cover": {
+      "file": "/music/covers/the-police-synchronicity.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Synchronicity (Remastered 2003)"
+    },
+    "releaseYear": 1983
+  },
+  {
+    "id": "lemon",
+    "title": "Lemon",
+    "artist": "米津玄師",
+    "purchase": {
+      "date": "2026-01-14",
+      "display": "1/14",
+      "location": "BOOKOFF 秋葉原駅前店",
+      "priceText": "1500",
+      "priceValue": 1500.0,
+      "currency": "JPY"
+    },
+    "note": "初回生産限定映像盤",
+    "rawRemark": "1500 初回生産限定映像盤",
+    "cover": {
+      "file": "/music/covers/lemon.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Lemon - Single"
+    },
+    "releaseYear": 2018
+  },
+  {
+    "id": "pink-floyd-perfect-live",
+    "title": "光~PERFECT LIVE!",
+    "artist": "Pink Floyd",
+    "purchase": {
+      "date": "2026-01-14",
+      "display": "1/14",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "2530",
+      "priceValue": 2530.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "2530",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "album-2dffcdd626",
+    "title": "「坂の上の雲」サウンドトラック",
+    "artist": "久石譲",
+    "purchase": {
+      "date": "2026-01-14",
+      "display": "1/14",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "792",
+      "priceValue": 792.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "792",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "green-day-21",
+    "title": "21世紀のブレイクダウン",
+    "artist": "Green Day",
+    "purchase": {
+      "date": "2026-01-14",
+      "display": "1/14",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "792",
+      "priceValue": 792.0,
+      "currency": "JPY"
+    },
+    "note": "全新未拆封",
+    "rawRemark": "792 全新未拆封",
+    "cover": {
+      "file": "/music/covers/green-day-21.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "21世紀のブレイクダウン (Deluxe Edition)"
+    },
+    "releaseYear": 2009
+  },
+  {
+    "id": "fall-out-boy-save-rock-and-roll",
+    "title": "Save Rock and Roll",
+    "artist": "Fall Out Boy",
+    "purchase": {
+      "date": "2026-01-15",
+      "display": "1/15",
+      "location": "メルカリ",
+      "priceText": "700",
+      "priceValue": 700.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "700",
+    "cover": {
+      "file": "/music/covers/fall-out-boy-save-rock-and-roll.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Save Rock And Roll"
+    },
+    "releaseYear": 2013
+  },
+  {
+    "id": "mrs-green-apple-soranji",
+    "title": "Soranji",
+    "artist": "Mrs.Green Apple",
+    "purchase": {
+      "date": "2026-01-15",
+      "display": "1/15",
+      "location": "メルカリ",
+      "priceText": "1300",
+      "priceValue": 1300.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1300",
+    "cover": {
+      "file": "/music/covers/mrs-green-apple-soranji.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Soranji - Single"
+    },
+    "releaseYear": 2022
+  },
+  {
+    "id": "king-gnu-ceremony",
+    "title": "CEREMONY",
+    "artist": "King Gnu",
+    "purchase": {
+      "date": "2026-01-15",
+      "display": "1/15",
+      "location": "BOOKOFF 浅草稲荷町店",
+      "priceText": "1760",
+      "priceValue": 1760.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1760",
+    "cover": {
+      "file": "/music/covers/king-gnu-ceremony.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Ceremony"
+    },
+    "releaseYear": 2020
+  },
+  {
+    "id": "green-day-american-idot",
+    "title": "American Idot",
+    "artist": "Green Day",
+    "purchase": {
+      "date": "2026-01-15",
+      "display": "1/15",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "550",
+      "priceValue": 550.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "550",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "avicii-true",
+    "title": "True",
+    "artist": "Avicii",
+    "purchase": {
+      "date": "2026-01-15",
+      "display": "1/15",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "1210",
+      "priceValue": 1210.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1210",
+    "cover": {
+      "file": "/music/covers/avicii-true.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "True"
+    },
+    "releaseYear": 2013
+  },
+  {
+    "id": "avicii-stories",
+    "title": "Stories",
+    "artist": "Avicii",
+    "purchase": {
+      "date": "2026-01-15",
+      "display": "1/15",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "2090",
+      "priceValue": 2090.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "2090",
+    "cover": {
+      "file": "/music/covers/avicii-stories.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Stories"
+    },
+    "releaseYear": 2015
+  },
+  {
+    "id": "album-b5af0cac8f",
+    "title": "盗作",
+    "artist": "ヨルシカ",
+    "purchase": {
+      "date": "2026-01-16",
+      "display": "1/16",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "1980",
+      "priceValue": 1980.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1980",
+    "cover": {
+      "file": "/music/covers/album-b5af0cac8f.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "盗作"
+    },
+    "releaseYear": 2020
+  },
+  {
+    "id": "pink-floyd-the-division-bell",
+    "title": "The Division Bell",
+    "artist": "Pink Floyd",
+    "purchase": {
+      "date": "2026-01-16",
+      "display": "1/16",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "792",
+      "priceValue": 792.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "792",
+    "cover": {
+      "file": "/music/covers/pink-floyd-the-division-bell.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "The Division Bell"
+    },
+    "releaseYear": 1994
+  },
+  {
+    "id": "avicii-avci-01",
+    "title": "Avīci (01)",
+    "artist": "Avicii",
+    "purchase": {
+      "date": "2026-01-17",
+      "display": "1/17",
+      "location": "メルカリ",
+      "priceText": "900",
+      "priceValue": 900.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "900",
+    "cover": {
+      "file": "/music/covers/avicii-avci-01.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "AVĪCI (01) - EP"
+    },
+    "releaseYear": 2017
+  },
+  {
+    "id": "it-s-a-poppin-time",
+    "title": "It's a Poppin' Time",
+    "artist": "山下達郎",
+    "purchase": {
+      "date": "2026-01-17",
+      "display": "1/17",
+      "location": "メルカリ",
+      "priceText": "1777",
+      "priceValue": 1777.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1777",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "kendrick-lamar-to-pimp-a-butterfly",
+    "title": "To Pimp a Butterfly",
+    "artist": "Kendrick Lamar",
+    "purchase": {
+      "date": "2026-01-18",
+      "display": "1/18",
+      "location": "メルカリ",
+      "priceText": "1450",
+      "priceValue": 1450.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1450",
+    "cover": {
+      "file": "/music/covers/kendrick-lamar-to-pimp-a-butterfly.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "To Pimp a Butterfly"
+    },
+    "releaseYear": 2015
+  },
+  {
+    "id": "green-day-dookie",
+    "title": "Dookie",
+    "artist": "Green Day",
+    "purchase": {
+      "date": "2026-01-19",
+      "display": "1/19",
+      "location": "メルカリ",
+      "priceText": "300",
+      "priceValue": 300.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "300",
+    "cover": {
+      "file": "/music/covers/green-day-dookie.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Dookie"
+    },
+    "releaseYear": 1994
+  },
+  {
+    "id": "oasis-morning-glory-be-here-now",
+    "title": "Morning Glory? + Be Here Now",
+    "artist": "Oasis",
+    "purchase": {
+      "date": "2026-01-19",
+      "display": "1/19",
+      "location": "メルカリ",
+      "priceText": "1200",
+      "priceValue": 1200.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1200",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "the-police-zenyatt-mondatta",
+    "title": "Zenyattà Mondatta",
+    "artist": "The Police",
+    "purchase": {
+      "date": "2026-01-19",
+      "display": "1/19",
+      "location": "RECOfan MAGNET by SHIBUYA 109",
+      "priceText": "500",
+      "priceValue": 500.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "500",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "the-police-live",
+    "title": "Live!",
+    "artist": "The Police",
+    "purchase": {
+      "date": "2026-01-19",
+      "display": "1/19",
+      "location": "RECOfan MAGNET by SHIBUYA 109",
+      "priceText": "410",
+      "priceValue": 410.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "410",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "sufjan-stevens-illinois",
+    "title": "Illinois",
+    "artist": "Sufjan Stevens",
+    "purchase": {
+      "date": "2026-01-20",
+      "display": "1/20",
+      "location": "メルカリ",
+      "priceText": "2800",
+      "priceValue": 2800.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "2800",
+    "cover": {
+      "file": "/music/covers/sufjan-stevens-illinois.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Illinois"
+    },
+    "releaseYear": 2005
+  },
+  {
+    "id": "the-police-ghost-in-the-machine",
+    "title": "Ghost in the Machine",
+    "artist": "The Police",
+    "purchase": {
+      "date": "2026-01-20",
+      "display": "1/20",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "792",
+      "priceValue": 792.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "792",
+    "cover": {
+      "file": "/music/covers/the-police-ghost-in-the-machine.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Ghost in the Machine (Remastered)"
+    },
+    "releaseYear": 1981
+  },
+  {
+    "id": "first-love-2",
+    "title": "First Love",
+    "artist": "宇多田ヒカル",
+    "purchase": {
+      "date": "2026-01-20",
+      "display": "1/20",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "570",
+      "priceValue": 570.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "570",
+    "cover": {
+      "file": "/music/covers/first-love-2.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "First Love - EP"
+    },
+    "releaseYear": 1999
+  },
+  {
+    "id": "bootleg",
+    "title": "BOOTLEG",
+    "artist": "米津玄師",
+    "purchase": {
+      "date": "2026-01-22",
+      "display": "1/22",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "792",
+      "priceValue": 792.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "792",
+    "cover": {
+      "file": "/music/covers/bootleg.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "BOOTLEG"
+    },
+    "releaseYear": 2017
+  },
+  {
+    "id": "green-day-dookie-2",
+    "title": "Dookie",
+    "artist": "Green Day",
+    "purchase": {
+      "date": "2026-01-22",
+      "display": "1/22",
+      "location": "BOOKOFF PLUS 上野広小路店",
+      "priceText": "220",
+      "priceValue": 220.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "220",
+    "cover": {
+      "file": "/music/covers/green-day-dookie-2.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Dookie"
+    },
+    "releaseYear": 1994
+  },
+  {
+    "id": "radiohead-kid-a-mnesia",
+    "title": "KID A MNESIA",
+    "artist": "Radiohead",
+    "purchase": {
+      "date": "2026-01-22",
+      "display": "1/22",
+      "location": "BOOKOFF 秋葉原駅前店",
+      "priceText": "2750",
+      "priceValue": 2750.0,
+      "currency": "JPY"
+    },
+    "note": "稀有盘",
+    "rawRemark": "2750 稀有盘",
+    "cover": {
+      "file": "/music/covers/radiohead-kid-a-mnesia.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "KID A MNESIA"
+    },
+    "releaseYear": 2000
+  },
+  {
+    "id": "pink-floyd-animals",
+    "title": "Animals",
+    "artist": "Pink Floyd",
+    "purchase": {
+      "date": "2026-01-23",
+      "display": "1/23",
+      "location": "BOOKOFF ロッテシティ錦糸町店",
+      "priceText": "990",
+      "priceValue": 990.0,
+      "currency": "JPY"
+    },
+    "note": "輸入盤",
+    "rawRemark": "990 輸入盤",
+    "cover": {
+      "file": "/music/covers/pink-floyd-animals.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Animals"
+    },
+    "releaseYear": 1977
+  },
+  {
+    "id": "radiohead-ok-computer",
+    "title": "OK Computer",
+    "artist": "Radiohead",
+    "purchase": {
+      "date": "2026-01-23",
+      "display": "1/23",
+      "location": "BOOKOFF ロッテシティ錦糸町店",
+      "priceText": "990",
+      "priceValue": 990.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "990",
+    "cover": {
+      "file": "/music/covers/radiohead-ok-computer.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "OK Computer"
+    },
+    "releaseYear": 1997
+  },
+  {
+    "id": "album-2e222c3426",
+    "title": "今夜このまま",
+    "artist": "あいみょん",
+    "purchase": {
+      "date": "2026-01-23",
+      "display": "1/23",
+      "location": "BOOKOFF ロッテシティ錦糸町店",
+      "priceText": "792",
+      "priceValue": 792.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "792",
+    "cover": {
+      "file": "/music/covers/album-2e222c3426.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "今夜このまま - EP"
+    },
+    "releaseYear": 2018
+  },
+  {
+    "id": "genesis-foxtrot",
+    "title": "Foxtrot",
+    "artist": "Genesis",
+    "purchase": {
+      "date": "2026-01-23",
+      "display": "1/23",
+      "location": "BOOKOFF ロッテシティ錦糸町店",
+      "priceText": "792",
+      "priceValue": 792.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "792",
+    "cover": {
+      "file": "/music/covers/genesis-foxtrot.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Foxtrot (2007 Stereo Mix)"
+    },
+    "releaseYear": 1972
+  },
+  {
+    "id": "sting-nothing-like-the-sun",
+    "title": "Nothing like the sun",
+    "artist": "Sting",
+    "purchase": {
+      "date": "2026-01-23",
+      "display": "1/23",
+      "location": "BOOKOFF 亀戸駅東口店",
+      "priceText": "550",
+      "priceValue": 550.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "550",
+    "cover": {
+      "file": "/music/covers/sting-nothing-like-the-sun.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "...Nothing Like the Sun"
+    },
+    "releaseYear": 1987
+  },
+  {
+    "id": "sting-ten-summoner-s-tales",
+    "title": "Ten Summoner's Tales",
+    "artist": "Sting",
+    "purchase": {
+      "date": "2026-01-23",
+      "display": "1/23",
+      "location": "BOOKOFF 亀戸駅東口店",
+      "priceText": "330",
+      "priceValue": 330.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "330",
+    "cover": {
+      "file": "/music/covers/sting-ten-summoner-s-tales.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Ten Summoner's Tales"
+    },
+    "releaseYear": 1993
+  },
+  {
+    "id": "yes-fragile",
+    "title": "Fragile",
+    "artist": "Yes",
+    "purchase": {
+      "date": "2026-01-23",
+      "display": "1/23",
+      "location": "BOOKOFF 亀戸駅東口店",
+      "priceText": "693",
+      "priceValue": 693.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "693",
+    "cover": {
+      "file": "/music/covers/yes-fragile.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Fragile"
+    },
+    "releaseYear": 1971
+  },
+  {
+    "id": "the-police-reggatta-de-blanc",
+    "title": "Reggatta De Blanc",
+    "artist": "The Police",
+    "purchase": {
+      "date": "2026-01-26",
+      "display": "1/26",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "380",
+      "priceValue": 380.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "380",
+    "cover": {
+      "file": "/music/covers/the-police-reggatta-de-blanc.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "The Police (Remastered)"
+    },
+    "releaseYear": 1979
+  },
+  {
+    "id": "m83-hurry-up-we-re-dreaming",
+    "title": "Hurry Up, We're Dreaming.",
+    "artist": "M83.",
+    "purchase": {
+      "date": "2026-01-26",
+      "display": "1/26",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "680",
+      "priceValue": 680.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "680",
+    "cover": {
+      "file": "/music/covers/m83-hurry-up-we-re-dreaming.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Hurry Up, We're Dreaming"
+    },
+    "releaseYear": 2011
+  },
+  {
+    "id": "kraftwerk-computer-world",
+    "title": "Computer World",
+    "artist": "Kraftwerk",
+    "purchase": {
+      "date": "2026-01-26",
+      "display": "1/26",
+      "location": "Disk union下北沢店",
+      "priceText": "380",
+      "priceValue": 380.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "380",
+    "cover": {
+      "file": "/music/covers/kraftwerk-computer-world.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Computer World (Remastered)"
+    },
+    "releaseYear": 1981
+  },
+  {
+    "id": "king-crimson-in-the-court-of-the-crimson-king",
+    "title": "In the Court of the Crimson King",
+    "artist": "King Crimson",
+    "purchase": {
+      "date": "2026-01-26",
+      "display": "1/26",
+      "location": "Disk union下北沢店",
+      "priceText": "1300",
+      "priceValue": 1300.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1300",
+    "cover": {
+      "file": "/music/covers/king-crimson-in-the-court-of-the-crimson-king.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "In the Court of the Crimson King (Expanded Edition)"
+    },
+    "releaseYear": 1969
+  },
+  {
+    "id": "oasis-definitely-maybe",
+    "title": "Definitely Maybe",
+    "artist": "Oasis",
+    "purchase": {
+      "date": "2026-01-28",
+      "display": "1/28",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "880",
+      "priceValue": 880.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "880",
+    "cover": {
+      "file": "/music/covers/oasis-definitely-maybe.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Definitely Maybe"
+    },
+    "releaseYear": 1994
+  },
+  {
+    "id": "kanye-west-the-college-dropout",
+    "title": "The College Dropout",
+    "artist": "Kanye West",
+    "purchase": {
+      "date": "2026-01-28",
+      "display": "1/28",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "480",
+      "priceValue": 480.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "480",
+    "cover": {
+      "file": "/music/covers/kanye-west-the-college-dropout.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "The College Dropout"
+    },
+    "releaseYear": 2004
+  },
+  {
+    "id": "coldplay-parachutes",
+    "title": "Parachutes",
+    "artist": "Coldplay",
+    "purchase": {
+      "date": "2026-01-29",
+      "display": "1/29",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "380",
+      "priceValue": 380.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "380",
+    "cover": {
+      "file": "/music/covers/coldplay-parachutes.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Parachutes"
+    },
+    "releaseYear": 2000
+  },
+  {
+    "id": "yes-close-to-the-edge",
+    "title": "Close to the Edge",
+    "artist": "Yes",
+    "purchase": {
+      "date": "2026-01-29",
+      "display": "1/29",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "580",
+      "priceValue": 580.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "580",
+    "cover": {
+      "file": "/music/covers/yes-close-to-the-edge.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Close to the Edge"
+    },
+    "releaseYear": 1972
+  },
+  {
+    "id": "king-crimson-schizoid-man",
+    "title": "Schizoid Man",
+    "artist": "King Crimson",
+    "purchase": {
+      "date": "2026-01-26",
+      "display": "1/26",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "280",
+      "priceValue": 280.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "280",
+    "cover": {
+      "file": "/music/covers/king-crimson-schizoid-man.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "21st Century Schizoid Man (KC50, Vol. 1) - Single"
+    },
+    "releaseYear": 1999
+  },
+  {
+    "id": "king-crimson-red",
+    "title": "Red",
+    "artist": "King Crimson",
+    "purchase": {
+      "date": "2026-02-02",
+      "display": "2/2",
+      "location": "BOOKOFF 秋葉原駅前店",
+      "priceText": "1430",
+      "priceValue": 1430.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1430",
+    "cover": {
+      "file": "/music/covers/king-crimson-red.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Red (Expanded Edition)"
+    },
+    "releaseYear": 1974
+  },
+  {
+    "id": "sufjan-stevens-carrie-lowell",
+    "title": "Carrie & Lowell",
+    "artist": "Sufjan Stevens",
+    "purchase": {
+      "date": "2026-02-05",
+      "display": "2/5",
+      "location": "丸善ジュンク堂書店 丸善お茶の水店",
+      "priceText": "1980",
+      "priceValue": 1980.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1980",
+    "cover": {
+      "file": "/music/covers/sufjan-stevens-carrie-lowell.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Carrie & Lowell"
+    },
+    "releaseYear": 2015
+  },
+  {
+    "id": "the-police-outlandos-d-amour",
+    "title": "Outlandos d'Amour",
+    "artist": "The Police",
+    "purchase": {
+      "date": "2026-02-13",
+      "display": "2/13",
+      "location": "Disk unionお茶の水駅前店",
+      "priceText": "380",
+      "priceValue": 380.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "380",
+    "cover": {
+      "file": "/music/covers/the-police-outlandos-d-amour.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Outlandos D'Amour (Remastered 2003)"
+    },
+    "releaseYear": 1978
+  },
+  {
+    "id": "black-country-new-road-ants-from-up-there",
+    "title": "Ants From Up There",
+    "artist": "Black Country, New Road",
+    "purchase": {
+      "date": "2026-02-18",
+      "display": "2/18",
+      "location": "Amazon",
+      "priceText": "104.39RMB",
+      "priceValue": 104.39,
+      "currency": "RMB"
+    },
+    "note": "全新",
+    "rawRemark": "104.39RMB 全新",
+    "cover": {
+      "file": "/music/covers/black-country-new-road-ants-from-up-there.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Ants From Up There"
+    },
+    "releaseYear": 2022
+  },
+  {
+    "id": "sufjan-stevens-the-age-of-adz",
+    "title": "The Age of Adz",
+    "artist": "Sufjan Stevens",
+    "purchase": {
+      "date": "2026-02-19",
+      "display": "2/19",
+      "location": "丸善ジュンク堂書店 丸善お茶の水店",
+      "priceText": "1790",
+      "priceValue": 1790.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1790",
+    "cover": {
+      "file": "/music/covers/sufjan-stevens-the-age-of-adz.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "The Age of Adz"
+    },
+    "releaseYear": 2010
+  },
+  {
+    "id": "album-052c066da0",
+    "title": "物語シリーズ:歌物語",
+    "artist": "物語シリーズ",
+    "purchase": {
+      "date": "2026-03-01",
+      "display": "3/1",
+      "location": "BOOKOFF 向ヶ丘遊園駅前店",
+      "priceText": "1760",
+      "priceValue": 1760.0,
+      "currency": "JPY"
+    },
+    "note": "完全生産限定盤",
+    "rawRemark": "1760 完全生産限定盤",
+    "cover": {
+      "file": null,
+      "source": null,
+      "status": "missing"
+    },
+    "releaseYear": null
+  },
+  {
+    "id": "officialdism-pretender",
+    "title": "Pretender",
+    "artist": "Official髭男dism",
+    "purchase": {
+      "date": "2026-03-01",
+      "display": "3/1",
+      "location": "BOOKOFF 向ヶ丘遊園駅前店",
+      "priceText": "693",
+      "priceValue": 693.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "693",
+    "cover": {
+      "file": "/music/covers/officialdism-pretender.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Traveler"
+    },
+    "releaseYear": 2019
+  },
+  {
+    "id": "linkin-park-hybrid-theory",
+    "title": "Hybrid Theory",
+    "artist": "Linkin Park",
+    "purchase": {
+      "date": "2026-03-01",
+      "display": "3/1",
+      "location": "BOOKOFF 向ヶ丘遊園駅前店",
+      "priceText": "792",
+      "priceValue": 792.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "792",
+    "cover": {
+      "file": "/music/covers/linkin-park-hybrid-theory.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Hybrid Theory (Deluxe Edition)"
+    },
+    "releaseYear": 2000
+  }
+]

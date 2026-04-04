@@ -1,0 +1,61 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="32" fill="#F8FAFC"/>
+  <rect x="36" y="36" width="1128" height="688" rx="28" fill="#FFFFFF" stroke="#D9E2EC" stroke-width="2"/>
+
+  <text x="80" y="92" fill="#0F172A" font-size="34" font-family="Arial, sans-serif" font-weight="700">Kihara Site Architecture</text>
+  <text x="80" y="126" fill="#64748B" font-size="18" font-family="Arial, sans-serif">content source → backend indexing → API transport → frontend rendering → interactive reading experience</text>
+
+  <rect x="80" y="170" width="240" height="128" rx="22" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  <text x="108" y="212" fill="#1D4ED8" font-size="24" font-family="Arial, sans-serif" font-weight="700">Content Source</text>
+  <text x="108" y="248" fill="#334155" font-size="18" font-family="Arial, sans-serif">Markdown articles</text>
+  <text x="108" y="275" fill="#334155" font-size="18" font-family="Arial, sans-serif">tag_config.yaml</text>
+
+  <rect x="390" y="170" width="240" height="128" rx="22" fill="#ECFDF5" stroke="#86EFAC" stroke-width="2"/>
+  <text x="418" y="212" fill="#15803D" font-size="24" font-family="Arial, sans-serif" font-weight="700">Go Backend</text>
+  <text x="418" y="248" fill="#334155" font-size="18" font-family="Arial, sans-serif">scan / validate / sort</text>
+  <text x="418" y="275" fill="#334155" font-size="18" font-family="Arial, sans-serif">overview / article store</text>
+
+  <rect x="700" y="170" width="240" height="128" rx="22" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
+  <text x="728" y="212" fill="#C2410C" font-size="24" font-family="Arial, sans-serif" font-weight="700">API Layer</text>
+  <text x="728" y="248" fill="#334155" font-size="18" font-family="Arial, sans-serif">/api/articles</text>
+  <text x="728" y="275" fill="#334155" font-size="18" font-family="Arial, sans-serif">/api/overview /api/tags</text>
+
+  <rect x="80" y="382" width="240" height="156" rx="22" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="2"/>
+  <text x="108" y="424" fill="#6D28D9" font-size="24" font-family="Arial, sans-serif" font-weight="700">Frontend Data</text>
+  <text x="108" y="460" fill="#334155" font-size="18" font-family="Arial, sans-serif">blogApi.ts</text>
+  <text x="108" y="487" fill="#334155" font-size="18" font-family="Arial, sans-serif">fetch article / overview</text>
+  <text x="108" y="514" fill="#334155" font-size="18" font-family="Arial, sans-serif">route orchestration</text>
+
+  <rect x="390" y="382" width="240" height="156" rx="22" fill="#EEF2FF" stroke="#A5B4FC" stroke-width="2"/>
+  <text x="418" y="424" fill="#4338CA" font-size="24" font-family="Arial, sans-serif" font-weight="700">Markdown Pipeline</text>
+  <text x="418" y="460" fill="#334155" font-size="18" font-family="Arial, sans-serif">markdown-it</text>
+  <text x="418" y="487" fill="#334155" font-size="18" font-family="Arial, sans-serif">highlight.js + KaTeX</text>
+  <text x="418" y="514" fill="#334155" font-size="18" font-family="Arial, sans-serif">custom plugins + headings env</text>
+
+  <rect x="700" y="382" width="240" height="156" rx="22" fill="#F0FDFA" stroke="#5EEAD4" stroke-width="2"/>
+  <text x="728" y="424" fill="#0F766E" font-size="24" font-family="Arial, sans-serif" font-weight="700">Presentation</text>
+  <text x="728" y="460" fill="#334155" font-size="18" font-family="Arial, sans-serif">MarkdownArticle</text>
+  <text x="728" y="487" fill="#334155" font-size="18" font-family="Arial, sans-serif">ArticleContent / Outline</text>
+  <text x="728" y="514" fill="#334155" font-size="18" font-family="Arial, sans-serif">sticky TOC + themed styles</text>
+
+  <rect x="1010" y="170" width="110" height="368" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="1040" y="220" fill="#0F172A" font-size="22" font-family="Arial, sans-serif" font-weight="700">UI</text>
+  <text x="1035" y="266" fill="#475569" font-size="16" font-family="Arial, sans-serif">Home</text>
+  <text x="1028" y="296" fill="#475569" font-size="16" font-family="Arial, sans-serif">About</text>
+  <text x="1030" y="326" fill="#475569" font-size="16" font-family="Arial, sans-serif">Skills</text>
+  <text x="1028" y="356" fill="#475569" font-size="16" font-family="Arial, sans-serif">Blogs</text>
+  <text x="1035" y="386" fill="#475569" font-size="16" font-family="Arial, sans-serif">404</text>
+
+  <rect x="80" y="598" width="860" height="78" rx="20" fill="#0F172A"/>
+  <text x="110" y="645" fill="#E2E8F0" font-size="22" font-family="Arial, sans-serif" font-weight="700">Core idea</text>
+  <text x="248" y="645" fill="#CBD5E1" font-size="20" font-family="Arial, sans-serif">The backend owns content truth; the frontend owns reading experience.</text>
+
+  <path d="M320 234H390" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M630 234H700" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M820 298V350" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M320 460H390" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M630 460H700" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M940 460H1010" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M200 298V382" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M510 298V382" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+</svg>

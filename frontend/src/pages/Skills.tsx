@@ -1,18 +1,30 @@
-import MyLearn from "../components/MyLearn";
-import MySkills from "../components/MySkills";
+import { NavLink, Outlet } from "react-router-dom";
 import layout from '../components/layout/PageLayout.module.css';
+import styles from './SectionLayout.module.css';
 
 const Skills: React.FC = () => {
   return (
     <div className={[layout.page, layout.main, layout.mainStretch].join(' ')}>
-      <MyLearn
-        items={[
-          { name: '信息论', score: 6/7*100 },
-          { name: '数字电路', score: 8/9*100, color: '#30db50' },
-          { name: '数据结构与算法', score: 10/10*100 },
-        ]}
-      />
-      <MySkills />
+      <div className={styles.shell}>
+        <section className={styles.hero}>
+          <p className={styles.eyebrow}>Skills</p>
+          <h1 className={styles.title}>技术栈、项目经验与正在补齐的能力</h1>
+          <p className={styles.description}>
+            这里专门回答“你会什么”“做过什么类型的工作”和“你正在补哪一块能力”。
+            和 About 分开后，能力信息会更容易判断。
+          </p>
+        </section>
+
+        <nav className={styles.tabs} aria-label="Skills sections">
+          <NavLink to="/skills/stack/" className={({ isActive }) => `${styles.tab} ${isActive ? styles.tabActive : ''}`.trim()}>Stack</NavLink>
+          <NavLink to="/skills/experience/" className={({ isActive }) => `${styles.tab} ${isActive ? styles.tabActive : ''}`.trim()}>Experience</NavLink>
+          <NavLink to="/skills/learning/" className={({ isActive }) => `${styles.tab} ${isActive ? styles.tabActive : ''}`.trim()}>Learning</NavLink>
+        </nav>
+
+        <section className={styles.panel}>
+          <Outlet />
+        </section>
+      </div>
     </div>
   )
 };

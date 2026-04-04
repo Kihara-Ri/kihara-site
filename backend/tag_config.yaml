@@ -1,0 +1,31 @@
+# Toggle strict tag whitelist checking.
+# true  -> tags must exist in allowed_tags
+# false -> tags can be any value
+whitelist_enabled: true
+
+# Toggle strict content validation behavior.
+# true  -> any invalid article blocks startup and API loading
+# false -> invalid articles are logged and skipped, valid ones still load
+strict_content_validation: true
+
+# Allowed tags when whitelist_enabled=true
+allowed_tags:
+  - go
+  - react
+  - markdown
+  - japanese
+  - english
+  - math
+  - algorithms
+  - tooling
+  - leetcode
+  - frontend
+  - backend
+  - javascript
+  - python
+  - rust
+  - research
+  - 碎碎念
+  - 音乐
+  - 书评
+  - 影评

@@ -1,0 +1,169 @@
+.shell {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero {
+  padding: 28px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  border-radius: 28px;
+  background: color-mix(in srgb, var(--background) 95%, white 5%);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: color-mix(in srgb, var(--text-color) 56%, transparent);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.description {
+  margin: 14px 0 0;
+  max-width: 60ch;
+  color: color-mix(in srgb, var(--text-color) 76%, transparent);
+  line-height: 1.8;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tab {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  background: color-mix(in srgb, var(--background) 92%, white 8%);
+  color: color-mix(in srgb, var(--text-color) 74%, transparent);
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.tabActive {
+  border-color: rgba(37, 99, 235, 0.24);
+  background: color-mix(in srgb, #dbeafe 78%, white 22%);
+  color: #1d4ed8;
+}
+
+.panel {
+  padding: 26px 28px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  border-radius: 28px;
+  background: color-mix(in srgb, var(--background) 97%, white 3%);
+}
+
+.prose {
+  display: grid;
+  gap: 16px;
+}
+
+.prose h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.prose h3 {
+  margin: 8px 0 0;
+  font-size: 1rem;
+}
+
+.prose p {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.prose ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 10px;
+}
+
+.prose li {
+  line-height: 1.7;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card {
+  padding: 18px 20px;
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--background) 92%, white 8%);
+  border: 1px solid color-mix(in srgb, var(--text-color) 8%, transparent);
+  display: grid;
+  gap: 10px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+.muted {
+  color: color-mix(in srgb, var(--text-color) 68%, transparent);
+}
+
+.stackGrid {
+  display: grid;
+  gap: 22px;
+}
+
+.skillGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.skillGroup {
+  padding: 18px 20px;
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--background) 92%, white 8%);
+  border: 1px solid color-mix(in srgb, var(--text-color) 8%, transparent);
+}
+
+.skillGroup h3 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+}
+
+.skillGroup p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.list {
+  display: grid;
+  gap: 14px;
+}
+
+@media (max-width: 760px) {
+  .hero,
+  .panel {
+    padding: 20px 18px;
+    border-radius: 22px;
+  }
+
+  .split,
+  .skillGrid {
+    grid-template-columns: 1fr;
+  }
+}

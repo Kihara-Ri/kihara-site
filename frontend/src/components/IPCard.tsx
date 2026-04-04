@@ -28,7 +28,6 @@ const IPCard: React.FC<IPCardProps> = ({
     <div className={styles.card}>
       <div className={styles.header}>
         <div>
-          <p className={styles.kicker}>Visitor Record</p>
           <h2 className={styles.title}>这一次抵达</h2>
         </div>
         <div className={styles.distanceBadge}>

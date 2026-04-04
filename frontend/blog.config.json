@@ -1,0 +1,29 @@
+{
+  "markdown": {
+    "markdownIt": {
+      "html": true,
+      "linkify": true,
+      "typographer": true
+    },
+    "highlight": {
+      "enabled": true,
+      "codeBlockClassName": "hljs"
+    },
+    "texmath": {
+      "enabled": true,
+      "delimiters": "dollars",
+      "katexOptions": {
+        "throwOnError": false,
+        "strict": "ignore"
+      }
+    },
+    "plugins": [
+      { "name": "annotation", "enabled": true },
+      { "name": "attach", "enabled": true },
+      { "name": "citation", "enabled": true },
+      { "name": "furigana", "enabled": true },
+      { "name": "headingAnchor", "enabled": true },
+      { "name": "linkIcon", "enabled": true }
+    ]
+  }
+}

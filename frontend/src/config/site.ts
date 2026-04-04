@@ -52,5 +52,25 @@ export const siteConfig = {
       { label: 'Reading', value: '历史 / 方法 / 文字感' },
       { label: 'Now', value: '重做首页与博客入口结构' },
     ],
+    blogHighlights: {
+      featuredWorks: [
+        {
+          slug: 'docker',
+          label: 'Workflow',
+          note: '整理容器化环境和日常开发流程，适合挂在首页作为长期入口。',
+        },
+        {
+          slug: 'blog',
+          label: 'Tooling',
+          note: '偏个人工具链的文章，代表这类博客会如何从记录走向可复用。',
+        },
+        {
+          slug: 'mermaid',
+          label: 'Markdown',
+          note: '一篇更偏表达方式的笔记，适合补足技术之外的展示面。',
+        },
+      ],
+      latestLabel: 'Latest Post',
+    },
   },
 } as const;

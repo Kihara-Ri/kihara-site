@@ -1,0 +1,10 @@
+.app {
+  min-height: 100vh;
+  padding: 1.5rem clamp(1rem, 2vw, 2rem) 3rem;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 1rem 0.9rem 2rem;
+  }
+}

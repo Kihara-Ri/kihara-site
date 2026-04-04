@@ -1,20 +1,21 @@
-// blog 单篇文章页
-
 import React from "react";
-import { useParams } from "react-router-dom";
-import layout from '../layouts/BlogsLayout.module.css';
+import { useNavigate, useParams } from "react-router-dom";
+import { BlogArticlePage } from "@/features/blog/pages/BlogArticlePage";
 
 const BlogPost: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
 
-  // 使用 slug 去 fetch MDX/Markdown --> 渲染
+  if (!slug) {
+    return null;
+  }
+
   return (
-    <article>
-      <div className={layout.infoGrid}>
-        <p>这里会放文章元数据</p>
-      </div>
-       文章详情: {slug}
-    </article>
+    <BlogArticlePage
+      slug={slug}
+      onBackHome={() => navigate('/blogs')}
+      onSelectTag={(tag) => navigate(`/blogs?tag=${encodeURIComponent(tag)}`)}
+    />
   )
 }
 

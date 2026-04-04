@@ -1,5 +1,6 @@
 import React from 'react';
 import react_icon from '/icons/react.svg';
+import three_icon from '/icons/threejs.svg';
 import github from '/icons/github.svg';
 import wechat from '/icons/wechat.svg';
 import styles from './Footer.module.css';
@@ -10,10 +11,15 @@ const Footer: React.FC = () => {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.copyRight}>
-          <p>Copyright © 2024-2025 Kihara Ri</p>
+          <p>Copyright © 2024-2026 Kihara Ri</p>
           <p>Made with{' '}
-            <a href="https://react.dev/" target="_blank" rel="noopener noreferrer" className={styles.reactLink}>
-            <img src={react_icon} alt="React logo" className={styles.reactIcon} /> React </a></p>
+            <a href="https://react.dev/" target="_blank" rel="noopener noreferrer" className={`${styles.techLink} ${styles.reactLink}`}>
+            <img src={react_icon} alt="React logo" className={styles.techIcon} /> React </a>
+          </p>
+          <p>Powered by{' '}
+            <a href="https://threejs.org/" target="_blank" rel="noopener noreferrer" className={`${styles.techLink} ${styles.threeLink}`}>
+            <img src={three_icon} alt="Three.js logo" className={`${styles.techIcon} ${styles.threeIcon}`} /> Three.js </a>
+          </p>
           <p>ver1.0.0</p>
         </div>
         <div className={styles.centerInfo}>

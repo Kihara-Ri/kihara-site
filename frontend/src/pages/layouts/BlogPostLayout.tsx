@@ -4,7 +4,7 @@ import styles from './BlogsLayout.module.css';
 
 const BlogPostLayout: React.FC = () => {
   return (
-    <div className={styles.mainColumn}>
+    <div className={styles.postShell}>
       <Outlet />
     </div>
   )
