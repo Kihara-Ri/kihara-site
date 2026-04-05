@@ -23,7 +23,8 @@ const Footer: React.FC = () => {
           <p>ver1.0.0</p>
         </div>
         <div className={styles.centerInfo}>
-          DEV
+          {/* DEV */}
+          {/* 添加检测是否为调试或开发模式，在开发模式下显示上面的内容 */}
           </div>
         <div className={styles.actions}>
           <a href="https://github.com/Kihara-Ri" target="_blank" rel="noopener noreferrer">
