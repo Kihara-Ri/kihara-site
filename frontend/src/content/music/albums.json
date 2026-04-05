@@ -11,7 +11,7 @@
       "priceValue": 1000.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "夜鹿首张mini专辑，虽然都说这是n-buna为了赚钱写的歌曲，我认为这是最有他们风格的专辑，尤其是「靴下の花火」和「言って」不失旋律的同时还有很强的文学性",
     "rawRemark": "1000",
     "cover": {
       "file": "/music/covers/album-2b08dce1ac.jpg",
@@ -33,14 +33,14 @@
       "priceValue": 1430.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "「銀の龍の背に乗って」这一首歌就足够买这张专辑了",
     "rawRemark": "1430",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/koibumi.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 2003
   },
   {
     "id": "greeeen",
@@ -76,14 +76,14 @@
       "priceValue": 550.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "只有两首歌，或许不能叫做专辑，不过电锯人这首单曲确实还不错，燥得很有天津法师的个人风格，但又不至于吵。顺便一提专辑里面用了个三角形的封面包着还挺独特的",
     "rawRemark": "550",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/kick-back.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 2025
   },
   {
     "id": "oasis-don-t-believe-the-truth",
@@ -141,14 +141,14 @@
       "priceValue": 1210.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "名曲「クリスマスイブ」",
     "rawRemark": "1210",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/tatsuro-yamashita-melodies.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 1983
   },
   {
     "id": "for-you",
@@ -162,14 +162,14 @@
       "priceValue": 2090.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "买贵了，但是毕竟是在日本人的地盘买他们自己的专辑，贵也没办法",
     "rawRemark": "2090",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/tatsuro-yamashita-for-you.png",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 1982
   },
   {
     "id": "first-love",
@@ -183,12 +183,12 @@
       "priceValue": 570.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "有点被吹过了，可能是我不能站在这个时代来评价那时候的歌了吧，但是同时代还是有不少很超前的歌的。但「First Love」这首单曲没毛病。另外这张专辑买贵了，便宜的100日元都买得到",
     "rawRemark": "570",
     "cover": {
-      "file": "/music/covers/first-love.jpg",
-      "source": "itunes",
-      "status": "fetched",
+      "file": "/music/covers/hikaru-utada-first-love.jpg",
+      "source": "rateyourmusic",
+      "status": "changed",
       "matchedTitle": "First Love - EP"
     },
     "releaseYear": 1999
@@ -205,14 +205,14 @@
       "priceValue": 1900.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "City Pop这张必听",
     "rawRemark": "1900",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/mariya-takeuchi-request.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 1987
   },
   {
     "id": "supercell",
@@ -226,19 +226,19 @@
       "priceValue": 680.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "二次元歌曲里，这首是最喜欢的",
     "rawRemark": "680",
     "cover": {
-      "file": "/music/covers/supercell.jpg",
-      "source": "itunes",
-      "status": "fetched",
+      "file": "/music/covers/monogatari-supercell.jpg",
+      "source": "rateyourmusic",
+      "status": "changed",
       "matchedTitle": "Today Is A Beautiful Day"
     },
     "releaseYear": 2009
   },
   {
     "id": "album-c4106b2210",
-    "title": "トレジャーズ",
+    "title": "Treasures",
     "artist": "山下達郎",
     "purchase": {
       "date": "2026-01-11",
@@ -251,11 +251,11 @@
     "note": null,
     "rawRemark": "480",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/tatsuro-yamashita-treasures.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 1995
   },
   {
     "id": "album-d9ac3c5236",
@@ -280,8 +280,8 @@
     "releaseYear": 1980
   },
   {
-    "id": "pink-floyd-wall-rehearsals-1980",
-    "title": "WALL REHEARSALS 1980",
+    "id": "pink-floyd-the-wall-rehearsals-1980",
+    "title": "The Wall Rehearsals 1980",
     "artist": "Pink Floyd",
     "purchase": {
       "date": "2026-01-11",
@@ -291,14 +291,14 @@
       "priceValue": 3450.0,
       "currency": "JPY"
     },
-    "note": "买的第一张平克弗洛伊德",
-    "rawRemark": "3450 买的第一张平克弗洛伊德",
+    "note": "买的第一张粉红乐队专辑",
+    "rawRemark": "3450 买的第一张粉红乐队专辑",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/pink-floyd-the-wall-rehearsals-1980.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 2025
   },
   {
     "id": "album-2c5b6b6454",
@@ -312,7 +312,7 @@
       "priceValue": 280.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "ロビンソン",
     "rawRemark": "280",
     "cover": {
       "file": "/music/covers/album-2c5b6b6454.jpg",
@@ -321,28 +321,6 @@
       "matchedTitle": "ハチミツ"
     },
     "releaseYear": 1995
-  },
-  {
-    "id": "boots",
-    "title": "BOOTS",
-    "artist": "福山雅治",
-    "purchase": {
-      "date": "2026-01-11",
-      "display": "1/11",
-      "location": "Disk unionお茶の水駅前店",
-      "priceText": "100",
-      "priceValue": 100.0,
-      "currency": "JPY"
-    },
-    "note": "随手拿的",
-    "rawRemark": "100 随手拿的",
-    "cover": {
-      "file": "/music/covers/boots.jpg",
-      "source": "itunes",
-      "status": "fetched",
-      "matchedTitle": "BOOTS"
-    },
-    "releaseYear": 1992
   },
   {
     "id": "pink-floyd-the-dark-side-of-the-moon",
@@ -356,7 +334,7 @@
       "priceValue": 1628.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "一开始有点难以接受这张专辑，但是听了三四遍之后就发现其中的每一首歌都有它的魅力，整体来看这是一张概念专辑的样板，全专无缝衔接，放在哪个时代都是很少见的，专辑的封面也是经典中的经典，每一首歌代表着现代社会中的一个系统性问题，它们合起来组成了现代人生活中的阴暗面，潜移默化地塑造着我们的生活和思考方式。专辑没有被宣称得晦涩难懂，而事实上已经很通俗了\n我经常将这张专辑作为一整首歌听，它的连贯性很好，其中最喜欢的是「Us and Them」和「Breathe」",
     "rawRemark": "1628",
     "cover": {
       "file": "/music/covers/pink-floyd-the-dark-side-of-the-moon.jpg",
@@ -378,7 +356,7 @@
       "priceValue": 1446.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "听多了也没有觉得这大长歌有多长了",
     "rawRemark": "1446",
     "cover": {
       "file": "/music/covers/pink-floyd-wish-you-were-here.jpg",
@@ -400,7 +378,7 @@
       "priceValue": 550.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "无敌单曲「Every Breath You Take」",
     "rawRemark": "550",
     "cover": {
       "file": "/music/covers/the-police-synchronicity.jpg",
@@ -422,7 +400,7 @@
       "priceValue": 1500.0,
       "currency": "JPY"
     },
-    "note": "初回生産限定映像盤",
+    "note": "天津法师代表作不必多说",
     "rawRemark": "1500 初回生産限定映像盤",
     "cover": {
       "file": "/music/covers/lemon.jpg",
@@ -433,8 +411,8 @@
     "releaseYear": 2018
   },
   {
-    "id": "pink-floyd-perfect-live",
-    "title": "光~PERFECT LIVE!",
+    "id": "delicate-sound-of-thunder",
+    "title": "Delicate Sound of Thunder",
     "artist": "Pink Floyd",
     "purchase": {
       "date": "2026-01-14",
@@ -447,14 +425,14 @@
     "note": null,
     "rawRemark": "2530",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/pink-floyd-delicate-sound-of-thunder.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 2019
   },
   {
-    "id": "album-2dffcdd626",
+    "id": "sakanouenokumo-soundtrack",
     "title": "「坂の上の雲」サウンドトラック",
     "artist": "久石譲",
     "purchase": {
@@ -465,14 +443,14 @@
       "priceValue": 792.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "上って行く坂の上の青い天に、もし一朶の白い雲が輝いているとすれば、それのみを見つめて、坂を上って行くのであろう",
     "rawRemark": "792",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/sakanouenokumo.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 2010
   },
   {
     "id": "green-day-21",
@@ -486,7 +464,7 @@
       "priceValue": 792.0,
       "currency": "JPY"
     },
-    "note": "全新未拆封",
+    "note": "全新未拆封\n21响礼炮是对战士的最高致敬",
     "rawRemark": "792 全新未拆封",
     "cover": {
       "file": "/music/covers/green-day-21.jpg",
@@ -508,7 +486,7 @@
       "priceValue": 700.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "「Phoenix」很不错，很有精神，高中的时候很喜欢这一首，但是专辑的其它歌有点拉",
     "rawRemark": "700",
     "cover": {
       "file": "/music/covers/fall-out-boy-save-rock-and-roll.jpg",
@@ -530,7 +508,7 @@
       "priceValue": 1300.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "很喜欢绿苹果乐队以前的歌，这首单曲我认为是他们的代表作，他们的主场嗓子真的很好。但是后面出了名就忙着圈钱去了，现在完全不想看一眼",
     "rawRemark": "1300",
     "cover": {
       "file": "/music/covers/mrs-green-apple-soranji.jpg",
@@ -552,7 +530,7 @@
       "priceValue": 1760.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "「飛行艇」「白日」",
     "rawRemark": "1760",
     "cover": {
       "file": "/music/covers/king-gnu-ceremony.jpg",
@@ -574,14 +552,14 @@
       "priceValue": 550.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "摇滚歌剧，流行朋克，「Holiday」「Boulevard of Broken Dreams」是连起来的，「Wake Me Up When September Ends」也不错",
     "rawRemark": "550",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/green-day-american-idot.png",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 2004
   },
   {
     "id": "avicii-true",
@@ -595,7 +573,7 @@
       "priceValue": 1210.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "Wake Me Up还行，其它的拉",
     "rawRemark": "1210",
     "cover": {
       "file": "/music/covers/avicii-true.jpg",
@@ -617,7 +595,7 @@
       "priceValue": 2090.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "Waiting for Love，其它的歌基本都是凑数的",
     "rawRemark": "2090",
     "cover": {
       "file": "/music/covers/avicii-stories.jpg",
@@ -639,7 +617,7 @@
       "priceValue": 1980.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "ヨルシカ最具概念性的一张大专辑，有编排有文学性有内容，但是我个人并不是很喜欢，这张外界评价最高的专辑反而我觉得跟他们的其它几张专辑比起来不那么让我满意",
     "rawRemark": "1980",
     "cover": {
       "file": "/music/covers/album-b5af0cac8f.jpg",
@@ -683,7 +661,7 @@
       "priceValue": 900.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "很喜欢「Without You」这个单曲",
     "rawRemark": "900",
     "cover": {
       "file": "/music/covers/avicii-avci-01.jpg",
@@ -705,14 +683,14 @@
       "priceValue": 1777.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "一张Live专辑，爵士拉满，虽然我本身对爵士并不感冒，但这张专辑确实做得很精良，「時よ」是我认为山下达郎最好的一首歌。专辑两张碟，前一张和后一张风格有很大不同，有点黑胶复古的风味",
     "rawRemark": "1777",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/tatsu-yamashita-its-a-poppin-time.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 1978
   },
   {
     "id": "kendrick-lamar-to-pimp-a-butterfly",
@@ -726,7 +704,7 @@
       "priceValue": 1450.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "Conscious Hip Hop，内容很多也聚焦的是黑人面临的系统性困境，这个人怎么样暂且不说，专辑元素很丰富，除了说教味太重了以及那几首几乎不能叫做歌的歌（有装逼之嫌）之外，不得不承认很牛，尤其是第一首，整张专辑听下来，脑子里全是 every nigga is a star",
     "rawRemark": "1450",
     "cover": {
       "file": "/music/covers/kendrick-lamar-to-pimp-a-butterfly.jpg",
@@ -748,7 +726,7 @@
       "priceValue": 300.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "买了两张，实在太便宜了",
     "rawRemark": "300",
     "cover": {
       "file": "/music/covers/green-day-dookie.jpg",
@@ -759,25 +737,46 @@
     "releaseYear": 1994
   },
   {
-    "id": "oasis-morning-glory-be-here-now",
-    "title": "Morning Glory? + Be Here Now",
+    "id": "morning-glory",
+    "title": "(What's the Story)Morning Glory?",
     "artist": "Oasis",
     "purchase": {
       "date": "2026-01-19",
       "display": "1/19",
       "location": "メルカリ",
-      "priceText": "1200",
-      "priceValue": 1200.0,
+      "priceText": "800",
+      "priceValue": 800.0,
       "currency": "JPY"
     },
     "note": null,
-    "rawRemark": "1200",
+    "rawRemark": "800",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/oasis-morning-glory.png",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 1995
+  },
+  {
+    "id": "be-here-now",
+    "title": "Be Here Now",
+    "artist": "Oasis",
+    "purchase": {
+      "date": "2026-01-19",
+      "display": "1/19",
+      "location": "メルカリ",
+      "priceText": "400",
+      "priceValue": 400.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "400",
+    "cover": {
+      "file": "/music/covers/oasis-be-here-now.jpg",
+      "source": "rateyourmusic",
+      "status": "missing"
+    },
+    "releaseYear": 1997
   },
   {
     "id": "the-police-zenyatt-mondatta",
@@ -794,11 +793,11 @@
     "note": null,
     "rawRemark": "500",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/the-police-zenyatt-mondatta.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 1980
   },
   {
     "id": "the-police-live",
@@ -815,11 +814,11 @@
     "note": null,
     "rawRemark": "410",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/the-police-live.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 1995
   },
   {
     "id": "sufjan-stevens-illinois",
@@ -833,7 +832,7 @@
       "priceValue": 2800.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "最喜欢的专辑，没有之一，词曲都华丽得没得说。可惜Sufjan Stevens并不是以他的优秀专辑而为众人所知的，就这张Illinois，常听常新，尽管它广受好评，但我认为大部分人还是低估了这张专辑，这张专辑的概念清晰，具有浓厚的宗教神学色彩，并且触及到了一些传统美国社会与进步文化矛盾，但是如果他只在专辑里谈及宏大叙事的话，我不会给这张专辑如此高的评价，对于这张我最喜欢的专辑，我有太多话要说，并且会单开一篇文章来深入解读，我希望所有看到这里的人都能认识这张完美的专辑",
     "rawRemark": "2800",
     "cover": {
       "file": "/music/covers/sufjan-stevens-illinois.jpg",
@@ -880,7 +879,7 @@
     "note": null,
     "rawRemark": "570",
     "cover": {
-      "file": "/music/covers/first-love-2.jpg",
+      "file": "/music/covers/hikaru-utada-first-love.jpg",
       "source": "itunes",
       "status": "fetched",
       "matchedTitle": "First Love - EP"
@@ -899,7 +898,7 @@
       "priceValue": 792.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "一张反概念专辑的专辑，天津法师在里收录了他的很多首商业单曲，每首都旋律极佳，虽然它商业，但好听就完事了。「飛燕」「春雷」「Loser」「打上花火」都是相当有知名度的歌",
     "rawRemark": "792",
     "cover": {
       "file": "/music/covers/bootleg.jpg",
@@ -921,7 +920,7 @@
       "priceValue": 220.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "百円区翻到，巨便宜",
     "rawRemark": "220",
     "cover": {
       "file": "/music/covers/green-day-dookie-2.jpg",
@@ -987,7 +986,7 @@
       "priceValue": 990.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "虽然我很不喜欢Radiohead主唱的声音，有气无力的又丧得要死，但「Paranoid Android」和「No Surprises」确实挺好听，算是弥补了我对他嗓音的减分了",
     "rawRemark": "990",
     "cover": {
       "file": "/music/covers/radiohead-ok-computer.jpg",
@@ -1009,7 +1008,7 @@
       "priceValue": 792.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "单曲，有点不值得",
     "rawRemark": "792",
     "cover": {
       "file": "/music/covers/album-2e222c3426.jpg",
@@ -1031,7 +1030,7 @@
       "priceValue": 792.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "经典Progressive Rock专辑，很喜欢第一首「Watcher of the Skies」",
     "rawRemark": "792",
     "cover": {
       "file": "/music/covers/genesis-foxtrot.jpg",
@@ -1053,7 +1052,7 @@
       "priceValue": 550.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "Englishman in New York. Sting给我一种听众都是欧美中年男的刻板印象，虽然可能确实是这样，就好像...李宗盛，坏了我也是中年男😳",
     "rawRemark": "550",
     "cover": {
       "file": "/music/covers/sting-nothing-like-the-sun.jpg",
@@ -1075,7 +1074,7 @@
       "priceValue": 330.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "Fields of Gold",
     "rawRemark": "330",
     "cover": {
       "file": "/music/covers/sting-ten-summoner-s-tales.jpg",
@@ -1097,7 +1096,7 @@
       "priceValue": 693.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "开头不要太经典，已经无法直视了",
     "rawRemark": "693",
     "cover": {
       "file": "/music/covers/yes-fragile.jpg",
@@ -1119,7 +1118,7 @@
       "priceValue": 380.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "雷鬼味奇重，专辑名字都带雷鬼了，写了一堆伪法语装逼",
     "rawRemark": "380",
     "cover": {
       "file": "/music/covers/the-police-reggatta-de-blanc.jpg",
@@ -1141,7 +1140,7 @@
       "priceValue": 680.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "本来是为了了「Midnight City」买的，但是听完全专，「Splendor」作为氛围音乐也很出色。这是张大专辑，个人认为还是不错的",
     "rawRemark": "680",
     "cover": {
       "file": "/music/covers/m83-hurry-up-we-re-dreaming.jpg",
@@ -1163,7 +1162,7 @@
       "priceValue": 380.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "捡漏。德国泡菜摇滚，电子音乐的先驱，虽然听感很不好，对于我们生活在信息时代的人来说显然过时了，但它足够便宜🤓",
     "rawRemark": "380",
     "cover": {
       "file": "/music/covers/kraftwerk-computer-world.jpg",
@@ -1185,7 +1184,7 @@
       "priceValue": 1300.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "经典大红脸，味很正的摇滚，但要说是什么Progressive Rock，我完全不在乎，而且我也觉得不能完全算是。纯好听，属于是把摇滚乐器玩到极限了，完全不像是1969年的音乐",
     "rawRemark": "1300",
     "cover": {
       "file": "/music/covers/king-crimson-in-the-court-of-the-crimson-king.jpg",
@@ -1207,7 +1206,7 @@
       "priceValue": 880.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "Oasis的首专，还算不错",
     "rawRemark": "880",
     "cover": {
       "file": "/music/covers/oasis-definitely-maybe.jpg",
@@ -1229,7 +1228,7 @@
       "priceValue": 480.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "Old Kanye",
     "rawRemark": "480",
     "cover": {
       "file": "/music/covers/kanye-west-the-college-dropout.jpg",
@@ -1295,7 +1294,7 @@
       "priceValue": 280.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "能做出这封面的确实也是神人了",
     "rawRemark": "280",
     "cover": {
       "file": "/music/covers/king-crimson-schizoid-man.jpg",
@@ -1317,7 +1316,7 @@
       "priceValue": 1430.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "King Crimson最强专辑，「Starless」怎么听都听不腻，但就他们的音乐，我实在说不出几句话，满满的音乐性",
     "rawRemark": "1430",
     "cover": {
       "file": "/music/covers/king-crimson-red.jpg",
@@ -1339,7 +1338,7 @@
       "priceValue": 1980.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "Sufjan Stevens的又一神作父母专，全专都一股仙气，没有一首弱的，只有你在不同时间会更想听不同的歌。「Death With Dignity」「Should Have Know Better」「Eugene」「Fourth of July」「The Only Thing」「Blue Bucket of Gold」",
     "rawRemark": "1980",
     "cover": {
       "file": "/music/covers/sufjan-stevens-carrie-lowell.jpg",
@@ -1361,7 +1360,7 @@
       "priceValue": 380.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "The Police首专",
     "rawRemark": "380",
     "cover": {
       "file": "/music/covers/the-police-outlandos-d-amour.jpg",
@@ -1383,7 +1382,7 @@
       "priceValue": 104.39,
       "currency": "RMB"
     },
-    "note": "全新",
+    "note": "最喜欢的摇滚专辑，专门到亚马逊上买的全新（其实还是因为买不到二手）。一张初听找不到一点从旋律上足够吸引人的专辑，但就是听了还想听，这张专辑没有特别亮眼的单曲，但是就是每首都很能打，每首都有特色，单曲循环反而丢掉了那种韵味",
     "rawRemark": "104.39RMB 全新",
     "cover": {
       "file": "/music/covers/black-country-new-road-ants-from-up-there.jpg",
@@ -1405,7 +1404,7 @@
       "priceValue": 1790.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "这个价格买这张专辑其实有点贵了，但是每次我去书店门口转的时候，它都还在那，就是没人买，那没办法只能我买走了。很喜欢单曲「Vesuvius」",
     "rawRemark": "1790",
     "cover": {
       "file": "/music/covers/sufjan-stevens-the-age-of-adz.jpg",
@@ -1427,14 +1426,14 @@
       "priceValue": 1760.0,
       "currency": "JPY"
     },
-    "note": "完全生産限定盤",
+    "note": "Anisong角色主题歌，最喜欢的动画。一整套两张CD一张DVD，内容很全，这个动画还是有不少很有名甚至出圈的anisong的，「Staple Stable」「恋愛サーキュレーション」「君の知らない物語」「白金ディスコ」，但其中我最喜欢的还是和贝木泥舟的「木枯らしセンティメント」",
     "rawRemark": "1760 完全生産限定盤",
     "cover": {
-      "file": null,
-      "source": null,
+      "file": "/music/covers/uta-monogatari.jpg",
+      "source": "rateyourmusic",
       "status": "missing"
     },
-    "releaseYear": null
+    "releaseYear": 2016
   },
   {
     "id": "officialdism-pretender",
@@ -1448,12 +1447,12 @@
       "priceValue": 693.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "单曲，还行吧，但不算出众",
     "rawRemark": "693",
     "cover": {
-      "file": "/music/covers/officialdism-pretender.jpg",
-      "source": "itunes",
-      "status": "fetched",
+      "file": "/music/covers/pretender.jpg",
+      "source": "rateyourmusic",
+      "status": "changed",
       "matchedTitle": "Traveler"
     },
     "releaseYear": 2019
@@ -1470,7 +1469,7 @@
       "priceValue": 792.0,
       "currency": "JPY"
     },
-    "note": null,
+    "note": "童年回忆",
     "rawRemark": "792",
     "cover": {
       "file": "/music/covers/linkin-park-hybrid-theory.jpg",
