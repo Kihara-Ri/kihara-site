@@ -30,4 +30,4 @@ dist-ssr
 .env
 backend/data/visitors.json
 
-releaserelease/kihara-site
+release/kihara-site
