@@ -8,10 +8,9 @@ const Skills: React.FC = () => {
       <div className={styles.shell}>
         <section className={styles.hero}>
           <p className={styles.eyebrow}>Skills</p>
-          <h1 className={styles.title}>技术栈、项目经验与正在补齐的能力</h1>
+          <h1 className={styles.title}>能力</h1>
           <p className={styles.description}>
-            这里专门回答“你会什么”“做过什么类型的工作”和“你正在补哪一块能力”。
-            和 About 分开后，能力信息会更容易判断。
+            技术栈、经验以及正在学习、获取希望得到的能力
           </p>
         </section>
 

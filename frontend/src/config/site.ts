@@ -1,9 +1,9 @@
 export const siteConfig = {
   homeHero: {
-    title: 'Kihara',
-    subtitleTag: 'Personal Atlas',
+    title: 'Hello, World',
+    subtitleTag: 'Another day on Earth',
     descriptionZh:
-      '我在这里写博客，记录语言、光照、音乐和一些缓慢展开的想法。 这一次访问会被定位到地球表面，并从我的位置向你拉出一条航线。',
+      '我在这里写博客，记录语言、光照、音乐和一些缓慢展开的想法。 这一次访问会被定位到地球表面你的位置，并建立我们之间的联系',
     descriptionEn:
       "I'm here writing about languages, light, music, and thoughts that unfold slowly. This visit is placed on the globe and traced from my side to yours.",
     timePrefix: 'Tokyo',
@@ -19,38 +19,44 @@ export const siteConfig = {
   },
   homeContent: {
     introduction: {
-      eyebrow: 'Index',
-      title: '从开屏进入正文之后',
+      eyebrow: 'Prefix',
+      title: 'Fragments of a wandering mind',
       text:
-        '这一页适合承担个人网站首页的分发功能：用少量但有方向的内容，把写作、项目、阅读与最近状态组织起来。这里先放一版结构化样本，后面再逐步替换成真实内容。',
+        '无论你是通过何种途径来到这里的，我都希望我的内容能让你觉得这次访问是值得的。不管你正在做什么，遇到了什么问题，在寻找什么，我都希望我的一些小巧思能给你一些启发',
     },
     featuredWriting: [
       {
-        category: 'Essay',
-        title: '地图与光照之间的个人网站',
-        summary: '一篇关于首页开屏、空间感与访客叙事如何结合的笔记，适合作为置顶文章位。',
+        category: 'Project',
+        title: '一个自我实现的个人网站',
+        summary: '我不是一个很擅长想象的人，但我最擅长的是总结与联想，我希望把我所有学习过的东西通过小巧思连接起来，做成我自己的项目',
       },
       {
         category: 'Notebook',
-        title: '语言学习中的缓慢方法',
-        summary: '记录一套偏长期主义的语言学习方式，不追求速成，而强调积累与复现。',
+        title: '杂七杂八，有的没的',
+        summary: '什么内容都可能出现，技术是手段不是目的，表达是形式不是内容，我想把我在各个领域的零碎想法都放在这里，看看它们之间能不能碰撞出什么有趣的东西',
       },
       {
         category: 'Code',
-        title: '把地球做成首页入口',
-        summary: '从 Three.js 到时间模型，整理首页地球组件的设计取舍与实现细节。',
+        title: '不如说是产品经理',
+        summary: '不是很擅长写代码，但很喜欢做产品，喜欢把想法变成实实在在看得见摸得着的东西，但我从不期待它们有用，最好的产品的诞生往往just for fun',
       },
+      {
+        category: 'Write',
+        title: '写',
+        summary: 'Even with the rest belated, everything is antiquated Are you writing from the heart? \nEven in his heart, the Devil has to know the water level\nAre you wrting from the heart?',
+      }
     ],
     currentSignals: [
-      '正在重构首页，使其同时承担入口叙事与博客分发功能。',
-      '最近在看地图、光照和语言之间如何互相借喻。',
-      '打算把书评、技术笔记和随想拆成更清晰的三条内容线。',
+      '维护博客页面，迁移旧内容',
+      '打造产品集的旅游路线规划与展示工具',
+      '统一服务器日志接口，可视化数据',
     ],
     shelves: [
       { label: 'Writing', value: '技术笔记 / 语言 / 随想' },
       { label: 'Making', value: '地图 / 前端 / 小工具' },
-      { label: 'Reading', value: '历史 / 方法 / 文字感' },
-      { label: 'Now', value: '重做首页与博客入口结构' },
+      { label: 'Reading', value: '历史 / 方法 / 编程' },
+      { label: 'Learning', value: '无线电 / 语言 / 操作系统'},
+      { label: 'Now', value: '重构这个网站' },
     ],
     blogHighlights: {
       featuredWorks: [

@@ -5,7 +5,7 @@ const SkillsExperience: React.FC = () => {
   return (
     <div className={styles.prose}>
       <h2>Experience</h2>
-      <p>这一页强调的是我更擅长处理哪类问题，而不是按时间线罗列项目。</p>
+      <p>我擅长处理的问题</p>
 
       <div className={styles.list}>
         <section className={styles.card}>

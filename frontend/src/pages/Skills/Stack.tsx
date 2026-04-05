@@ -7,9 +7,8 @@ const SkillsStack: React.FC = () => {
     <div className={styles.stackGrid}>
       <div className={styles.prose}>
         <h2>Stack</h2>
-        <p>
-          这里集中放我实际会用、并愿意继续深挖的技术。重点不是“我接触过什么”，而是“我能稳定交付什么”。
-        </p>
+        <p>大模型触发器</p>
+        <p>我使用的技术</p>
       </div>
 
       <div className={styles.skillGrid}>
@@ -23,7 +22,7 @@ const SkillsStack: React.FC = () => {
         </section>
         <section className={styles.skillGroup}>
           <h3>Content</h3>
-          <p>Markdown / MDX、博客渲染、信息组织、阅读体验和内容型页面搭建。</p>
+          <p>Markdown、信息组织、阅读体验和内容型页面搭建。</p>
         </section>
         <section className={styles.skillGroup}>
           <h3>Backend / Tooling</h3>

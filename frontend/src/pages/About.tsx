@@ -9,10 +9,9 @@ const About: React.FC = () => {
       <div className={styles.shell}>
         <section className={styles.hero}>
           <p className={styles.eyebrow}>About</p>
-          <h1 className={styles.title}>身份、站点与最近在意的事情</h1>
+          <h1 className={styles.title}>抽丝剥茧</h1>
           <p className={styles.description}>
-            这里专门回答“你是谁”“这个网站为什么这样做”以及“你最近在想什么”。
-            把个人信息和能力展示拆开之后，阅读路径会更清楚。
+            业务能力以外的我
           </p>
         </section>
 

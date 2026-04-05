@@ -5,7 +5,7 @@ const SkillsLearning: React.FC = () => {
   return (
     <div className={styles.prose}>
       <h2>Learning</h2>
-      <p>这里保留正在持续补齐的能力，而不是散落在 About 里的个人兴趣描述。</p>
+      <p>希望自己具备的能力，越希望越是焦虑</p>
 
       <div className={styles.list}>
         <section className={styles.card}>

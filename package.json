@@ -3,6 +3,11 @@
   "private": true,
   "scripts": {
     "dev": "./scripts/dev.sh",
-    "dev:open": "OPEN_BROWSER=1 ./scripts/dev.sh"
+    "dev:open": "OPEN_BROWSER=1 ./scripts/dev.sh",
+    "check": "./scripts/check.sh",
+    "build": "./scripts/build.sh",
+    "books:search": "python3 ./scripts/books/search_books.py",
+    "books:add": "python3 ./scripts/books/add_book.py",
+    "books:cover": "python3 ./scripts/books/fetch_cover_by_isbn.py"
   }
 }

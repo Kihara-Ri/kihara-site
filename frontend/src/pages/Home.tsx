@@ -278,7 +278,7 @@ const Home: React.FC = () => {
               <section className={styles.writingSection}>
                 <div className={styles.sectionHead}>
                   <p className={styles.sectionEyebrow}>Featured Writing</p>
-                  <h3 className={styles.subTitle}>最近应该先看到的内容</h3>
+                  <h3 className={styles.subTitle}>我在做什么</h3>
                 </div>
                 <div className={styles.storyList}>
                   {siteConfig.homeContent.featuredWriting.map((item) => (
@@ -291,7 +291,7 @@ const Home: React.FC = () => {
                 </div>
               </section>
 
-              <section className={styles.blogShowcaseSection}>
+              {/* <section className={styles.blogShowcaseSection}>
                 <div className={styles.sectionHead}>
                   <p className={styles.sectionEyebrow}>Selected Blogs</p>
                   <h3 className={styles.subTitle}>得意之作</h3>
@@ -311,12 +311,12 @@ const Home: React.FC = () => {
                     ) : null
                   ))}
                 </div>
-              </section>
+              </section> */}
 
               <section className={styles.signalsSection}>
                 <div className={styles.sectionHead}>
                   <p className={styles.sectionEyebrow}>Current Signals</p>
-                  <h3 className={styles.subTitle}>正在展开的几件事</h3>
+                  <h3 className={styles.subTitle}>正在展开</h3>
                 </div>
                 <div className={styles.signalList}>
                   {siteConfig.homeContent.currentSignals.map((item) => (
@@ -353,7 +353,7 @@ const Home: React.FC = () => {
               <section className={styles.shelfPanel}>
                 <div className={styles.sectionHead}>
                   <p className={styles.sectionEyebrow}>Shelves</p>
-                  <h3 className={styles.subTitle}>内容将来会长成的样子</h3>
+                  <h3 className={styles.subTitle}>长期工作</h3>
                 </div>
                 <div className={styles.shelfList}>
                   {siteConfig.homeContent.shelves.map((item) => (

@@ -207,6 +207,15 @@ a:hover {
   font-display: swap;
 }
 
+/* Fira Mono */
+@font-face {
+  font-family: 'Fira Mono';
+  src: url('/fonts/FiraMono/FiraMonoNerdFont-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 .light-text   { font-weight: 300; } /* 细体 */
 .bold-text    { font-weight: 700; } /* 粗体 */
 .minecraft    { font-family: 'Minecraft Ten', monospace; font-weight: 500; }

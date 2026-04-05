@@ -2,6 +2,25 @@ import type { MusicHighlight } from './types';
 
 export const musicHighlights: MusicHighlight[] = [
   {
+    id: 'recently-on-repeat',
+    label: 'Recently on repeat',
+    value: 'Racing Mount Pleasant',
+    meta: 'Racing Mount Pleasant',
+    track: {
+      title: 'Emily',
+      previewUrl: '/music/highlights/Emily - Racing Mount Pleasant.mp3',
+    },
+    tones: {
+      start: '#cfc6b8',
+      end: '#70665d',
+      accent: '#2b2623',
+    },
+    cover: {
+      src: '/music/highlights/racing-mount-pleasant.jpg',
+      alt: 'Racing Mount Pleasant cover',
+    },
+  },
+  {
     id: 'all-time-favorite',
     label: 'All time favorite',
     value: 'Illinois',

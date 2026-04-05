@@ -13,16 +13,6 @@ import AboutSite from './pages/About/Site';
 import AboutMusings from './pages/About/Musings';
 import AboutBooks from './pages/About/Books';
 import AboutNow from './pages/About/Now';
-
-// blog 页面
-import BlogPost from './pages/BlogPage/BlogPost';
-import BlogByTag from './pages/BlogPage/BlogByTag';
-import BlogArchive from './pages/BlogPage/BlogArchive';
-import BlogsMainLayout from './pages/layouts/BlogsMainLayout';
-import BlogsHomeLayout from './pages/layouts/BlogsHomeLayout';
-import BlogHome from './pages/BlogPage/BlogHome';
-import BlogPostLayout from './pages/layouts/BlogPostLayout';
-import TagOnlyLayout from './pages/layouts/TagOnlyLayout';
 import SkillsStack from './pages/Skills/Stack';
 import SkillsExperience from './pages/Skills/Experience';
 import SkillsLearning from './pages/Skills/Learning';
@@ -61,34 +51,21 @@ function AppContent() {
           <Route path="learning" element={<SkillsLearning />} />
         </Route>
         <Route path="/music" element={<Music />} />
-        {/* -------------------------- Blog 页面------------------------------------------------------------ */}
-        <Route path="/blogs" element={<BlogsMainLayout />}>
-
-          {/* ── ① 首页（左+中+右） */}
-          <Route element={<BlogsHomeLayout />}>
-            <Route index element={<BlogHome />} />
-          </Route>
-
-          {/* ── ② 单篇文章（左+中+右，但右侧大纲不同） */}
-          <Route element={<BlogPostLayout />}>
-            {/* /blogs/:slug -> 单篇文章 */}
-            <Route path=":slug" element={<BlogPost />}></Route>
-          </Route>
-
-          {/* ── ③ 标签页（仅中栏，左右隐藏） */}
-          <Route element={<TagOnlyLayout />}>
-            {/* /blogs/tag/:tag -> 标签页 */}
-            <Route path="tag/:tag" element={<BlogByTag />}></Route>
-          </Route>
-          {/* /blogs/archive/2025(/06) -> 归档 */}
-          <Route path="archive/:year/:month?" element={<BlogArchive />}></Route>
-
-          {/* 404 */}
-          <Route
-            path="*"
-            element={<NotFound title="博客里没有这篇文章" description="你访问的博客链接不存在，或者文章还没有发布到当前站点。" />}
-          ></Route>
-        </Route>
+        <Route
+          path="/blogs/*"
+          element={
+            <NotFound
+              code="..."
+              title="当前页面正在维护"
+              description="博客区域暂时关闭访问，正在整理内容和结构。"
+              note="维护完成后会恢复访问，现有其它页面不受影响。"
+              primaryActionLabel="返回首页"
+              primaryActionTo="/"
+              secondaryActionLabel="去音乐页"
+              secondaryActionTo="/music/"
+            />
+          }
+        />
         
         {/* 404 处理 */}
         <Route path="*" element={<NotFound />}></Route>

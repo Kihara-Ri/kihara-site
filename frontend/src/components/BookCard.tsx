@@ -13,6 +13,8 @@ export interface BookCardInfo {
   link: string;
   judgement: string;
   review: string;
+  isbn?: string;
+  rating?: string;
   edition?: number;
 }
 
@@ -26,6 +28,11 @@ const BookCard: React.FC<BookCardInfo> = (book: BookCardInfo) => {
         <header>
           <h3 className={styles.title}>{book.title}</h3>
           <p className={styles.author}>{book.author}</p>
+          <div className={styles.meta}>
+            <span>{book.publisher}</span>
+            {book.rating ? <span>豆瓣 {book.rating}</span> : null}
+            {book.isbn ? <span>ISBN {book.isbn}</span> : null}
+          </div>
           {book.tags && (
             <ul className={styles.tags}>
               {book.tags.map(t => <li key={t} className={styles.tag}>{t}</li>)}
