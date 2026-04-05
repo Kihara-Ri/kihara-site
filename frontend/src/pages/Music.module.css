@@ -1274,8 +1274,8 @@
   grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
   gap: 2rem;
   padding: 2rem;
-  border-radius: 32px;
-  border: 1px solid var(--line);
+  border-radius: 0px;
+  /* border: 1px solid var(--line); */
   background: color-mix(in srgb, var(--panel-strong) 94%, transparent);
   box-shadow: 0 30px 90px rgba(15, 23, 42, 0.28);
   opacity: 0;
@@ -1344,7 +1344,7 @@
   display: grid;
   place-items: center;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 10px;
   border: 1px solid color-mix(in srgb, var(--album-accent) 30%, var(--line));
   background:
     radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.44) 0%, transparent 22%),
