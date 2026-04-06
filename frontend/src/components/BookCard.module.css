@@ -1,7 +1,7 @@
 .card {
   display: grid;
   grid-template-columns: 112px minmax(0, 1fr);
-  gap: 18px;
+  gap: 60px;
   padding: 18px;
   border-radius: 24px;
   border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
@@ -10,9 +10,9 @@
 }
 
 .imageWrap {
-  width: 112px;
+  width: 160px;
   aspect-ratio: 3 / 4.35;
-  border-radius: 16px;
+  border-radius: 5px;
   overflow: hidden;
   background: color-mix(in srgb, var(--selected) 82%, transparent);
   box-shadow:
