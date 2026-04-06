@@ -1450,9 +1450,9 @@
     "note": "单曲，还行吧，但不算出众",
     "rawRemark": "693",
     "cover": {
-      "file": "/music/covers/pretender.jpg",
-      "source": "rateyourmusic",
-      "status": "changed",
+      "file": "/music/covers/officialdism-pretender.jpg",
+      "source": "itunes",
+      "status": "fetched",
       "matchedTitle": "Traveler"
     },
     "releaseYear": 2019
