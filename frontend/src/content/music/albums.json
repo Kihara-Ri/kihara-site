@@ -1450,9 +1450,9 @@
     "note": "单曲，还行吧，但不算出众",
     "rawRemark": "693",
     "cover": {
-      "file": "/music/covers/officialdism-pretender.jpg",
-      "source": "itunes",
-      "status": "fetched",
+      "file": "/music/covers/pretender.jpg",
+      "source": "rateyourmusic",
+      "status": "changed",
       "matchedTitle": "Traveler"
     },
     "releaseYear": 2019
@@ -1478,5 +1478,401 @@
       "matchedTitle": "Hybrid Theory (Deluxe Edition)"
     },
     "releaseYear": 2000
+  },
+  {
+    "id": "what-s-going-on",
+    "title": "What's Going On...?",
+    "artist": "陈奕迅",
+    "releaseYear": 2006,
+    "purchase": {
+      "date": "2022-10-21",
+      "display": "2022-10-21",
+      "location": "闲鱼",
+      "priceText": "158RMB",
+      "priceValue": 158.0,
+      "currency": "RMB"
+    },
+    "note": "首版纸盒",
+    "rawRemark": "158RMB 首版纸盒",
+    "cover": {
+      "file": "/music/covers/eason-chan-whats-going-on.jpg",
+      "source": "itunes",
+      "status": "missing",
+      "matchedTitle": null
+    }
+  },
+  {
+    "id": "shall-we-dance-shall-we-talk",
+    "title": "Shall We Dance? Shall We Talk!",
+    "artist": "陈奕迅",
+    "releaseYear": 2001,
+    "purchase": {
+      "date": "2022-10-21",
+      "display": "2022-10-21",
+      "location": "淘宝",
+      "priceText": "138RMB",
+      "priceValue": 138.0,
+      "currency": "RMB"
+    },
+    "note": "首版纸盒,还挺大的就是纸盒有点破了",
+    "rawRemark": "138RMB 首版纸盒,还挺大的就是纸盒有点破了",
+    "cover": {
+      "file": "/music/covers/eason-chan-shall-we-dance-shall-we-talk.jpg",
+      "source": "itunes",
+      "status": "missing",
+      "matchedTitle": null
+    }
+  },
+  {
+    "id": "ex-all-time-favourites",
+    "title": "EX All Time Favourites",
+    "artist": "关淑怡",
+    "releaseYear": 1995,
+    "purchase": {
+      "date": "2025-12-13",
+      "display": "2025-12-13",
+      "location": "淘宝",
+      "priceText": "78RMB",
+      "priceValue": 78.0,
+      "currency": "RMB"
+    },
+    "note": "最好的一张翻唱专辑",
+    "rawRemark": "78RMB",
+    "cover": {
+      "file": "/music/covers/ex-all-time-favourites.jpg",
+      "source": "itunes",
+      "status": "missing",
+      "matchedTitle": null
+    }
+  },
+  {
+    "id": "life-continues",
+    "title": "Life Continues",
+    "artist": "陈奕迅",
+    "releaseYear": 2006,
+    "purchase": {
+      "date": "2025-12-27",
+      "display": "2025-12-27",
+      "location": "淘宝",
+      "priceText": "121RMB",
+      "priceValue": 121.0,
+      "currency": "RMB"
+    },
+    "note": null,
+    "rawRemark": "121RMB",
+    "cover": {
+      "file": "/music/covers/eason-chan-life-continues.jpg",
+      "source": "itunes",
+      "status": "missing",
+      "matchedTitle": null
+    }
+  },
+  {
+    "id": "the-microphones-the-glow-pt-2",
+    "title": "The Glow Pt. 2",
+    "artist": "The Microphones",
+    "releaseYear": 2001,
+    "purchase": {
+      "date": "2026-03-07",
+      "display": "2026-3-7",
+      "location": "Amazon",
+      "priceText": "2226",
+      "priceValue": 2226.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "2226",
+    "cover": {
+      "file": "/music/covers/the-microphones-the-glow-pt-2.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "The Glow, Pt. 2"
+    }
+  },
+  {
+    "id": "album-d436d7598f",
+    "title": "「ゆるキャン△」オリジナル・サンドドラック",
+    "artist": "秋山立航",
+    "releaseYear": 2018,
+    "purchase": {
+      "date": "2026-02-26",
+      "display": "2026-2-26",
+      "location": "メルカリ",
+      "priceText": "2079",
+      "priceValue": 2079.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "2079",
+    "cover": {
+      "file": "/music/covers/yuru-camp.jpg",
+      "source": "itunes",
+      "status": "missing",
+      "matchedTitle": null
+    }
+  },
+  {
+    "id": "talking-heads-remain-in-light",
+    "title": "Remain in Light",
+    "artist": "Talking Heads",
+    "releaseYear": 1980,
+    "purchase": {
+      "date": "2026-02-28",
+      "display": "2026-2-28",
+      "location": "メルカリ",
+      "priceText": "1050",
+      "priceValue": 1050.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1050",
+    "cover": {
+      "file": "/music/covers/talking-heads-remain-in-light.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Remain In Light"
+    }
+  },
+  {
+    "id": "vareity-artists",
+    "title": "もしも生まれ変わったならそっとこんな声になって",
+    "artist": "Vareity Artists",
+    "releaseYear": 2024,
+    "purchase": {
+      "date": "2026-02-28",
+      "display": "2026-2-28",
+      "location": "メルカリ",
+      "priceText": "962",
+      "priceValue": 962.0,
+      "currency": "JPY"
+    },
+    "note": "有夜鹿的一首新歌收在里面",
+    "rawRemark": "962 有夜鹿的一首新歌收在里面",
+    "cover": {
+      "file": "/music/covers/vareity-artists-moshimo.jpg",
+      "source": "itunes",
+      "status": "missing",
+      "matchedTitle": null
+    }
+  },
+  {
+    "id": "sufjan-stevens-michigan",
+    "title": "Michigan",
+    "artist": "Sufjan Stevens",
+    "releaseYear": 2003,
+    "purchase": {
+      "date": "2026-03-01",
+      "display": "2026-3-1",
+      "location": "メルカリ",
+      "priceText": "340",
+      "priceValue": 340.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "340",
+    "cover": {
+      "file": "/music/covers/sufjan-stevens-michigan.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Greetings from Michigan, The Great Lake State (Deluxe Version)"
+    }
+  },
+  {
+    "id": "album-f099dc6d90",
+    "title": "ひみつスタジオ",
+    "artist": "スピッツ",
+    "releaseYear": 2021,
+    "purchase": {
+      "date": "2026-03-23",
+      "display": "2026-3-23",
+      "location": "メルカリ",
+      "priceText": "800",
+      "priceValue": 800.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "800",
+    "cover": {
+      "file": "/music/covers/album-f099dc6d90.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "ひみつスタジオ"
+    }
+  },
+  {
+    "id": "coldplay-viva-la-vida-or-death-and-all-his-friends",
+    "title": "Viva la Vida or Death and All His Friends",
+    "artist": "Coldplay",
+    "releaseYear": 2008,
+    "purchase": {
+      "date": "2026-03-05",
+      "display": "2026-3-5",
+      "location": "disk unionお茶の水駅前店",
+      "priceText": "480",
+      "priceValue": 480.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "480",
+    "cover": {
+      "file": "/music/covers/coldplay-viva-la-vida-or-death-and-all-his-friends.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Viva La Vida or Death and All His Friends"
+    }
+  },
+  {
+    "id": "eagles-hotel-california",
+    "title": "Hotel California",
+    "artist": "Eagles",
+    "releaseYear": 1976,
+    "purchase": {
+      "date": "2026-03-05",
+      "display": "2026-3-5",
+      "location": "disk unionお茶の水駅前店",
+      "priceText": "480",
+      "priceValue": 480.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "480",
+    "cover": {
+      "file": "/music/covers/eagles-hotel-california.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Hotel California"
+    }
+  },
+  {
+    "id": "mew-frengers",
+    "title": "Frengers",
+    "artist": "Mew",
+    "releaseYear": 2003,
+    "purchase": {
+      "date": "2026-03-10",
+      "display": "2026-3-10",
+      "location": "disk unionお茶の水駅前店",
+      "priceText": "580",
+      "priceValue": 580.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "580",
+    "cover": {
+      "file": "/music/covers/mew-frengers.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Frengers: Not Quite Friends But Not Quite Strangers"
+    }
+  },
+  {
+    "id": "radiohead-a-moon-shaped-pool",
+    "title": "A Moon Shaped Pool",
+    "artist": "Radiohead",
+    "releaseYear": 2016,
+    "purchase": {
+      "date": "2026-03-11",
+      "display": "2026-3-11",
+      "location": "BOOKOFF 秋葉原駅前店",
+      "priceText": "792",
+      "priceValue": 792.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "792",
+    "cover": {
+      "file": "/music/covers/radiohead-a-moon-shaped-pool.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "A Moon Shaped Pool"
+    }
+  },
+  {
+    "id": "king-crimson-larks-tongues-in-aspic",
+    "title": "Larks' Tongues in Aspic",
+    "artist": "King Crimson",
+    "releaseYear": 1973,
+    "purchase": {
+      "date": "2026-03-11",
+      "display": "2026-3-11",
+      "location": "BOOKOFF 秋葉原駅前店",
+      "priceText": "1210",
+      "priceValue": 1210.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "1210",
+    "cover": {
+      "file": "/music/covers/king-crimson-larks-tongues-in-aspic.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Larks' Tongues In Aspic (Expanded Edition)"
+    }
+  },
+  {
+    "id": "pink-floyd-atom-heart-mother",
+    "title": "Atom Heart Mother",
+    "artist": "Pink Floyd",
+    "releaseYear": 1970,
+    "purchase": {
+      "date": "2026-01-11",
+      "display": "2026-1-11",
+      "location": "BOOKOFF plus 御徒町駅前店",
+      "priceText": "550",
+      "priceValue": 550.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "550",
+    "cover": {
+      "file": "/music/covers/pink-floyd-atom-heart-mother.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Atom Heart Mother"
+    }
+  },
+  {
+    "id": "sufjan-stevens-illinois-2",
+    "title": "Illinois",
+    "artist": "Sufjan Stevens",
+    "purchase": {
+      "date": "2026-02-18",
+      "display": "2/18",
+      "location": "Amazon",
+      "priceText": "1065",
+      "priceValue": 1065.0,
+      "currency": "JPY"
+    },
+    "note": "很便宜的价格买的第二张，我实在太喜欢这张专辑了。但是整轨听完，这张碟最后几秒有坏轨，会卡几下，如果不是我整张从头到尾都听了一遍都发现不了，这张不是完美的可惜了，怪不得卖这么便宜",
+    "rawRemark": "1065",
+    "cover": {
+      "file": "/music/covers/sufjan-stevens-illinois.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Illinois"
+    },
+    "releaseYear": 2005
+  },
+  {
+    "id": "talking-heads-remain-in-light-2",
+    "title": "Remain in Light",
+    "artist": "Talking Heads",
+    "releaseYear": 1980,
+    "purchase": {
+      "date": "2026-03-05",
+      "display": "3/5",
+      "location": "disk unionお茶の水駅前店",
+      "priceText": "680",
+      "priceValue": 680.0,
+      "currency": "JPY"
+    },
+    "note": "之前在网上买的买贵了",
+    "rawRemark": "680",
+    "cover": {
+      "file": "/music/covers/talking-heads-remain-in-light.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Remain in Light"
+    }
   }
 ]
