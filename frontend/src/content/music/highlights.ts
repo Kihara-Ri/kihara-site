@@ -78,8 +78,8 @@ export const musicHighlights: MusicHighlight[] = [
     },
   },
   {
-    id: 'favorite-mandopop-artist',
-    label: 'Favorite mandopop artist',
+    id: 'favorite-cpop-artist',
+    label: 'Favorite cpop artist',
     value: '陈奕迅',
     meta: 'Shall We Dance? Shall We Talk!',
     track: {
