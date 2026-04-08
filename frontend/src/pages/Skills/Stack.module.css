@@ -1,0 +1,668 @@
+.stackShowcase {
+  display: grid;
+  gap: 22px;
+}
+
+.stackSplit {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 22px;
+}
+
+.cardEyebrow {
+  margin: 0 0 10px;
+  color: color-mix(in srgb, var(--text-color) 56%, transparent);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+
+.cardSummary {
+  margin: 14px 0 0;
+  max-width: 54ch;
+  color: color-mix(in srgb, var(--text-color) 72%, transparent);
+  line-height: 1.75;
+}
+
+.skillHeroCard,
+.personalityCard,
+.gameCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+}
+
+.skillHeroCard {
+  padding: 28px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  background:
+    radial-gradient(circle at top right, rgba(65, 131, 196, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 251, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.64),
+    0 20px 40px rgba(15, 23, 42, 0.08);
+  display: grid;
+  gap: 24px;
+}
+
+.cardLead {
+  display: grid;
+  gap: 0;
+}
+
+.stackCard,
+.toolCard {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border-radius: 28px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  background:
+    radial-gradient(circle at top right, rgba(65, 131, 196, 0.07), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 249, 252, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.64),
+    0 18px 36px rgba(15, 23, 42, 0.08);
+}
+
+.toolCard {
+  background:
+    radial-gradient(circle at top right, rgba(106, 162, 120, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(246, 249, 247, 0.98) 100%);
+}
+
+.stackCardHead {
+  display: grid;
+  gap: 0;
+}
+
+.stackCardTitle {
+  margin: 0;
+  font-size: 1.7rem;
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+}
+
+.stackCardSummary {
+  margin: 12px 0 0;
+  color: color-mix(in srgb, var(--text-color) 70%, transparent);
+  line-height: 1.76;
+}
+
+.stackGroups {
+  margin-top: 20px;
+  display: grid;
+  gap: 18px;
+}
+
+.stackGroup {
+  display: grid;
+  gap: 12px;
+}
+
+.stackGroupLabel {
+  margin: 0;
+  color: color-mix(in srgb, var(--text-color) 54%, transparent);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.stackGroupNote {
+  margin: 2px 0 0;
+  color: color-mix(in srgb, var(--text-color) 74%, transparent);
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+}
+
+.skillBadgeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 12px;
+}
+
+.toolBadgeGrid {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.skillBadge {
+  --skill-accent: #94a3b8;
+  min-height: 52px;
+  padding: 6px 18px 6px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(196, 209, 227, 0.72);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 249, 252, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 10px 22px rgba(15, 23, 42, 0.06);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.skillBadge:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--skill-accent) 30%, rgba(196, 209, 227, 0.72));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.84),
+    0 14px 26px rgba(15, 23, 42, 0.08);
+}
+
+.skillBadgeIconWrap {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.94), transparent 50%),
+    color-mix(in srgb, var(--skill-accent) 18%, white 82%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    0 4px 10px color-mix(in srgb, var(--skill-accent) 18%, transparent);
+}
+
+.skillBadgeIcon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.inlineCode {
+  padding: 0.12em 0.38em;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text-color) 7%, transparent);
+  color: color-mix(in srgb, var(--text-color) 88%, transparent);
+  font-family: 'Iosevka', 'SFMono-Regular', 'SF Mono', Consolas, monospace;
+  font-size: 0.92em;
+}
+
+.skillBadgeInitial {
+  color: color-mix(in srgb, var(--skill-accent) 82%, #0f172a);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.skillBadgeLabel {
+  color: color-mix(in srgb, var(--text-color) 88%, transparent);
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.toolLead {
+  margin: 14px 0 0;
+  color: color-mix(in srgb, var(--text-color) 72%, transparent);
+  line-height: 1.8;
+}
+
+.toolManifesto {
+  margin-top: 22px;
+  display: grid;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+}
+
+.toolManifestoLine {
+  margin: 0;
+  padding-left: 16px;
+  border-left: 2px solid color-mix(in srgb, #6aa278 18%, transparent);
+  color: color-mix(in srgb, var(--text-color) 76%, transparent);
+  line-height: 1.82;
+}
+
+.personalityCard {
+  min-height: 320px;
+  padding: 30px 32px;
+  border: 1px solid color-mix(in srgb, #64b18c 16%, rgba(15, 23, 42, 0.12));
+  background:
+    radial-gradient(circle at 82% 18%, rgba(131, 204, 173, 0.18), transparent 24%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0) 36%, rgba(229, 240, 232, 0.78) 72%, rgba(214, 232, 220, 0.98) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(246, 249, 247, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 20px 42px rgba(15, 23, 42, 0.08);
+}
+
+.personalityCopy {
+  position: relative;
+  z-index: 1;
+  max-width: min(24%, 220px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.personalityTitle {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.personalityCode {
+  margin: 0;
+  color: #63ad86;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.personalityTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.personalityTag {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(111, 176, 140, 0.18);
+  background: rgba(111, 176, 140, 0.08);
+  color: #547c64;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.personalityBackdrop {
+  position: absolute;
+  right: -18px;
+  bottom: -6px;
+  width: auto;
+  height: 108%;
+  max-width: 82%;
+  max-height: none;
+  object-fit: contain;
+  object-position: right bottom;
+  filter: drop-shadow(0 16px 26px rgba(17, 24, 39, 0.12));
+  pointer-events: none;
+}
+
+.gameCard {
+  min-height: 320px;
+  border: 1px solid rgba(19, 78, 74, 0.34);
+  background: #071514;
+  box-shadow: 0 24px 48px rgba(3, 17, 16, 0.28);
+}
+
+.gameBackdrop,
+.gameScrim {
+  position: absolute;
+  inset: 0;
+}
+
+.gameBackdrop {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.02);
+}
+
+.gameScrim {
+  background:
+    linear-gradient(90deg, rgba(3, 15, 14, 0.8) 0%, rgba(3, 15, 14, 0.44) 36%, rgba(3, 15, 14, 0.28) 100%),
+    linear-gradient(0deg, rgba(3, 15, 14, 0.72) 0%, rgba(3, 15, 14, 0.08) 48%, rgba(3, 15, 14, 0.2) 100%);
+}
+
+.gameContent {
+  position: relative;
+  z-index: 1;
+  min-height: 320px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.gameHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.gameEyebrow {
+  margin: 0 0 10px;
+  color: rgba(231, 242, 236, 0.82);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.gameTitle {
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.gameRoleIcon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.28));
+}
+
+.gameFoot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.gameMetaBlock {
+  display: grid;
+  gap: 6px;
+}
+
+.gameMetaLabel {
+  color: rgba(205, 227, 216, 0.72);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.gameMetaValue {
+  color: #f8fafc;
+  font-size: 1.72rem;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+.gameRankBadge {
+  position: absolute;
+  right: -6px;
+  bottom: -10px;
+  width: 180px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.3));
+}
+
+.detailCards {
+  gap: 20px;
+}
+
+.detailCard {
+  position: relative;
+  overflow: hidden;
+  padding: 22px 22px 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(188, 198, 215, 0.46);
+  background:
+    radial-gradient(circle at top right, rgba(124, 167, 214, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(246, 248, 252, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 16px 32px rgba(15, 23, 42, 0.08);
+  gap: 12px;
+}
+
+.detailCard::before {
+  content: '';
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.7), transparent);
+  pointer-events: none;
+}
+
+.detailCardEyebrow {
+  margin: 0;
+  color: color-mix(in srgb, var(--text-color) 52%, transparent);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.detailCardTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.detailCardText {
+  margin: 0;
+  color: color-mix(in srgb, var(--text-color) 74%, transparent);
+  line-height: 1.78;
+}
+
+:global([data-theme='dark']) .skillHeroCard {
+  border-color: rgba(93, 106, 126, 0.28);
+  background:
+    radial-gradient(circle at top right, rgba(58, 109, 160, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(24, 28, 38, 0.94) 0%, rgba(17, 21, 29, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 20px 44px rgba(2, 6, 23, 0.26);
+}
+
+:global([data-theme='dark']) .cardEyebrow {
+  color: rgba(198, 207, 221, 0.62);
+}
+
+:global([data-theme='dark']) .stackCard,
+:global([data-theme='dark']) .toolCard {
+  border-color: rgba(93, 106, 126, 0.24);
+  background:
+    radial-gradient(circle at top right, rgba(58, 109, 160, 0.1), transparent 30%),
+    linear-gradient(180deg, rgba(24, 28, 38, 0.94) 0%, rgba(17, 21, 29, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 18px 34px rgba(2, 6, 23, 0.22);
+}
+
+:global([data-theme='dark']) .toolCard {
+  background:
+    radial-gradient(circle at top right, rgba(80, 142, 101, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(23, 30, 29, 0.94) 0%, rgba(16, 22, 22, 0.98) 100%);
+}
+
+:global([data-theme='dark']) .stackCardSummary,
+:global([data-theme='dark']) .toolLead,
+:global([data-theme='dark']) .toolManifestoLine {
+  color: rgba(216, 224, 235, 0.74);
+}
+
+:global([data-theme='dark']) .stackGroupLabel {
+  color: rgba(191, 202, 220, 0.56);
+}
+
+:global([data-theme='dark']) .stackGroupNote {
+  color: rgba(232, 238, 245, 0.78);
+}
+
+:global([data-theme='dark']) .toolManifesto {
+  border-top-color: rgba(93, 106, 126, 0.2);
+}
+
+:global([data-theme='dark']) .cardSummary,
+:global([data-theme='dark']) .gameMetaLabel {
+  color: rgba(218, 225, 234, 0.72);
+}
+
+:global([data-theme='dark']) .skillBadge {
+  border-color: rgba(111, 124, 146, 0.22);
+  background:
+    linear-gradient(180deg, rgba(31, 36, 47, 0.92) 0%, rgba(23, 27, 36, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 24px rgba(2, 6, 23, 0.16);
+}
+
+:global([data-theme='dark']) .skillBadgeIconWrap {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.12), transparent 50%),
+    color-mix(in srgb, var(--skill-accent) 18%, rgba(24, 28, 38, 0.82));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 4px 10px color-mix(in srgb, var(--skill-accent) 14%, transparent);
+}
+
+:global([data-theme='dark']) .skillBadgeLabel {
+  color: rgba(239, 244, 248, 0.92);
+}
+
+:global([data-theme='dark']) .skillBadgeInitial {
+  color: color-mix(in srgb, var(--skill-accent) 76%, white 24%);
+}
+
+:global([data-theme='dark']) .inlineCode {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(239, 244, 248, 0.9);
+}
+
+:global([data-theme='dark']) .personalityCard {
+  border-color: rgba(79, 119, 100, 0.32);
+  background:
+    radial-gradient(circle at 82% 18%, rgba(118, 194, 161, 0.12), transparent 24%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0) 34%, rgba(36, 54, 45, 0.42) 72%, rgba(42, 63, 51, 0.62) 100%),
+    linear-gradient(180deg, rgba(23, 29, 29, 0.94) 0%, rgba(16, 22, 22, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 20px 44px rgba(2, 6, 23, 0.28);
+}
+
+:global([data-theme='dark']) .personalityCode {
+  color: #84d5aa;
+}
+
+:global([data-theme='dark']) .personalityTag {
+  border-color: rgba(132, 213, 170, 0.16);
+  background: rgba(132, 213, 170, 0.08);
+  color: rgba(217, 245, 228, 0.88);
+}
+
+:global([data-theme='dark']) .detailCard {
+  border-color: rgba(92, 105, 128, 0.24);
+  background:
+    radial-gradient(circle at top right, rgba(90, 126, 170, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(26, 31, 40, 0.94) 0%, rgba(18, 22, 30, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 34px rgba(2, 6, 23, 0.22);
+}
+
+:global([data-theme='dark']) .detailCardEyebrow {
+  color: rgba(191, 202, 220, 0.56);
+}
+
+:global([data-theme='dark']) .detailCardText {
+  color: rgba(216, 224, 235, 0.74);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skillBadge {
+    transition: none;
+  }
+
+  .skillBadge:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .stackSplit {
+    grid-template-columns: 1fr;
+  }
+
+  .personalityCard {
+    padding: 24px 22px;
+    min-height: 280px;
+  }
+
+  .personalityCopy {
+    max-width: min(32%, 240px);
+  }
+
+  .personalityBackdrop {
+    right: -14px;
+    height: 102%;
+    max-width: 76%;
+  }
+
+  .gameContent,
+  .skillHeroCard,
+  .stackCard,
+  .toolCard {
+    padding: 24px 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .skillHeroCard,
+  .personalityCard,
+  .gameCard {
+    border-radius: 24px;
+  }
+
+  .skillBadgeGrid {
+    gap: 10px;
+  }
+
+  .skillBadge {
+    min-height: 48px;
+    padding-right: 15px;
+    gap: 10px;
+  }
+
+  .skillBadgeLabel {
+    font-size: 0.92rem;
+  }
+
+  .personalityCard {
+    min-height: 250px;
+  }
+
+  .personalityCopy {
+    max-width: min(42%, 180px);
+  }
+
+  .personalityBackdrop {
+    right: -24px;
+    bottom: -2px;
+    height: 88%;
+    max-width: 74%;
+    opacity: 0.82;
+  }
+
+  .gameContent {
+    min-height: 280px;
+  }
+
+  .gameRankBadge {
+    right: -6px;
+    bottom: -8px;
+    width: 132px;
+  }
+
+  .detailCard {
+    padding: 18px 16px 17px;
+  }
+}

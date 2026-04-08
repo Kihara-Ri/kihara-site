@@ -55,15 +55,22 @@
   margin: 0;
 }
 
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .menuButton {
   display: none;
   width: 42px;
   height: 42px;
   padding: 0;
-  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  border: none;
   border-radius: 14px;
-  background: color-mix(in srgb, var(--background) 72%, transparent);
+  background: transparent;
   box-shadow: none;
+  color: #6b4ce6;
 }
 
 .menuButton:hover,
@@ -71,13 +78,24 @@
   transform: none;
 }
 
-.menuBar {
+.menuButton:active,
+.menuButton[aria-expanded='true'] {
+  color: #4f33c8;
+}
+
+.menuIcon {
   display: block;
-  width: 18px;
-  height: 2px;
-  margin: 3px auto;
-  border-radius: 999px;
-  background: currentColor;
+  width: 23px;
+  height: 23px;
+  background-color: currentColor;
+  -webkit-mask-image: url('/icons/UI/menu.svg');
+  mask-image: url('/icons/UI/menu.svg');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 .navList {
@@ -163,6 +181,7 @@
   align-items: center;
   justify-content: center;
   padding: 0;
+  color: inherit;
   background: transparent;
   box-shadow: none;
 }
@@ -189,6 +208,16 @@
 .navbarHero .navIcon {
   fill: rgba(255, 255, 255, 0.96);
   filter: drop-shadow(0 1px 10px rgba(0, 0, 0, 0.38));
+}
+
+.navbarHero .menuButton {
+  color: #8f78ff;
+  background: transparent;
+}
+
+.navbarHero .menuButton:active,
+.navbarHero .menuButton[aria-expanded='true'] {
+  color: #b39dff;
 }
 
 .navbarHero .navItem > a,
@@ -232,10 +261,10 @@
     top: 0;
     right: 0;
     z-index: 1000;
-    width: min(320px, 82vw);
+    width: min(232px, calc(100vw - 12px));
     height: 100svh;
     margin: 0;
-    padding: 18px 16px 24px;
+    padding: 18px 10px 24px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -312,7 +341,10 @@
   }
 
   .iconButton {
-    justify-content: flex-start;
+    width: 42px;
+    height: 42px;
+    justify-content: center;
+    border-radius: 14px;
   }
 
   .dropdown:hover .dropdownMenu {

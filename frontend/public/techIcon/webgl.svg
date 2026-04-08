@@ -1,0 +1,11 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 4L19 8V16L12 20L5 16V8L12 4Z" fill="url(#paint0_linear_webgl)"/>
+  <path d="M12 4V20" stroke="white" stroke-opacity="0.9" stroke-width="1.4"/>
+  <path d="M5 8L12 12L19 8" stroke="white" stroke-opacity="0.9" stroke-width="1.4" stroke-linejoin="round"/>
+  <defs>
+    <linearGradient id="paint0_linear_webgl" x1="6" y1="5" x2="18.5" y2="19" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14B8A6"/>
+      <stop offset="1" stop-color="#0F766E"/>
+    </linearGradient>
+  </defs>
+</svg>

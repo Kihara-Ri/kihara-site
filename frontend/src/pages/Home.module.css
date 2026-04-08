@@ -410,6 +410,7 @@
 .sectionText {
   margin: 0;
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .contentGrid {
@@ -474,6 +475,7 @@
   margin: 0;
   color: color-mix(in srgb, var(--text-color) 78%, transparent);
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .signalList {
@@ -760,6 +762,7 @@
   margin: 0;
   color: color-mix(in srgb, var(--text-color) 72%, transparent);
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .featuredMeta {
@@ -801,6 +804,7 @@
   margin: 0;
   color: color-mix(in srgb, var(--text-color) 72%, transparent);
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .latestPostTags {

@@ -158,8 +158,13 @@
 @media (max-width: 760px) {
   .hero,
   .panel {
-    padding: 20px 18px;
+    padding: 18px 14px;
     border-radius: 22px;
+  }
+
+  .card,
+  .skillGroup {
+    padding: 16px 14px;
   }
 
   .split,

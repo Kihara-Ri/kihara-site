@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type DragEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { createPortal, flushSync } from 'react-dom';
 import RecordPlayer from '../components/music/RecordPlayer';
 import layout from '../components/layout/PageLayout.module.css';
 import albumData from '../content/music/albums.json';
@@ -12,6 +13,106 @@ const albums = albumData as MusicAlbum[];
 interface FilterOption {
   value: string;
   label: string;
+}
+
+type AlbumSortMode = 'purchase-date' | 'release-year';
+
+interface AlbumSortMove {
+  albumId: string;
+  fromIndex: number;
+  toIndex: number;
+  nextOrderIds: string[];
+}
+
+function getAlbumSortValue(album: MusicAlbum, mode: AlbumSortMode) {
+  if (mode === 'purchase-date') {
+    return new Date(album.purchase.date).getTime();
+  }
+
+  return album.releaseYear ?? Number.NEGATIVE_INFINITY;
+}
+
+function sortAlbums(albumList: MusicAlbum[], mode: AlbumSortMode) {
+  return albumList
+    .map((album, index) => ({ album, index }))
+    .sort((left, right) => {
+      const sortDiff = getAlbumSortValue(right.album, mode) - getAlbumSortValue(left.album, mode);
+      if (sortDiff !== 0) {
+        return sortDiff;
+      }
+
+      return left.index - right.index;
+    })
+    .map(({ album }) => album);
+}
+
+function getLongestIncreasingSubsequenceIndices(sequence: number[]) {
+  const predecessors = new Array<number>(sequence.length).fill(-1);
+  const tails: number[] = [];
+
+  for (let index = 0; index < sequence.length; index += 1) {
+    const value = sequence[index];
+    let left = 0;
+    let right = tails.length;
+
+    while (left < right) {
+      const middle = Math.floor((left + right) / 2);
+      if (sequence[tails[middle]] < value) {
+        left = middle + 1;
+      } else {
+        right = middle;
+      }
+    }
+
+    if (left > 0) {
+      predecessors[index] = tails[left - 1];
+    }
+
+    tails[left] = index;
+  }
+
+  const lis: number[] = [];
+  let cursor = tails[tails.length - 1];
+
+  while (cursor !== undefined && cursor !== -1) {
+    lis.push(cursor);
+    cursor = predecessors[cursor];
+  }
+
+  return lis.reverse();
+}
+
+function buildAlbumSortMoves(currentOrderIds: string[], targetOrderIds: string[]) {
+  const targetIndexById = new Map(targetOrderIds.map((id, index) => [id, index]));
+  const lisIndices = getLongestIncreasingSubsequenceIndices(
+    currentOrderIds.map((id) => targetIndexById.get(id) ?? -1),
+  );
+  const anchoredIds = new Set(lisIndices.map((index) => currentOrderIds[index]));
+  const workingOrderIds = [...currentOrderIds];
+  const moves: AlbumSortMove[] = [];
+
+  for (let targetIndex = 0; targetIndex < targetOrderIds.length; targetIndex += 1) {
+    const desiredAlbumId = targetOrderIds[targetIndex];
+    if (anchoredIds.has(desiredAlbumId)) {
+      continue;
+    }
+
+    const currentIndex = workingOrderIds.indexOf(desiredAlbumId);
+    if (currentIndex === -1 || currentIndex === targetIndex) {
+      continue;
+    }
+
+    const [movedAlbumId] = workingOrderIds.splice(currentIndex, 1);
+    workingOrderIds.splice(targetIndex, 0, movedAlbumId);
+    moves.push({
+      albumId: desiredAlbumId,
+      fromIndex: currentIndex,
+      toIndex: targetIndex,
+      nextOrderIds: [...workingOrderIds],
+    });
+  }
+
+  return moves;
 }
 
 function buildPalette(seed: string) {
@@ -121,6 +222,7 @@ function FilterDropdown({
   onChange,
   compactTrigger = false,
   compactMenu = false,
+  disabled = false,
 }: {
   label: string;
   value: string;
@@ -128,6 +230,7 @@ function FilterDropdown({
   onChange: (nextValue: string) => void;
   compactTrigger?: boolean;
   compactMenu?: boolean;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -171,6 +274,7 @@ function FilterDropdown({
           ].join(' ').trim()}
           aria-haspopup="listbox"
           aria-expanded={open}
+          disabled={disabled}
           onClick={() => setOpen((current) => !current)}
         >
           <span>{selectedOption?.label ?? label}</span>
@@ -211,30 +315,38 @@ function FilterDropdown({
   );
 }
 
-function findHighlight(id: string) {
-  return musicHighlights.find((item) => item.id === id) ?? null;
-}
-
 function Music() {
   const [selectedAlbum, setSelectedAlbum] = useState<MusicAlbum | null>(null);
   const [pullingAlbumId, setPullingAlbumId] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [artistFilter, setArtistFilter] = useState('all');
   const [yearFilter, setYearFilter] = useState('all');
+  const [sortMode, setSortMode] = useState<AlbumSortMode>('purchase-date');
+  const [displayedAlbumOrderIds, setDisplayedAlbumOrderIds] = useState<string[]>(() =>
+    sortAlbums(albums, 'purchase-date').map((album) => album.id),
+  );
   const [expandedAlbumId, setExpandedAlbumId] = useState<string | null>(null);
   const [expandRightAlbumId, setExpandRightAlbumId] = useState<string | null>(null);
   const [spotlightIndex, setSpotlightIndex] = useState(0);
-  const [dropActive, setDropActive] = useState(false);
   const [spotlightLaunchingId, setSpotlightLaunchingId] = useState<string | null>(null);
+  const [sortingAlbumId, setSortingAlbumId] = useState<string | null>(null);
+  const [sortingInProgress, setSortingInProgress] = useState(false);
   const [turntableOutgoingHighlight, setTurntableOutgoingHighlight] = useState<MusicHighlight | null>(null);
   const [turntableRecordEntering, setTurntableRecordEntering] = useState(false);
   const [turntableRecordExiting, setTurntableRecordExiting] = useState(false);
   const [playlistOpen, setPlaylistOpen] = useState(false);
+  const [playlistPanelStyle, setPlaylistPanelStyle] = useState<CSSProperties | null>(null);
   const railRef = useRef<HTMLDivElement | null>(null);
+  const albumButtonRefs = useRef(new Map<string, HTMLButtonElement>());
   const playlistRef = useRef<HTMLDivElement | null>(null);
+  const playlistButtonRef = useRef<HTMLButtonElement | null>(null);
   const spotlightLaunchTimeoutRef = useRef<number | null>(null);
   const turntableSwapTimeoutRef = useRef<number | null>(null);
   const turntableEnterTimeoutRef = useRef<number | null>(null);
+  const shelfWheelAnimationFrameRef = useRef<number | null>(null);
+  const shelfWheelTargetRef = useRef(0);
+  const displayedAlbumOrderIdsRef = useRef(displayedAlbumOrderIds);
+  const sortAnimationTimeoutsRef = useRef<number[]>([]);
   const {
     activeHighlightId,
     activeHighlight,
@@ -250,6 +362,10 @@ function Music() {
     togglePlayback,
     playAdjacentHighlight,
   } = useMusicPlayer();
+
+  useEffect(() => {
+    displayedAlbumOrderIdsRef.current = displayedAlbumOrderIds;
+  }, [displayedAlbumOrderIds]);
 
   useEffect(() => {
     if (!selectedAlbum) {
@@ -282,29 +398,122 @@ function Music() {
       return;
     }
 
-    const handleWheel = (event: WheelEvent) => {
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const normalizeWheelDelta = (event: WheelEvent) => {
+      switch (event.deltaMode) {
+        case 1:
+          return event.deltaY * 18;
+        case 2:
+          return event.deltaY * rail.clientWidth * 0.92;
+        default:
+          return event.deltaY;
+      }
+    };
+    const stopWheelAnimation = () => {
+      if (shelfWheelAnimationFrameRef.current !== null) {
+        window.cancelAnimationFrame(shelfWheelAnimationFrameRef.current);
+        shelfWheelAnimationFrameRef.current = null;
+      }
+    };
+    const animateWheelScroll = () => {
+      const distance = shelfWheelTargetRef.current - rail.scrollLeft;
+      if (Math.abs(distance) < 0.5) {
+        rail.scrollLeft = shelfWheelTargetRef.current;
+        shelfWheelAnimationFrameRef.current = null;
         return;
       }
 
-      rail.scrollBy({
-        left: event.deltaY,
-        behavior: 'auto',
-      });
+      rail.scrollLeft += distance * 0.16;
+      shelfWheelAnimationFrameRef.current = window.requestAnimationFrame(animateWheelScroll);
+    };
+    const handleWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+        return;
+      }
+
+      const maxScrollLeft = rail.scrollWidth - rail.clientWidth;
+      if (maxScrollLeft <= 0) {
+        return;
+      }
+
       event.preventDefault();
+
+      const baseScrollLeft =
+        shelfWheelAnimationFrameRef.current === null ? rail.scrollLeft : shelfWheelTargetRef.current;
+      const nextTarget = Math.max(0, Math.min(maxScrollLeft, baseScrollLeft + normalizeWheelDelta(event)));
+
+      if (prefersReducedMotion) {
+        rail.scrollLeft = nextTarget;
+        shelfWheelTargetRef.current = nextTarget;
+        return;
+      }
+
+      shelfWheelTargetRef.current = nextTarget;
+      if (shelfWheelAnimationFrameRef.current === null) {
+        shelfWheelAnimationFrameRef.current = window.requestAnimationFrame(animateWheelScroll);
+      }
+    };
+    const syncWheelTarget = () => {
+      if (shelfWheelAnimationFrameRef.current === null) {
+        shelfWheelTargetRef.current = rail.scrollLeft;
+      }
     };
 
+    shelfWheelTargetRef.current = rail.scrollLeft;
     rail.addEventListener('wheel', handleWheel, { passive: false });
-    return () => rail.removeEventListener('wheel', handleWheel);
+    rail.addEventListener('scroll', syncWheelTarget, { passive: true });
+    return () => {
+      stopWheelAnimation();
+      rail.removeEventListener('wheel', handleWheel);
+      rail.removeEventListener('scroll', syncWheelTarget);
+    };
   }, []);
 
   useEffect(() => {
     if (!playlistOpen) {
+      setPlaylistPanelStyle(null);
       return;
     }
 
+    const updatePlaylistPosition = () => {
+      const button = playlistButtonRef.current;
+      if (!button) {
+        return;
+      }
+
+      const buttonRect = button.getBoundingClientRect();
+      const viewportPadding = 16;
+      const gap = 12;
+      const panelWidth = Math.min(280, window.innerWidth - viewportPadding * 2);
+      const panelHeight = playlistRef.current?.offsetHeight ?? 320;
+      const left = Math.min(
+        window.innerWidth - panelWidth - viewportPadding,
+        Math.max(viewportPadding, buttonRect.right - panelWidth),
+      );
+      const preferredTop = buttonRect.top - panelHeight - gap;
+      const fallbackTop = buttonRect.bottom + gap;
+      const top = preferredTop >= viewportPadding
+        ? preferredTop
+        : Math.min(
+            window.innerHeight - panelHeight - viewportPadding,
+            Math.max(viewportPadding, fallbackTop),
+          );
+
+      setPlaylistPanelStyle({
+        top,
+        left,
+        width: panelWidth,
+        maxHeight: Math.min(360, window.innerHeight - viewportPadding * 2),
+      });
+    };
+
     const handlePointerDown = (event: PointerEvent) => {
-      if (!playlistRef.current?.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (playlistRef.current?.contains(target) || playlistButtonRef.current?.contains(target)) {
+        return;
+      }
+
+      if (!playlistRef.current?.contains(target)) {
         setPlaylistOpen(false);
       }
     };
@@ -315,16 +524,24 @@ function Music() {
       }
     };
 
+    const frameId = window.requestAnimationFrame(updatePlaylistPosition);
     window.addEventListener('pointerdown', handlePointerDown);
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', updatePlaylistPosition);
+    window.addEventListener('scroll', updatePlaylistPosition, true);
     return () => {
+      window.cancelAnimationFrame(frameId);
       window.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', updatePlaylistPosition);
+      window.removeEventListener('scroll', updatePlaylistPosition, true);
     };
   }, [playlistOpen]);
 
   useEffect(() => {
     return () => {
+      sortAnimationTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
+      sortAnimationTimeoutsRef.current = [];
       if (spotlightLaunchTimeoutRef.current) {
         window.clearTimeout(spotlightLaunchTimeoutRef.current);
         spotlightLaunchTimeoutRef.current = null;
@@ -407,8 +624,155 @@ function Music() {
     return [{ value: 'all', label: '全部' }, ...yearOptions.map((year) => ({ value: String(year), label: String(year) }))];
   }, [yearOptions]);
 
+  const filteredAlbumMap = useMemo(() => {
+    return new Map(filteredAlbums.map((album) => [album.id, album]));
+  }, [filteredAlbums]);
+
+  const displayedAlbums = useMemo(() => {
+    return displayedAlbumOrderIds
+      .map((albumId) => filteredAlbumMap.get(albumId))
+      .filter((album): album is MusicAlbum => Boolean(album));
+  }, [displayedAlbumOrderIds, filteredAlbumMap]);
+
+  const sortModeLabel = sortMode === 'purchase-date' ? '购入时间' : '专辑年份';
+
+  useEffect(() => {
+    if (sortingInProgress) {
+      return;
+    }
+
+    setDisplayedAlbumOrderIds(sortAlbums(filteredAlbums, sortMode).map((album) => album.id));
+  }, [filteredAlbums, sortMode, sortingInProgress]);
+
   const spotlightHighlight = musicHighlights[spotlightIndex] ?? musicHighlights[0] ?? null;
   const displayedTurntableHighlight = turntableRecordExiting ? null : activeHighlight;
+
+  const measureAlbumRects = (albumIds: string[]) => {
+    return new Map(
+      albumIds
+        .map((albumId) => {
+          const element = albumButtonRefs.current.get(albumId);
+          return element ? ([albumId, element.getBoundingClientRect()] as const) : null;
+        })
+        .filter((entry): entry is readonly [string, DOMRect] => Boolean(entry)),
+    );
+  };
+
+  const clearAlbumTransforms = (albumIds: string[]) => {
+    albumIds.forEach((albumId) => {
+      const element = albumButtonRefs.current.get(albumId);
+      if (!element) {
+        return;
+      }
+
+      element.style.transition = '';
+      element.style.transform = '';
+      element.style.zIndex = '';
+    });
+  };
+
+  const waitForSortFrame = (durationMs: number) =>
+    new Promise<void>((resolve) => {
+      const timeoutId = window.setTimeout(() => {
+        sortAnimationTimeoutsRef.current = sortAnimationTimeoutsRef.current.filter((value) => value !== timeoutId);
+        resolve();
+      }, durationMs);
+      sortAnimationTimeoutsRef.current.push(timeoutId);
+    });
+
+  const animateAlbumSortMove = async ({ albumId, nextOrderIds }: AlbumSortMove) => {
+    const liftOffsetY = -40;
+    const liftDurationMs = 90;
+    const repositionDurationMs = 150;
+    const settleDurationMs = 90;
+    const liftedElement = albumButtonRefs.current.get(albumId);
+    if (liftedElement) {
+      liftedElement.style.transition = `transform ${liftDurationMs}ms cubic-bezier(0.2, 0.82, 0.22, 1)`;
+      liftedElement.style.transform = `translateY(${liftOffsetY}px) scale(1.05) rotate(-1.8deg)`;
+      liftedElement.style.zIndex = '10';
+    }
+
+    setSortingAlbumId(albumId);
+    await waitForSortFrame(liftDurationMs);
+
+    const previousRects = measureAlbumRects(displayedAlbumOrderIdsRef.current);
+    flushSync(() => {
+      setDisplayedAlbumOrderIds(nextOrderIds);
+    });
+
+    window.requestAnimationFrame(() => {
+      const nextRects = measureAlbumRects(nextOrderIds);
+
+      nextOrderIds.forEach((currentAlbumId) => {
+        const element = albumButtonRefs.current.get(currentAlbumId);
+        const previousRect = previousRects.get(currentAlbumId);
+        const nextRect = nextRects.get(currentAlbumId);
+        if (!element || !previousRect || !nextRect) {
+          return;
+        }
+
+        const deltaX = previousRect.left - nextRect.left;
+        const deltaY = previousRect.top - nextRect.top;
+        const initialTransform =
+          currentAlbumId === albumId
+            ? `translate(${deltaX}px, ${deltaY + liftOffsetY}px) scale(1.05) rotate(-1.8deg)`
+            : `translate(${deltaX}px, ${deltaY}px)`;
+        const restingTransform =
+          currentAlbumId === albumId ? `translateY(${liftOffsetY}px) scale(1.05) rotate(-1.8deg)` : 'translate(0px, 0px)';
+
+        element.style.transition = 'none';
+        element.style.transform = initialTransform;
+        if (currentAlbumId === albumId) {
+          element.style.zIndex = '10';
+        }
+        void element.getBoundingClientRect();
+        window.requestAnimationFrame(() => {
+          element.style.transition = `transform ${repositionDurationMs}ms cubic-bezier(0.2, 0.82, 0.22, 1)`;
+          element.style.transform = restingTransform;
+        });
+      });
+    });
+
+    await waitForSortFrame(repositionDurationMs);
+
+    const movedElement = albumButtonRefs.current.get(albumId);
+    if (movedElement) {
+      movedElement.style.transition = `transform ${settleDurationMs}ms cubic-bezier(0.2, 0.82, 0.22, 1)`;
+      movedElement.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)';
+    }
+
+    await waitForSortFrame(settleDurationMs);
+    clearAlbumTransforms(nextOrderIds);
+    setSortingAlbumId(null);
+  };
+
+  const handleSortModeChange = async (nextMode: AlbumSortMode) => {
+    if (sortingInProgress || nextMode === sortMode) {
+      return;
+    }
+
+    const nextSortedIds = sortAlbums(filteredAlbums, nextMode).map((album) => album.id);
+    const currentOrderIds = displayedAlbumOrderIdsRef.current;
+    const moves = buildAlbumSortMoves(currentOrderIds, nextSortedIds);
+
+    setSortMode(nextMode);
+    if (moves.length === 0) {
+      setDisplayedAlbumOrderIds(nextSortedIds);
+      return;
+    }
+
+    setSortingInProgress(true);
+    try {
+      for (const move of moves) {
+        await animateAlbumSortMove(move);
+      }
+      setDisplayedAlbumOrderIds(nextSortedIds);
+    } finally {
+      clearAlbumTransforms(nextSortedIds);
+      setSortingAlbumId(null);
+      setSortingInProgress(false);
+    }
+  };
 
   const playHighlightFromSpotlight = (highlight: MusicHighlight) => {
     if (!highlight.track || spotlightLaunchingId) {
@@ -421,7 +785,6 @@ function Music() {
     const outgoingHighlight = activeHighlight?.cover?.src && activeHighlight.id !== highlight.id ? activeHighlight : null;
 
     setSpotlightLaunchingId(highlight.id);
-    setDropActive(false);
     setTurntableRecordEntering(false);
 
     if (spotlightLaunchTimeoutRef.current) {
@@ -478,24 +841,6 @@ function Music() {
 
   const progressRatio = previewDuration > 0 ? Math.min(previewCurrentTime / previewDuration, 1) : 0;
   const tonearmAngle = tonearmTracking ? 24 + progressRatio * 34 : 0;
-  const handleHighlightDragStart = (event: DragEvent<HTMLButtonElement>, highlight: MusicHighlight) => {
-    if (!highlight.track) {
-      event.preventDefault();
-      return;
-    }
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/music-highlight-id', highlight.id);
-  };
-
-  const handleDeckDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    const highlightId = event.dataTransfer.getData('text/music-highlight-id');
-    const highlight = findHighlight(highlightId);
-    if (highlight?.track) {
-      void startPlayback(highlight);
-    }
-    setDropActive(false);
-  };
 
   return (
     <>
@@ -503,18 +848,61 @@ function Music() {
         <main className={styles.main}>
           <section className={styles.shelfSection} aria-label="CD shelf">
             <div className={styles.shelfHeader}>
-              <div>
+              <div className={styles.shelfHeaderLead}>
                 <h2 className={styles.shelfTitle}>
                   <span>My Collection</span>
                   <span className={styles.shelfCount}>{filteredAlbums.length}</span>
                 </h2>
+
+                <div className={styles.sortControl}>
+                  <div
+                    className={styles.sortSegmented}
+                    style={
+                      {
+                        '--sort-thumb-index': sortMode === 'purchase-date' ? 0 : 1,
+                      } as CSSProperties
+                    }
+                    role="tablist"
+                    aria-label="专辑排序方式"
+                  >
+                    <span className={styles.sortSegmentedThumb} aria-hidden="true" />
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={sortMode === 'purchase-date'}
+                      className={[
+                        styles.sortSegmentedOption,
+                        sortMode === 'purchase-date' ? styles.sortSegmentedOptionActive : '',
+                      ].join(' ').trim()}
+                      onClick={() => void handleSortModeChange('purchase-date')}
+                      disabled={sortingInProgress}
+                    >
+                      购入时间
+                    </button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={sortMode === 'release-year'}
+                      className={[
+                        styles.sortSegmentedOption,
+                        sortMode === 'release-year' ? styles.sortSegmentedOptionActive : '',
+                      ].join(' ').trim()}
+                      onClick={() => void handleSortModeChange('release-year')}
+                      disabled={sortingInProgress}
+                    >
+                      专辑年份
+                    </button>
+                  </div>
+                </div>
               </div>
+
               <div className={styles.filterBar}>
                 <FilterDropdown
                   label="艺术家"
                   value={artistFilter}
                   options={artistFilterOptions}
                   onChange={setArtistFilter}
+                  disabled={sortingInProgress}
                 />
 
                 <FilterDropdown
@@ -523,6 +911,7 @@ function Music() {
                   options={yearFilterOptions}
                   onChange={setYearFilter}
                   compactMenu
+                  disabled={sortingInProgress}
                 />
 
                 <button
@@ -535,9 +924,9 @@ function Music() {
                     setArtistFilter('all');
                     setYearFilter('all');
                   }}
-                  disabled={!hasActiveFilter}
+                  disabled={!hasActiveFilter || sortingInProgress}
                   aria-hidden={!hasActiveFilter}
-                  tabIndex={hasActiveFilter ? 0 : -1}
+                  tabIndex={hasActiveFilter && !sortingInProgress ? 0 : -1}
                 >
                   清除筛选
                 </button>
@@ -547,8 +936,20 @@ function Music() {
             <div className={styles.shelfFrame}>
               <div className={styles.edgeFadeLeft} aria-hidden="true" />
               <div className={styles.edgeFadeRight} aria-hidden="true" />
-              <div ref={railRef} className={styles.shelfRail}>
-                {filteredAlbums.map((album) => (
+              {sortingInProgress ? (
+                <div className={styles.sortNotice} role="status" aria-live="polite">
+                  <span className={styles.sortNoticeDot} aria-hidden="true" />
+                  <span>{`正在按${sortModeLabel}整理`}</span>
+                </div>
+              ) : null}
+              <div
+                ref={railRef}
+                className={[
+                  styles.shelfRail,
+                  sortingInProgress ? styles.shelfRailSorting : '',
+                ].join(' ').trim()}
+              >
+                {displayedAlbums.map((album) => (
                   <button
                     key={album.id}
                     type="button"
@@ -557,7 +958,16 @@ function Music() {
                       expandedAlbumId === album.id ? styles.albumButtonExpanded : '',
                       expandRightAlbumId === album.id ? styles.albumButtonExpandRight : '',
                       pullingAlbumId === album.id ? styles.albumButtonPulling : '',
+                      sortingInProgress ? styles.albumButtonLocked : '',
+                      sortingAlbumId === album.id ? styles.albumButtonSorting : '',
                     ].join(' ').trim()}
+                    ref={(element) => {
+                      if (element) {
+                        albumButtonRefs.current.set(album.id, element);
+                        return;
+                      }
+                      albumButtonRefs.current.delete(album.id);
+                    }}
                     onMouseEnter={(event) => updateAlbumExpansion(album.id, event.currentTarget)}
                     onFocus={(event) => updateAlbumExpansion(album.id, event.currentTarget)}
                     onMouseLeave={() => clearAlbumExpansion(album.id)}
@@ -580,7 +990,7 @@ function Music() {
                   </button>
                 ))}
 
-                {filteredAlbums.length === 0 ? (
+                {displayedAlbums.length === 0 ? (
                   <div className={styles.emptyState}>当前筛选下没有专辑。</div>
                 ) : null}
               </div>
@@ -616,8 +1026,6 @@ function Music() {
                         activeHighlightId === spotlightHighlight.id ? styles.spotlightRecordButtonLoaded : '',
                         spotlightLaunchingId === spotlightHighlight.id ? styles.spotlightRecordButtonLaunching : '',
                       ].join(' ').trim()}
-                      draggable={Boolean(spotlightHighlight.track)}
-                      onDragStart={(event) => handleHighlightDragStart(event, spotlightHighlight)}
                       onClick={() => {
                         if (spotlightHighlight.track && activeHighlightId !== spotlightHighlight.id) {
                           playHighlightFromSpotlight(spotlightHighlight);
@@ -679,7 +1087,6 @@ function Music() {
               <RecordPlayer
                 className={styles.turntableDeck}
                 embedded
-                active={dropActive}
                 coverSrc={displayedTurntableHighlight?.cover?.src}
                 coverAlt={displayedTurntableHighlight?.cover?.alt ?? 'Record cover'}
                 outgoingCoverSrc={turntableOutgoingHighlight?.cover?.src}
@@ -692,24 +1099,6 @@ function Music() {
                 onTogglePlayback={() => void togglePlayback()}
                 disabled={!hasSelectedPlayableHighlight}
                 showButton={false}
-                onDragOver={(event) => {
-                  if (event.dataTransfer.types.includes('text/music-highlight-id')) {
-                    event.preventDefault();
-                    setDropActive(true);
-                  }
-                }}
-                onDragEnter={(event) => {
-                  if (event.dataTransfer.types.includes('text/music-highlight-id')) {
-                    event.preventDefault();
-                    setDropActive(true);
-                  }
-                }}
-                onDragLeave={(event) => {
-                  if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-                    setDropActive(false);
-                  }
-                }}
-                onDrop={handleDeckDrop}
               />
             </aside>
           </section>
@@ -758,7 +1147,7 @@ function Music() {
               </button>
             </div>
 
-            <div className={styles.playerNowPlaying}>
+            <div className={[styles.playerNowPlaying, !activeHighlight?.cover ? styles.playerNowPlayingNoArtwork : ''].join(' ').trim()}>
               {activeHighlight?.cover ? (
                 <img
                   className={styles.playerArtwork}
@@ -766,9 +1155,7 @@ function Music() {
                   alt={activeHighlight.cover.alt}
                   loading="lazy"
                 />
-              ) : (
-                <span className={styles.playerArtworkFallback} aria-hidden="true" />
-              )}
+              ) : null}
 
               <div className={styles.playerMeta}>
                 <div className={styles.playerTextRow}>
@@ -790,6 +1177,7 @@ function Music() {
 
             <button
               type="button"
+              ref={playlistButtonRef}
               className={[styles.playerControl, styles.playerListControl].join(' ')}
               aria-label="播放列表"
               aria-haspopup="dialog"
@@ -800,45 +1188,54 @@ function Music() {
               <img src="/icons/UI/list.svg" alt="" aria-hidden="true" className={styles.playerListIcon} />
             </button>
 
-            {playlistOpen ? (
-              <div ref={playlistRef} className={styles.playlistPanel} role="dialog" aria-label="播放列表">
-                <div className={styles.playlistPanelInner}>
-                  <p className={styles.playlistHeading}>播放列表</p>
-                  <div className={styles.playlistItems}>
-                    {playableHighlights.map((item) => (
-                      <button
-                        key={item.id}
-                        type="button"
-                        className={[
-                          styles.playlistItem,
-                          activeHighlightId === item.id ? styles.playlistItemActive : '',
-                        ].join(' ').trim()}
-                        onClick={() => {
-                          setPlaylistOpen(false);
-                          void startPlayback(item);
-                        }}
-                      >
-                        {item.cover ? (
-                          <img
-                            className={styles.playlistItemArtwork}
-                            src={item.cover.src}
-                            alt={item.cover.alt}
-                            loading="lazy"
-                          />
-                        ) : (
-                          <span className={styles.playlistItemArtworkFallback} aria-hidden="true" />
-                        )}
-                        <span className={styles.playlistItemMeta}>
-                          <strong className={styles.playlistItemTitle}>{item.track?.title ?? item.value}</strong>
-                          <span className={styles.playlistItemAlbum}>{item.value}</span>
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : null}
           </section>
+          {playlistOpen && typeof document !== 'undefined'
+            ? createPortal(
+                <div
+                  ref={playlistRef}
+                  className={styles.playlistPanel}
+                  style={playlistPanelStyle ? { ...playlistPanelStyle, visibility: 'visible' } : { visibility: 'hidden' }}
+                  role="dialog"
+                  aria-label="播放列表"
+                >
+                  <div className={styles.playlistPanelInner}>
+                    <p className={styles.playlistHeading}>播放列表</p>
+                    <div className={styles.playlistItems}>
+                      {playableHighlights.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          className={[
+                            styles.playlistItem,
+                            activeHighlightId === item.id ? styles.playlistItemActive : '',
+                          ].join(' ').trim()}
+                          onClick={() => {
+                            setPlaylistOpen(false);
+                            void startPlayback(item);
+                          }}
+                        >
+                          {item.cover ? (
+                            <img
+                              className={styles.playlistItemArtwork}
+                              src={item.cover.src}
+                              alt={item.cover.alt}
+                              loading="lazy"
+                            />
+                          ) : (
+                            <span className={styles.playlistItemArtworkFallback} aria-hidden="true" />
+                          )}
+                          <span className={styles.playlistItemMeta}>
+                            <strong className={styles.playlistItemTitle}>{item.track?.title ?? item.value}</strong>
+                            <span className={styles.playlistItemAlbum}>{item.value}</span>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>,
+                document.body,
+              )
+            : null}
         </main>
       </div>
 
@@ -893,9 +1290,15 @@ function Music() {
                   </p>
                 ) : null}
               </div>
-              {selectedAlbum.note ? <p className={styles.modalNote}>{selectedAlbum.note}</p> : null}
               {!selectedAlbum.cover.file ? <p className={styles.modalMissing}>这张专辑的真实封面还没有补入，目前先使用程序化占位封面。</p> : null}
             </div>
+
+            {selectedAlbum.note ? (
+              <section className={styles.modalNotePanel} aria-label="我的备注">
+                <p className={styles.modalNoteLabel}>Note</p>
+                <p className={styles.modalNote}>{selectedAlbum.note}</p>
+              </section>
+            ) : null}
           </div>
         </div>
       ) : null}

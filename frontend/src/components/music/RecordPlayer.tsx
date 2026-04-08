@@ -1,4 +1,4 @@
-import { useId, type DragEventHandler } from 'react';
+import { useId } from 'react';
 import styles from './RecordPlayer.module.css';
 
 const grooveRadii = Array.from({ length: 19 }, (_, index) => 380 - index * 10);
@@ -60,13 +60,8 @@ interface RecordPlayerProps {
   onTogglePlayback: () => void | Promise<void>;
   className?: string;
   embedded?: boolean;
-  active?: boolean;
   disabled?: boolean;
   showButton?: boolean;
-  onDragOver?: DragEventHandler<HTMLDivElement>;
-  onDragEnter?: DragEventHandler<HTMLDivElement>;
-  onDragLeave?: DragEventHandler<HTMLDivElement>;
-  onDrop?: DragEventHandler<HTMLDivElement>;
 }
 
 function RecordPlayer({
@@ -82,26 +77,16 @@ function RecordPlayer({
   onTogglePlayback,
   className,
   embedded = false,
-  active = false,
   disabled = false,
   showButton = true,
-  onDragOver,
-  onDragEnter,
-  onDragLeave,
-  onDrop,
 }: RecordPlayerProps) {
   return (
     <div
       className={[
         styles.stage,
         embedded ? styles.stageEmbedded : '',
-        active ? styles.stageActive : '',
         className ?? '',
       ].join(' ').trim()}
-      onDragOver={onDragOver}
-      onDragEnter={onDragEnter}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
     >
       <div className={styles.playerShell}>
         <div className={styles.playerStand} />
