@@ -363,8 +363,38 @@ function Music() {
     playAdjacentHighlight,
   } = useMusicPlayer();
 
+  const syncShelfWheelTarget = (force = false) => {
+    const rail = railRef.current;
+    if (!rail) {
+      shelfWheelTargetRef.current = 0;
+      return;
+    }
+
+    const maxScrollLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
+    const clampedScrollLeft = Math.max(0, Math.min(maxScrollLeft, rail.scrollLeft));
+    if (clampedScrollLeft !== rail.scrollLeft) {
+      rail.scrollLeft = clampedScrollLeft;
+    }
+
+    if (force || shelfWheelAnimationFrameRef.current === null) {
+      shelfWheelTargetRef.current = clampedScrollLeft;
+    }
+  };
+
+  const stopShelfWheelAnimation = (syncToCurrent = false) => {
+    if (shelfWheelAnimationFrameRef.current !== null) {
+      window.cancelAnimationFrame(shelfWheelAnimationFrameRef.current);
+      shelfWheelAnimationFrameRef.current = null;
+    }
+
+    if (syncToCurrent) {
+      syncShelfWheelTarget(true);
+    }
+  };
+
   useEffect(() => {
     displayedAlbumOrderIdsRef.current = displayedAlbumOrderIds;
+    stopShelfWheelAnimation(true);
   }, [displayedAlbumOrderIds]);
 
   useEffect(() => {
@@ -409,16 +439,16 @@ function Music() {
           return event.deltaY;
       }
     };
-    const stopWheelAnimation = () => {
-      if (shelfWheelAnimationFrameRef.current !== null) {
-        window.cancelAnimationFrame(shelfWheelAnimationFrameRef.current);
-        shelfWheelAnimationFrameRef.current = null;
-      }
-    };
     const animateWheelScroll = () => {
-      const distance = shelfWheelTargetRef.current - rail.scrollLeft;
+      const maxScrollLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
+      const clampedTarget = Math.max(0, Math.min(maxScrollLeft, shelfWheelTargetRef.current));
+      if (clampedTarget !== shelfWheelTargetRef.current) {
+        shelfWheelTargetRef.current = clampedTarget;
+      }
+
+      const distance = clampedTarget - rail.scrollLeft;
       if (Math.abs(distance) < 0.5) {
-        rail.scrollLeft = shelfWheelTargetRef.current;
+        rail.scrollLeft = clampedTarget;
         shelfWheelAnimationFrameRef.current = null;
         return;
       }
@@ -453,19 +483,22 @@ function Music() {
         shelfWheelAnimationFrameRef.current = window.requestAnimationFrame(animateWheelScroll);
       }
     };
-    const syncWheelTarget = () => {
-      if (shelfWheelAnimationFrameRef.current === null) {
-        shelfWheelTargetRef.current = rail.scrollLeft;
-      }
+    const handlePointerDown = () => {
+      stopShelfWheelAnimation(true);
+    };
+    const handleScroll = () => {
+      syncShelfWheelTarget();
     };
 
-    shelfWheelTargetRef.current = rail.scrollLeft;
+    syncShelfWheelTarget(true);
     rail.addEventListener('wheel', handleWheel, { passive: false });
-    rail.addEventListener('scroll', syncWheelTarget, { passive: true });
+    rail.addEventListener('scroll', handleScroll, { passive: true });
+    rail.addEventListener('pointerdown', handlePointerDown, { passive: true });
     return () => {
-      stopWheelAnimation();
+      stopShelfWheelAnimation();
       rail.removeEventListener('wheel', handleWheel);
-      rail.removeEventListener('scroll', syncWheelTarget);
+      rail.removeEventListener('scroll', handleScroll);
+      rail.removeEventListener('pointerdown', handlePointerDown);
     };
   }, []);
 
@@ -751,6 +784,7 @@ function Music() {
       return;
     }
 
+    stopShelfWheelAnimation(true);
     const nextSortedIds = sortAlbums(filteredAlbums, nextMode).map((album) => album.id);
     const currentOrderIds = displayedAlbumOrderIdsRef.current;
     const moves = buildAlbumSortMoves(currentOrderIds, nextSortedIds);
