@@ -1655,6 +1655,7 @@
   display: grid;
   place-items: center;
   padding: 92px 24px 24px;
+  overflow-y: auto;
   background: rgba(8, 15, 28, 0.56);
   backdrop-filter: blur(22px);
   z-index: 40;
@@ -1669,11 +1670,14 @@
 .modalCard {
   position: relative;
   width: min(920px, 100%);
+  max-height: calc(100dvh - 140px);
   display: grid;
   grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
   align-items: start;
   gap: 2rem;
   padding: 2rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   border-radius: 0px;
   /* border: 1px solid var(--line); */
   background: color-mix(in srgb, var(--panel-strong) 94%, transparent);
@@ -1844,6 +1848,8 @@
   font-size: 1rem;
   color: color-mix(in srgb, var(--text-color) 82%, transparent);
   line-height: 1.92;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .modalNote::before {
@@ -1949,6 +1955,7 @@
     grid-template-columns: 1fr;
     gap: 1.4rem;
     padding: 1.2rem;
+    max-height: calc(100dvh - 32px);
   }
 
   .modalMeta {
