@@ -17,13 +17,6 @@ interface FilterOption {
 
 type AlbumSortMode = 'purchase-date' | 'release-year';
 
-interface AlbumSortMove {
-  albumId: string;
-  fromIndex: number;
-  toIndex: number;
-  nextOrderIds: string[];
-}
-
 function getAlbumSortValue(album: MusicAlbum, mode: AlbumSortMode) {
   if (mode === 'purchase-date') {
     return new Date(album.purchase.date).getTime();
@@ -44,75 +37,6 @@ function sortAlbums(albumList: MusicAlbum[], mode: AlbumSortMode) {
       return left.index - right.index;
     })
     .map(({ album }) => album);
-}
-
-function getLongestIncreasingSubsequenceIndices(sequence: number[]) {
-  const predecessors = new Array<number>(sequence.length).fill(-1);
-  const tails: number[] = [];
-
-  for (let index = 0; index < sequence.length; index += 1) {
-    const value = sequence[index];
-    let left = 0;
-    let right = tails.length;
-
-    while (left < right) {
-      const middle = Math.floor((left + right) / 2);
-      if (sequence[tails[middle]] < value) {
-        left = middle + 1;
-      } else {
-        right = middle;
-      }
-    }
-
-    if (left > 0) {
-      predecessors[index] = tails[left - 1];
-    }
-
-    tails[left] = index;
-  }
-
-  const lis: number[] = [];
-  let cursor = tails[tails.length - 1];
-
-  while (cursor !== undefined && cursor !== -1) {
-    lis.push(cursor);
-    cursor = predecessors[cursor];
-  }
-
-  return lis.reverse();
-}
-
-function buildAlbumSortMoves(currentOrderIds: string[], targetOrderIds: string[]) {
-  const targetIndexById = new Map(targetOrderIds.map((id, index) => [id, index]));
-  const lisIndices = getLongestIncreasingSubsequenceIndices(
-    currentOrderIds.map((id) => targetIndexById.get(id) ?? -1),
-  );
-  const anchoredIds = new Set(lisIndices.map((index) => currentOrderIds[index]));
-  const workingOrderIds = [...currentOrderIds];
-  const moves: AlbumSortMove[] = [];
-
-  for (let targetIndex = 0; targetIndex < targetOrderIds.length; targetIndex += 1) {
-    const desiredAlbumId = targetOrderIds[targetIndex];
-    if (anchoredIds.has(desiredAlbumId)) {
-      continue;
-    }
-
-    const currentIndex = workingOrderIds.indexOf(desiredAlbumId);
-    if (currentIndex === -1 || currentIndex === targetIndex) {
-      continue;
-    }
-
-    const [movedAlbumId] = workingOrderIds.splice(currentIndex, 1);
-    workingOrderIds.splice(targetIndex, 0, movedAlbumId);
-    moves.push({
-      albumId: desiredAlbumId,
-      fromIndex: currentIndex,
-      toIndex: targetIndex,
-      nextOrderIds: [...workingOrderIds],
-    });
-  }
-
-  return moves;
 }
 
 function buildPalette(seed: string) {
@@ -702,8 +626,6 @@ function Music() {
       .filter((album): album is MusicAlbum => Boolean(album));
   }, [displayedAlbumOrderIds, filteredAlbumMap]);
 
-  const sortModeLabel = sortMode === 'purchase-date' ? '购入时间' : '专辑年份';
-
   useEffect(() => {
     if (sortingInProgress) {
       return;
@@ -748,22 +670,10 @@ function Music() {
       sortAnimationTimeoutsRef.current.push(timeoutId);
     });
 
-  const animateAlbumSortMove = async ({ albumId, nextOrderIds }: AlbumSortMove) => {
-    const liftOffsetY = -40;
-    const liftDurationMs = 90;
-    const repositionDurationMs = 150;
-    const settleDurationMs = 90;
-    const liftedElement = albumButtonRefs.current.get(albumId);
-    if (liftedElement) {
-      liftedElement.style.transition = `transform ${liftDurationMs}ms cubic-bezier(0.2, 0.82, 0.22, 1)`;
-      liftedElement.style.transform = `translateY(${liftOffsetY}px) scale(1.05) rotate(-1.8deg)`;
-      liftedElement.style.zIndex = '10';
-    }
-
-    setSortingAlbumId(albumId);
-    await waitForSortFrame(liftDurationMs);
-
+  const animateAlbumSortBatch = async (nextOrderIds: string[]) => {
+    const repositionDurationMs = 120;
     const previousRects = measureAlbumRects(displayedAlbumOrderIdsRef.current);
+
     flushSync(() => {
       setDisplayedAlbumOrderIds(nextOrderIds);
     });
@@ -771,47 +681,34 @@ function Music() {
     window.requestAnimationFrame(() => {
       const nextRects = measureAlbumRects(nextOrderIds);
 
-      nextOrderIds.forEach((currentAlbumId) => {
-        const element = albumButtonRefs.current.get(currentAlbumId);
-        const previousRect = previousRects.get(currentAlbumId);
-        const nextRect = nextRects.get(currentAlbumId);
+      nextOrderIds.forEach((albumId) => {
+        const element = albumButtonRefs.current.get(albumId);
+        const previousRect = previousRects.get(albumId);
+        const nextRect = nextRects.get(albumId);
         if (!element || !previousRect || !nextRect) {
           return;
         }
 
         const deltaX = previousRect.left - nextRect.left;
         const deltaY = previousRect.top - nextRect.top;
-        const initialTransform =
-          currentAlbumId === albumId
-            ? `translate(${deltaX}px, ${deltaY + liftOffsetY}px) scale(1.05) rotate(-1.8deg)`
-            : `translate(${deltaX}px, ${deltaY}px)`;
-        const restingTransform =
-          currentAlbumId === albumId ? `translateY(${liftOffsetY}px) scale(1.05) rotate(-1.8deg)` : 'translate(0px, 0px)';
+
+        if (deltaX === 0 && deltaY === 0) {
+          return;
+        }
 
         element.style.transition = 'none';
-        element.style.transform = initialTransform;
-        if (currentAlbumId === albumId) {
-          element.style.zIndex = '10';
-        }
+        element.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        element.style.zIndex = '10';
         void element.getBoundingClientRect();
         window.requestAnimationFrame(() => {
           element.style.transition = `transform ${repositionDurationMs}ms cubic-bezier(0.2, 0.82, 0.22, 1)`;
-          element.style.transform = restingTransform;
+          element.style.transform = 'translate(0px, 0px)';
         });
       });
     });
 
     await waitForSortFrame(repositionDurationMs);
-
-    const movedElement = albumButtonRefs.current.get(albumId);
-    if (movedElement) {
-      movedElement.style.transition = `transform ${settleDurationMs}ms cubic-bezier(0.2, 0.82, 0.22, 1)`;
-      movedElement.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)';
-    }
-
-    await waitForSortFrame(settleDurationMs);
     clearAlbumTransforms(nextOrderIds);
-    setSortingAlbumId(null);
   };
 
   const handleSortModeChange = async (nextMode: AlbumSortMode) => {
@@ -821,21 +718,16 @@ function Music() {
 
     stopShelfWheelAnimation(true);
     const nextSortedIds = sortAlbums(filteredAlbums, nextMode).map((album) => album.id);
-    const currentOrderIds = displayedAlbumOrderIdsRef.current;
-    const moves = buildAlbumSortMoves(currentOrderIds, nextSortedIds);
 
     setSortMode(nextMode);
-    if (moves.length === 0) {
+    if (nextSortedIds.every((albumId, index) => displayedAlbumOrderIdsRef.current[index] === albumId)) {
       setDisplayedAlbumOrderIds(nextSortedIds);
       return;
     }
 
     setSortingInProgress(true);
     try {
-      for (const move of moves) {
-        await animateAlbumSortMove(move);
-      }
-      setDisplayedAlbumOrderIds(nextSortedIds);
+      await animateAlbumSortBatch(nextSortedIds);
     } finally {
       clearAlbumTransforms(nextSortedIds);
       setSortingAlbumId(null);
@@ -1005,12 +897,6 @@ function Music() {
             <div className={styles.shelfFrame}>
               <div className={styles.edgeFadeLeft} aria-hidden="true" />
               <div className={styles.edgeFadeRight} aria-hidden="true" />
-              {sortingInProgress ? (
-                <div className={styles.sortNotice} role="status" aria-live="polite">
-                  <span className={styles.sortNoticeDot} aria-hidden="true" />
-                  <span>{`正在按${sortModeLabel}整理`}</span>
-                </div>
-              ) : null}
               <div
                 ref={railRef}
                 className={[
