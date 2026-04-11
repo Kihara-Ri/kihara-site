@@ -343,6 +343,7 @@ function Music() {
   const spotlightLaunchTimeoutRef = useRef<number | null>(null);
   const turntableSwapTimeoutRef = useRef<number | null>(null);
   const turntableEnterTimeoutRef = useRef<number | null>(null);
+  const closeModalTimeoutRef = useRef<number | null>(null);
   const shelfWheelAnimationFrameRef = useRef<number | null>(null);
   const shelfWheelTargetRef = useRef(0);
   const displayedAlbumOrderIdsRef = useRef(displayedAlbumOrderIds);
@@ -402,8 +403,18 @@ function Music() {
       return;
     }
 
+    if (closeModalTimeoutRef.current !== null) {
+      window.clearTimeout(closeModalTimeoutRef.current);
+      closeModalTimeoutRef.current = null;
+    }
+
     const previousOverflow = document.body.style.overflow;
+    const previousPaddingRight = document.body.style.paddingRight;
+    const scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
     document.body.style.overflow = 'hidden';
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
     setModalVisible(false);
     const frameId = window.requestAnimationFrame(() => {
       setModalVisible(true);
@@ -418,6 +429,7 @@ function Music() {
     return () => {
       window.cancelAnimationFrame(frameId);
       document.body.style.overflow = previousOverflow;
+      document.body.style.paddingRight = previousPaddingRight;
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [selectedAlbum]);
@@ -457,7 +469,12 @@ function Music() {
       shelfWheelAnimationFrameRef.current = window.requestAnimationFrame(animateWheelScroll);
     };
     const handleWheel = (event: WheelEvent) => {
-      if (event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+      if (event.ctrlKey) {
+        return;
+      }
+
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+        stopShelfWheelAnimation(true);
         return;
       }
 
@@ -489,16 +506,26 @@ function Music() {
     const handleScroll = () => {
       syncShelfWheelTarget();
     };
+    const handleViewportChange = () => {
+      stopShelfWheelAnimation(true);
+    };
+    const resizeObserver = new ResizeObserver(() => {
+      stopShelfWheelAnimation(true);
+    });
 
     syncShelfWheelTarget(true);
+    resizeObserver.observe(rail);
     rail.addEventListener('wheel', handleWheel, { passive: false });
     rail.addEventListener('scroll', handleScroll, { passive: true });
     rail.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    window.addEventListener('resize', handleViewportChange);
     return () => {
+      resizeObserver.disconnect();
       stopShelfWheelAnimation();
       rail.removeEventListener('wheel', handleWheel);
       rail.removeEventListener('scroll', handleScroll);
       rail.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('resize', handleViewportChange);
     };
   }, []);
 
@@ -587,6 +614,10 @@ function Music() {
         window.clearTimeout(turntableEnterTimeoutRef.current);
         turntableEnterTimeoutRef.current = null;
       }
+      if (closeModalTimeoutRef.current) {
+        window.clearTimeout(closeModalTimeoutRef.current);
+        closeModalTimeoutRef.current = null;
+      }
     };
   }, []);
 
@@ -619,8 +650,12 @@ function Music() {
 
   const closeModal = () => {
     setModalVisible(false);
-    window.setTimeout(() => {
+    if (closeModalTimeoutRef.current !== null) {
+      window.clearTimeout(closeModalTimeoutRef.current);
+    }
+    closeModalTimeoutRef.current = window.setTimeout(() => {
       setSelectedAlbum(null);
+      closeModalTimeoutRef.current = null;
     }, 180);
   };
 
@@ -1002,14 +1037,20 @@ function Music() {
                       }
                       albumButtonRefs.current.delete(album.id);
                     }}
+                    onMouseDown={(event) => {
+                      // Keep keyboard focus behavior, but avoid pointer-click focus causing the
+                      // browser to auto-scroll the horizontal shelf back toward the last clicked album.
+                      event.preventDefault();
+                    }}
                     onMouseEnter={(event) => updateAlbumExpansion(album.id, event.currentTarget)}
                     onFocus={(event) => updateAlbumExpansion(album.id, event.currentTarget)}
                     onMouseLeave={() => clearAlbumExpansion(album.id)}
                     onBlur={() => clearAlbumExpansion(album.id)}
-                    onClick={() => {
+                    onClick={(event) => {
                       if (pullingAlbumId) {
                         return;
                       }
+                      event.currentTarget.blur();
                       setPullingAlbumId(album.id);
                       window.setTimeout(() => {
                         setSelectedAlbum(album);
