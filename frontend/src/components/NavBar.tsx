@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { useLocation } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { useTheme } from "@/context/ThemeContext";
 import styles from './NavBar.module.css';
 
@@ -17,6 +18,8 @@ const NavBar: React.FC = () => {
   const [scrolledDown, setScrolledDown] = useState(false);
   const [inHero, setInHero] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutExpanded, setAboutExpanded] = useState(false);
+  const [skillsExpanded, setSkillsExpanded] = useState(false);
   const themeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
@@ -52,10 +55,26 @@ const NavBar: React.FC = () => {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [menuOpen]);
+
   const navClassName = [
     styles.navbar,
     inHero ? styles.navbarHero : '',
     scrolledDown ? styles.navbarScrolled : '',
+    menuOpen ? styles.navbarMenuOpen : '',
   ].join(' ').trim();
 
   const homeActive = isCurrentPath(location.pathname, '/');
@@ -63,6 +82,13 @@ const NavBar: React.FC = () => {
   const skillsActive = isCurrentPath(location.pathname, '/skills/');
   const musicActive = isCurrentPath(location.pathname, '/music/');
   const blogsActive = isCurrentPath(location.pathname, '/blogs/');
+
+  useEffect(() => {
+    if (menuOpen) {
+      setAboutExpanded(aboutActive);
+      setSkillsExpanded(skillsActive);
+    }
+  }, [menuOpen, aboutActive, skillsActive]);
 
   const handleThemeToggle = (event: MouseEvent<HTMLButtonElement>) => {
     const rect = themeButtonRef.current?.getBoundingClientRect();
@@ -100,37 +126,73 @@ const NavBar: React.FC = () => {
     </button>
   );
 
+  const mobileBackdrop =
+    menuOpen && typeof document !== 'undefined'
+      ? createPortal(
+          <div
+            className={[styles.mobileBackdrop, styles.mobileBackdropOpen].join(' ')}
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
+          />,
+          document.body,
+        )
+      : null;
+
   return (
-    <nav className={navClassName}>
+    <>
+      {mobileBackdrop}
+      <nav className={navClassName}>
       <div className={styles.inner}>
         <div className={styles.brand}>
           <Link to="/" className={styles.brandLink}><h2 className={styles.brandTitle}>Kihara</h2></Link>
         </div>
-        <div
-          className={[styles.mobileBackdrop, menuOpen ? styles.mobileBackdropOpen : ''].join(' ').trim()}
-          onClick={() => setMenuOpen(false)}
-          aria-hidden="true"
-        />
-        <ul className={[styles.navList, menuOpen ? styles.navListOpen : ''].join(' ').trim()}>
+        <ul
+          className={[styles.navList, menuOpen ? styles.navListOpen : ''].join(' ').trim()}
+          aria-hidden={!menuOpen}
+        >
           <li className={styles.mobileHeader}>
-            <span className={styles.mobileTitle}>Navigation</span>
+            <div className={styles.mobileHeaderText}>
+              <span className={styles.mobileTitle}>Navigation</span>
+            </div>
             <button type="button" className={styles.mobileClose} onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button>
           </li>
           <li className={styles.navItem}>
             <Link className={homeActive ? styles.navLinkActive : undefined} to="/">Home</Link>
           </li>
-          <li className={[styles.navItem, styles.dropdown].join(' ')}>
-            <Link className={aboutActive ? styles.navLinkActive : undefined} to="/about">About</Link>
-            <ul className={styles.dropdownMenu}>
+          <li className={[styles.navItem, styles.dropdown, aboutExpanded ? styles.mobileSectionExpanded : ''].join(' ').trim()}>
+            <div className={styles.mobileSectionTop}>
+              <Link className={aboutActive ? styles.navLinkActive : undefined} to="/about">About</Link>
+              <button
+                type="button"
+                className={styles.mobileSectionToggle}
+                aria-expanded={aboutExpanded}
+                aria-controls="mobile-about-links"
+                onClick={() => setAboutExpanded((expanded) => !expanded)}
+              >
+                <span className={styles.mobileSectionToggleIcon} aria-hidden="true" />
+              </button>
+            </div>
+            <ul className={styles.dropdownMenu} id="mobile-about-links">
               <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/about/me/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/about/me/">关于我</Link></li>
               <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/about/site/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/about/site/">关于网站</Link></li>
               <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/about/now/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/about/now/">最近</Link></li>
               <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/about/books/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/about/books/">看书</Link></li>
             </ul>
           </li>
-          <li className={[styles.navItem, styles.dropdown].join(' ')}>
-            <Link className={skillsActive ? styles.navLinkActive : undefined} to="/skills/">Skills</Link>
-            <ul className={styles.dropdownMenu}>
+          <li className={[styles.navItem, styles.dropdown, skillsExpanded ? styles.mobileSectionExpanded : ''].join(' ').trim()}>
+            <div className={styles.mobileSectionTop}>
+              <Link className={skillsActive ? styles.navLinkActive : undefined} to="/skills/">Skills</Link>
+              <button
+                type="button"
+                className={styles.mobileSectionToggle}
+                aria-expanded={skillsExpanded}
+                aria-controls="mobile-skills-links"
+                onClick={() => setSkillsExpanded((expanded) => !expanded)}
+              >
+                <span className={styles.mobileSectionToggleIcon} aria-hidden="true" />
+              </button>
+            </div>
+            <ul className={styles.dropdownMenu} id="mobile-skills-links">
               <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/skills/stack/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/skills/stack/">技术栈</Link></li>
               <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/skills/experience/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/skills/experience/">经验</Link></li>
               <li><Link className={[styles.menuLink, isCurrentPath(location.pathname, '/skills/learning/') ? styles.menuLinkActive : ''].join(' ').trim()} to="/skills/learning/">学习中</Link></li>
@@ -157,7 +219,8 @@ const NavBar: React.FC = () => {
           </button>
         </div>
       </div>
-    </nav>
+      </nav>
+    </>
   )
 }
 
