@@ -60,13 +60,13 @@
   }
 
   .poemLine {
-    font-size: 0.96rem;
-    line-height: 1.55;
+    font-size: 0.88rem;
+    line-height: 1.42;
     letter-spacing: 0.08em;
   }
 
   .poemMeta {
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
   }
 }

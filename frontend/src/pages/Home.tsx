@@ -202,12 +202,6 @@ const Home: React.FC = () => {
               <div className={styles.intro}>
                 <h1 className={styles.title}>{siteConfig.homeHero.title}</h1>
                 <p className={styles.titleSub}>{siteConfig.homeHero.subtitleTag}</p>
-                <p className={styles.subtitle}>
-                  {siteConfig.homeHero.descriptionZh}
-                </p>
-                <p className={styles.subtitleEn}>
-                  {siteConfig.homeHero.descriptionEn}
-                </p>
               </div>
 
               <div className={styles.detailsRow}>
