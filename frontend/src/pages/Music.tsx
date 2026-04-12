@@ -6,6 +6,7 @@ import albumData from '../content/music/albums.json';
 import { musicHighlights } from '../content/music/highlights';
 import type { MusicAlbum, MusicHighlight } from '../content/music/types';
 import { useMusicPlayer } from '../context/MusicPlayerContext';
+import MusicMobile from './MusicMobile';
 import styles from './Music.module.css';
 
 const albums = albumData as MusicAlbum[];
@@ -139,6 +140,40 @@ function ModalAlbumArtwork({ album }: { album: MusicAlbum }) {
   );
 }
 
+function MobileAlbumHero({ album }: { album: MusicAlbum }) {
+  const palette = buildPalette(`${album.artist}-${album.title}`);
+
+  return (
+    <div
+      className={styles.mobileAlbumHero}
+      style={
+        {
+          '--album-cover-start': palette.coverStart,
+          '--album-cover-end': palette.coverEnd,
+          '--album-accent': palette.accent,
+        } as CSSProperties
+      }
+    >
+      {album.cover.file ? (
+        <>
+          <img className={styles.mobileAlbumHeroImage} src={album.cover.file} alt={`${album.title} cover`} />
+          <div className={styles.albumImageOverlay} />
+        </>
+      ) : (
+        <>
+          <div className={styles.albumHalo} />
+          <div className={styles.albumDisc} />
+          <div className={styles.albumLabelBlock}>
+            <strong>{album.title}</strong>
+            <span>{album.artist}</span>
+          </div>
+          <span className={styles.coverMissingBadge}>封面待补</span>
+        </>
+      )}
+    </div>
+  );
+}
+
 function FilterDropdown({
   label,
   value,
@@ -239,10 +274,16 @@ function FilterDropdown({
   );
 }
 
-function Music() {
+function MusicDesktop() {
+  const [isMobileLayout, setIsMobileLayout] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 900px)').matches : false,
+  );
   const [selectedAlbum, setSelectedAlbum] = useState<MusicAlbum | null>(null);
   const [pullingAlbumId, setPullingAlbumId] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
+  const [mobileAlbumId, setMobileAlbumId] = useState<string | null>(null);
+  const [mobileNoteExpanded, setMobileNoteExpanded] = useState(false);
   const [artistFilter, setArtistFilter] = useState('all');
   const [yearFilter, setYearFilter] = useState('all');
   const [sortMode, setSortMode] = useState<AlbumSortMode>('purchase-date');
@@ -288,6 +329,19 @@ function Music() {
     playAdjacentHighlight,
   } = useMusicPlayer();
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 900px)');
+    const syncLayout = () => {
+      setIsMobileLayout(mediaQuery.matches);
+    };
+
+    syncLayout();
+    mediaQuery.addEventListener('change', syncLayout);
+    return () => {
+      mediaQuery.removeEventListener('change', syncLayout);
+    };
+  }, []);
+
   const syncShelfWheelTarget = (force = false) => {
     const rail = railRef.current;
     if (!rail) {
@@ -321,6 +375,16 @@ function Music() {
     displayedAlbumOrderIdsRef.current = displayedAlbumOrderIds;
     stopShelfWheelAnimation(true);
   }, [displayedAlbumOrderIds]);
+
+  useEffect(() => {
+    if (!isMobileLayout) {
+      setMobileControlsOpen(false);
+      return;
+    }
+
+    setPlaylistOpen(false);
+    setSelectedAlbum(null);
+  }, [isMobileLayout]);
 
   useEffect(() => {
     if (!selectedAlbum) {
@@ -711,8 +775,8 @@ function Music() {
     clearAlbumTransforms(nextOrderIds);
   };
 
-  const handleSortModeChange = async (nextMode: AlbumSortMode) => {
-    if (sortingInProgress || nextMode === sortMode) {
+  const handleSortModeChange = async (nextMode: AlbumSortMode, instant = false) => {
+    if ((sortingInProgress && !instant) || nextMode === sortMode) {
       return;
     }
 
@@ -720,7 +784,10 @@ function Music() {
     const nextSortedIds = sortAlbums(filteredAlbums, nextMode).map((album) => album.id);
 
     setSortMode(nextMode);
-    if (nextSortedIds.every((albumId, index) => displayedAlbumOrderIdsRef.current[index] === albumId)) {
+    if (
+      instant ||
+      nextSortedIds.every((albumId, index) => displayedAlbumOrderIdsRef.current[index] === albumId)
+    ) {
       setDisplayedAlbumOrderIds(nextSortedIds);
       return;
     }
@@ -802,11 +869,201 @@ function Music() {
 
   const progressRatio = previewDuration > 0 ? Math.min(previewCurrentTime / previewDuration, 1) : 0;
   const tonearmAngle = tonearmTracking ? 24 + progressRatio * 34 : 0;
+  const mobileAlbum = displayedAlbums.find((album) => album.id === mobileAlbumId) ?? displayedAlbums[0] ?? null;
+  const mobileAlbumIndex = mobileAlbum ? displayedAlbums.findIndex((album) => album.id === mobileAlbum.id) : -1;
+  const mobileAlbumNote = mobileAlbum?.note ?? '暂无备注。';
+  const mobileAlbumHasLongNote = mobileAlbumNote.length > 180 || mobileAlbumNote.includes('\n');
+
+  useEffect(() => {
+    if (!displayedAlbums.length) {
+      setMobileAlbumId(null);
+      return;
+    }
+
+    setMobileAlbumId((current) => (
+      current && displayedAlbums.some((album) => album.id === current) ? current : displayedAlbums[0].id
+    ));
+  }, [displayedAlbums]);
+
+  useEffect(() => {
+    setMobileNoteExpanded(false);
+  }, [mobileAlbumId]);
+
+  const stepMobileAlbum = (direction: 1 | -1) => {
+    if (!displayedAlbums.length) {
+      return;
+    }
+
+    const fallbackIndex = 0;
+    const nextIndex =
+      mobileAlbumIndex >= 0
+        ? (mobileAlbumIndex + direction + displayedAlbums.length) % displayedAlbums.length
+        : fallbackIndex;
+    const nextAlbum = displayedAlbums[nextIndex];
+    if (nextAlbum) {
+      setMobileAlbumId(nextAlbum.id);
+    }
+  };
 
   return (
     <>
-      <div className={[layout.page, layout.pageWithFooter, styles.page].join(' ')}>
-        <main className={styles.main}>
+      <div className={[layout.page, layout.pageWithFooter, styles.page, isMobileLayout ? styles.pageMobile : ''].join(' ')}>
+        <main className={[styles.main, isMobileLayout ? styles.mainMobile : ''].join(' ').trim()}>
+          {isMobileLayout ? (
+            <>
+              <section className={styles.mobileHeader} aria-label="Music page controls">
+                <div>
+                  <p className={styles.mobileEyebrow}>Music</p>
+                  <h1 className={styles.mobileTitle}>My Collection</h1>
+                  <p className={styles.mobileSubtitle}>{`${filteredAlbums.length} 张专辑`}</p>
+                </div>
+                <button
+                  type="button"
+                  className={styles.mobileControlsButton}
+                  onClick={() => setMobileControlsOpen(true)}
+                >
+                  Sort / Filter
+                </button>
+              </section>
+
+              <section className={styles.mobileStage} aria-label="Current album">
+                {mobileAlbum ? (
+                  <>
+                    <div className={styles.mobileCarouselBar}>
+                      <button
+                        type="button"
+                        className={styles.mobileNavButton}
+                        onClick={() => stepMobileAlbum(-1)}
+                        aria-label="上一张专辑"
+                      >
+                        Previous
+                      </button>
+                      <div className={styles.mobileAlbumCounter}>
+                        <strong>{mobileAlbumIndex + 1}</strong>
+                        <span>{` / ${displayedAlbums.length}`}</span>
+                      </div>
+                      <button
+                        type="button"
+                        className={styles.mobileNavButton}
+                        onClick={() => stepMobileAlbum(1)}
+                        aria-label="下一张专辑"
+                      >
+                        Next
+                      </button>
+                    </div>
+
+                    <div className={styles.mobileHeroPanel}>
+                      <MobileAlbumHero album={mobileAlbum} />
+                    </div>
+
+                    <div className={styles.mobileAlbumMeta}>
+                      <div className={styles.mobileAlbumHeading}>
+                        <p className={styles.mobileAlbumArtist}>{mobileAlbum.artist}</p>
+                        <h2 className={styles.mobileAlbumTitle}>{mobileAlbum.title}</h2>
+                      </div>
+
+                      <div className={styles.mobileFactGrid}>
+                        <div className={styles.mobileFactCard}>
+                          <span>专辑年份</span>
+                          <strong>{mobileAlbum.releaseYear ?? '未知'}</strong>
+                        </div>
+                        <div className={styles.mobileFactCard}>
+                          <span>购入时间</span>
+                          <strong>{mobileAlbum.purchase.display}</strong>
+                        </div>
+                        <div className={styles.mobileFactCard}>
+                          <span>购入地点</span>
+                          <strong>{mobileAlbum.purchase.location}</strong>
+                        </div>
+                        <div className={styles.mobileFactCard}>
+                          <span>价格</span>
+                          <strong>{mobileAlbum.purchase.priceText ?? '未知'}</strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className={styles.mobileNoteSection}>
+                      <div className={styles.mobileNoteSectionHeader}>
+                        <p className={styles.mobileNoteLabel}>Note</p>
+                        {mobileAlbumHasLongNote ? (
+                          <button
+                            type="button"
+                            className={styles.mobileNoteToggle}
+                            onClick={() => setMobileNoteExpanded((current) => !current)}
+                          >
+                            {mobileNoteExpanded ? '收起' : '展开'}
+                          </button>
+                        ) : null}
+                      </div>
+                      <div
+                        className={[
+                          styles.mobileNoteBody,
+                          !mobileNoteExpanded ? styles.mobileNoteBodyCollapsed : '',
+                        ].join(' ').trim()}
+                      >
+                        {mobileAlbumNote}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className={styles.mobileEmptyState}>当前筛选下没有专辑。</div>
+                )}
+              </section>
+
+              <section className={styles.mobilePlayerBar} aria-label="Music player controls">
+                <div className={styles.mobilePlayerMeta}>
+                  {activeHighlight?.cover ? (
+                    <img
+                      className={styles.mobilePlayerArtwork}
+                      src={activeHighlight.cover.src}
+                      alt={activeHighlight.cover.alt}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className={styles.mobilePlayerArtworkFallback} aria-hidden="true" />
+                  )}
+                  <div className={styles.mobilePlayerText}>
+                    <strong className={styles.mobilePlayerTitle}>
+                      {activeHighlight?.value ?? '唱片机里还没有唱片'}
+                    </strong>
+                    <span className={styles.mobilePlayerTrack}>
+                      {playableHighlight?.track ? playableHighlight.track.title : '点击桌面端唱片封面开始播放'}
+                    </span>
+                  </div>
+                </div>
+                <div className={styles.mobilePlayerControls}>
+                  <button
+                    type="button"
+                    className={styles.mobilePlayerControl}
+                    aria-label="上一首"
+                    onClick={() => playAdjacentHighlight(-1)}
+                    disabled={!hasSelectedPlayableHighlight}
+                  >
+                    Prev
+                  </button>
+                  <button
+                    type="button"
+                    className={[styles.mobilePlayerControl, styles.mobilePlayerControlPrimary].join(' ')}
+                    aria-label={isPlayingPreview ? '暂停' : '播放'}
+                    onClick={() => void togglePlayback()}
+                    disabled={!hasSelectedPlayableHighlight}
+                  >
+                    {isPlayingPreview ? 'Pause' : 'Play'}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.mobilePlayerControl}
+                    aria-label="下一首"
+                    onClick={() => playAdjacentHighlight(1)}
+                    disabled={!hasSelectedPlayableHighlight}
+                  >
+                    Next
+                  </button>
+                </div>
+              </section>
+            </>
+          ) : (
+            <>
           <section className={styles.shelfSection} aria-label="CD shelf">
             <div className={styles.shelfHeader}>
               <div className={styles.shelfHeaderLead}>
@@ -1197,10 +1454,114 @@ function Music() {
                 document.body,
               )
             : null}
+            </>
+          )}
         </main>
       </div>
 
-      {selectedAlbum ? (
+      {isMobileLayout && mobileControlsOpen ? (
+        <div
+          className={styles.mobileControlsOverlay}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Sort and filter"
+          onClick={() => setMobileControlsOpen(false)}
+        >
+          <div className={styles.mobileControlsSheet} onClick={(event) => event.stopPropagation()}>
+            <div className={styles.mobileControlsHeader}>
+              <div>
+                <p className={styles.mobileEyebrow}>Control</p>
+                <h2 className={styles.mobileControlsTitle}>Sort & Filter</h2>
+              </div>
+              <button
+                type="button"
+                className={styles.mobileControlsClose}
+                onClick={() => setMobileControlsOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+
+            <section className={styles.mobileControlGroup} aria-label="排序方式">
+              <p className={styles.mobileControlLabel}>排序</p>
+              <div className={styles.mobileChipGrid}>
+                <button
+                  type="button"
+                  className={[styles.mobileChip, sortMode === 'purchase-date' ? styles.mobileChipActive : ''].join(' ').trim()}
+                  onClick={() => {
+                    void handleSortModeChange('purchase-date', true);
+                    setMobileControlsOpen(false);
+                  }}
+                >
+                  购入时间
+                </button>
+                <button
+                  type="button"
+                  className={[styles.mobileChip, sortMode === 'release-year' ? styles.mobileChipActive : ''].join(' ').trim()}
+                  onClick={() => {
+                    void handleSortModeChange('release-year', true);
+                    setMobileControlsOpen(false);
+                  }}
+                >
+                  专辑年份
+                </button>
+              </div>
+            </section>
+
+            <section className={styles.mobileControlGroup} aria-label="艺术家筛选">
+              <p className={styles.mobileControlLabel}>艺术家</p>
+              <div className={styles.mobileChipGrid}>
+                {artistFilterOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={[styles.mobileChip, artistFilter === option.value ? styles.mobileChipActive : ''].join(' ').trim()}
+                    onClick={() => {
+                      setArtistFilter(option.value);
+                      setMobileControlsOpen(false);
+                    }}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section className={styles.mobileControlGroup} aria-label="年份筛选">
+              <p className={styles.mobileControlLabel}>年份</p>
+              <div className={styles.mobileChipGrid}>
+                {yearFilterOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={[styles.mobileChip, yearFilter === option.value ? styles.mobileChipActive : ''].join(' ').trim()}
+                    onClick={() => {
+                      setYearFilter(option.value);
+                      setMobileControlsOpen(false);
+                    }}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <button
+              type="button"
+              className={styles.mobileResetButton}
+              onClick={() => {
+                setArtistFilter('all');
+                setYearFilter('all');
+                setMobileControlsOpen(false);
+              }}
+            >
+              清除筛选
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {!isMobileLayout && selectedAlbum ? (
         <div
           className={[styles.modalOverlay, modalVisible ? styles.modalOverlayVisible : ''].join(' ').trim()}
           role="dialog"
@@ -1265,6 +1626,27 @@ function Music() {
       ) : null}
     </>
   );
+}
+
+function Music() {
+  const [isMobileLayout, setIsMobileLayout] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 900px)').matches : false,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 900px)');
+    const syncLayout = () => {
+      setIsMobileLayout(mediaQuery.matches);
+    };
+
+    syncLayout();
+    mediaQuery.addEventListener('change', syncLayout);
+    return () => {
+      mediaQuery.removeEventListener('change', syncLayout);
+    };
+  }, []);
+
+  return isMobileLayout ? <MusicMobile /> : <MusicDesktop />;
 }
 
 export default Music;

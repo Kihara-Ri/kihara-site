@@ -1882,6 +1882,408 @@
   background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 42%, transparent) 0%, color-mix(in srgb, var(--accent) 18%, transparent) 100%);
 }
 
+.pageMobile {
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.mainMobile {
+  width: min(100%, 480px);
+  height: 100%;
+  padding: 76px 12px 12px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  overflow: hidden;
+}
+
+.mobileHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.mobileEyebrow {
+  margin: 0 0 0.2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mobileTitle {
+  margin: 0;
+  font-size: 1.7rem;
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+}
+
+.mobileSubtitle {
+  margin: 0.28rem 0 0;
+  color: color-mix(in srgb, var(--text-color) 68%, transparent);
+  font-size: 0.92rem;
+}
+
+.mobileControlsButton,
+.mobileNavButton,
+.mobileNoteToggle,
+.mobileControlsClose,
+.mobileResetButton,
+.mobileChip,
+.mobilePlayerControl {
+  border-radius: 999px;
+  font: inherit;
+}
+
+.mobileControlsButton {
+  flex: 0 0 auto;
+  padding: 0.68rem 0.92rem;
+  background: color-mix(in srgb, var(--panel-strong) 92%, white 8%);
+  color: var(--ink);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+}
+
+.mobileStage {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.9rem;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--panel-strong) 84%, white 16%) 0%, color-mix(in srgb, var(--panel) 94%, transparent) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 20px 38px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+}
+
+.mobileCarouselBar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mobileNavButton {
+  padding: 0.5rem 0.8rem;
+  background: color-mix(in srgb, var(--background) 90%, transparent);
+  color: var(--ink);
+}
+
+.mobileAlbumCounter {
+  justify-self: center;
+  color: color-mix(in srgb, var(--text-color) 72%, transparent);
+  font-size: 0.9rem;
+}
+
+.mobileAlbumCounter strong {
+  color: var(--ink);
+}
+
+.mobileHeroPanel {
+  display: grid;
+  place-items: center;
+}
+
+.mobileAlbumHero {
+  position: relative;
+  width: min(100%, 280px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--album-accent) 30%, var(--line));
+  background:
+    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.44) 0%, transparent 22%),
+    linear-gradient(145deg, var(--album-cover-start) 0%, var(--album-cover-end) 100%);
+  box-shadow:
+    0 24px 40px rgba(15, 23, 42, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.mobileAlbumHeroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mobileAlbumMeta {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.mobileAlbumHeading {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.mobileAlbumArtist {
+  margin: 0;
+  font-size: 0.86rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--text-color) 64%, transparent);
+}
+
+.mobileAlbumTitle {
+  margin: 0;
+  font-size: 1.34rem;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.mobileFactGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.mobileFactCard {
+  min-width: 0;
+  padding: 0.75rem 0.82rem;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--background) 90%, transparent);
+}
+
+.mobileFactCard span {
+  display: block;
+  margin-bottom: 0.22rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.mobileFactCard strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.mobileNoteSection {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.5rem;
+  padding: 0.9rem;
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--background) 88%, transparent);
+}
+
+.mobileNoteSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.mobileNoteLabel {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--muted) 88%, transparent);
+}
+
+.mobileNoteToggle {
+  padding: 0.36rem 0.72rem;
+  background: color-mix(in srgb, var(--selected) 88%, transparent);
+  color: var(--ink);
+}
+
+.mobileNoteBody {
+  min-height: 0;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  color: color-mix(in srgb, var(--text-color) 82%, transparent);
+  font-size: 0.94rem;
+  line-height: 1.72;
+  scrollbar-width: none;
+}
+
+.mobileNoteBody::-webkit-scrollbar {
+  display: none;
+}
+
+.mobileNoteBodyCollapsed {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.mobileEmptyState {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  border-radius: 22px;
+  border: 1px dashed var(--line-strong);
+  color: var(--muted);
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+}
+
+.mobilePlayerBar {
+  display: grid;
+  gap: 0.72rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: 26px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0.18) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 18px 34px rgba(15, 23, 42, 0.1);
+  backdrop-filter: blur(28px) saturate(1.08);
+  -webkit-backdrop-filter: blur(28px) saturate(1.08);
+}
+
+.mobilePlayerMeta {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mobilePlayerArtwork,
+.mobilePlayerArtworkFallback {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+}
+
+.mobilePlayerArtwork {
+  object-fit: cover;
+}
+
+.mobilePlayerArtworkFallback {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--panel-strong) 84%, transparent) 0%, color-mix(in srgb, var(--selected) 72%, transparent) 100%);
+}
+
+.mobilePlayerText {
+  min-width: 0;
+  display: grid;
+  gap: 0.16rem;
+}
+
+.mobilePlayerTitle,
+.mobilePlayerTrack {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobilePlayerTitle {
+  color: var(--ink);
+  font-size: 0.98rem;
+}
+
+.mobilePlayerTrack {
+  color: color-mix(in srgb, var(--text-color) 64%, transparent);
+  font-size: 0.84rem;
+}
+
+.mobilePlayerControls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.mobilePlayerControl {
+  padding: 0.72rem 0.8rem;
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+  color: var(--ink);
+}
+
+.mobilePlayerControlPrimary {
+  background: color-mix(in srgb, var(--ink) 92%, transparent);
+  color: color-mix(in srgb, var(--background) 96%, white 4%);
+}
+
+.mobileControlsOverlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  align-items: end;
+  background: rgba(8, 15, 28, 0.52);
+  backdrop-filter: blur(16px);
+  z-index: 50;
+}
+
+.mobileControlsSheet {
+  max-height: min(72dvh, 680px);
+  padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+  display: grid;
+  gap: 1rem;
+  border-radius: 28px 28px 0 0;
+  background: color-mix(in srgb, var(--panel-strong) 94%, transparent);
+  overflow-y: auto;
+}
+
+.mobileControlsHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.mobileControlsTitle {
+  margin: 0;
+  font-size: 1.22rem;
+  line-height: 1;
+}
+
+.mobileControlsClose,
+.mobileResetButton {
+  padding: 0.58rem 0.82rem;
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+  color: var(--ink);
+}
+
+.mobileControlGroup {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.mobileControlLabel {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.mobileChipGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mobileChip {
+  padding: 0.56rem 0.82rem;
+  background: color-mix(in srgb, var(--background) 90%, transparent);
+  color: var(--ink);
+}
+
+.mobileChipActive {
+  background: var(--selected);
+  color: var(--link-color);
+}
+
+:global([data-theme='dark']) .mobileStage,
+:global([data-theme='dark']) .mobileControlsSheet {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(16, 22, 36, 0.44) 100%),
+    rgba(14, 20, 32, 0.58);
+}
+
+:global([data-theme='dark']) .mobilePlayerBar {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(16, 22, 36, 0.3) 100%),
+    rgba(14, 20, 32, 0.46);
+}
+
 @media (max-width: 900px) {
   .page {
     min-height: auto;

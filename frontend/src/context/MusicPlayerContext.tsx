@@ -22,6 +22,7 @@ interface MusicPlayerContextValue {
   previewCurrentTime: number;
   previewDuration: number;
   armWobble: 'play' | 'pause' | null;
+  loadHighlight: (highlight: MusicHighlight) => void;
   startPlayback: (highlight: MusicHighlight) => Promise<void>;
   togglePlayback: () => Promise<void>;
   playAdjacentHighlight: (direction: 1 | -1) => void;
@@ -161,6 +162,27 @@ export function MusicPlayerProvider({ children }: PropsWithChildren) {
     };
   }, []);
 
+  const loadHighlight = (highlight: MusicHighlight) => {
+    if (!highlight.track || !previewAudioRef.current) {
+      return;
+    }
+
+    const audio = previewAudioRef.current;
+    if (!audio.paused) {
+      audio.pause();
+    }
+    setActiveHighlightId(highlight.id);
+    if (audio.src !== highlight.track.previewUrl) {
+      audio.src = highlight.track.previewUrl;
+      audio.load();
+    }
+    audio.currentTime = 0;
+    setPreviewCurrentTime(0);
+    setPreviewDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
+    setIsPlayingPreview(false);
+    setTonearmTracking(false);
+  };
+
   const startPlayback = async (highlight: MusicHighlight) => {
     if (!highlight.track || !previewAudioRef.current) {
       return;
@@ -219,6 +241,7 @@ export function MusicPlayerProvider({ children }: PropsWithChildren) {
     previewCurrentTime,
     previewDuration,
     armWobble,
+    loadHighlight,
     startPlayback,
     togglePlayback,
     playAdjacentHighlight,
@@ -234,6 +257,7 @@ export function MusicPlayerProvider({ children }: PropsWithChildren) {
     previewCurrentTime,
     previewDuration,
     armWobble,
+    loadHighlight,
   ]);
 
   return (

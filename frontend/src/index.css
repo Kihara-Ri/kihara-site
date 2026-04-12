@@ -115,33 +115,19 @@ h3 {
   margin: 0;
 }
 
-/* 按钮默认样式 */
 button {
-  background-color: #3279db;       /* 主色调，蓝色 */
-  color: white;                   /* 字体白色 */
-  border: none;                   /* 无边框 */
-  padding: 8px 16px;              /* 内边距 */
-  border-radius: 6px;             /* 圆角 */
-  cursor: pointer;                /* 鼠标变成手型 */
-  font-weight: 600;               /* 字体加粗 */
-  font-size: 14px;                /* 字号 */
-  transition: background-color 0.3s ease, transform 0.2s ease;  /* 过渡效果 */
-  user-select: none;              /* 禁止文本选中 */
-}
-
-button:hover {
-  background-color: #265bb5;      /* 悬停颜色更深 */
-  transform: scale(1.05);         /* 悬停时微微放大 */
-}
-
-button:active {
-  background-color: #1c428a;      /* 点击时颜色更深 */
-  transform: scale(0.95);         /* 点击时微缩 */
-}
-
-button:focus {
-  outline: none;                  /* 去除默认焦点框 */
-  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  border-radius: 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* 列表 */
