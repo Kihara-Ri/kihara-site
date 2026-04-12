@@ -6,7 +6,6 @@ import {
   type CSSProperties,
   type PointerEvent,
   type TouchEvent,
-  type TransitionEvent,
 } from 'react';
 import { flushSync } from 'react-dom';
 import layout from '../components/layout/PageLayout.module.css';
@@ -19,7 +18,6 @@ import styles from './MusicMobile.module.css';
 const albums = albumData as MusicAlbum[];
 
 type MobileTab = 'collection' | 'recommend';
-type AlbumTransitionDirection = 'next' | 'prev';
 type PlaybackMode = 'repeat-one' | 'sequence' | 'shuffle';
 
 const playbackModeOrder: PlaybackMode[] = ['sequence', 'repeat-one', 'shuffle'];
@@ -81,6 +79,17 @@ function formatTime(time: number) {
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
+function formatAlbumNote(note: string | null) {
+  if (!note) {
+    return [];
+  }
+
+  return note
+    .split(/\n{2,}/)
+    .map((block) => block.split('\n').map((line) => line.trim()).filter(Boolean).join('\n'))
+    .filter(Boolean);
+}
+
 function MobileAlbumArt({ album }: { album: MusicAlbum }) {
   const palette = buildPalette(`${album.artist}-${album.title}`);
 
@@ -138,13 +147,16 @@ function MobileHighlightArt({ highlight }: { highlight: MusicHighlight }) {
 
 function MusicMobile() {
   const PLAYLIST_ANIMATION_MS = 300;
+  const COLLECTION_DETAIL_ANIMATION_MS = 420;
   const [tab, setTab] = useState<MobileTab>('collection');
   const sortedAlbums = useMemo(() => sortAlbums(albums), []);
   const [selectedAlbumId, setSelectedAlbumId] = useState<string>(sortedAlbums[0]?.id ?? '');
+  const [collectionDetailAlbumId, setCollectionDetailAlbumId] = useState<string | null>(null);
+  const [collectionDetailVisible, setCollectionDetailVisible] = useState(false);
   const [pendingAlbumId, setPendingAlbumId] = useState<string | null>(null);
-  const [albumTransitionDirection, setAlbumTransitionDirection] = useState<AlbumTransitionDirection | null>(null);
   const [albumDragOffset, setAlbumDragOffset] = useState(0);
-  const [isAlbumAnimating, setIsAlbumAnimating] = useState(false);
+  const [albumTrackAnimating, setAlbumTrackAnimating] = useState(false);
+  const [albumViewerWidth, setAlbumViewerWidth] = useState(0);
   const playableHighlights = useMemo(() => musicHighlights.filter((item) => item.track), []);
   const [selectedHighlightId, setSelectedHighlightId] = useState<string>(playableHighlights[0]?.id ?? '');
   const [playbackMode, setPlaybackMode] = useState<PlaybackMode>('sequence');
@@ -156,7 +168,8 @@ function MusicMobile() {
   const albumThumbRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const albumViewerRef = useRef<HTMLDivElement | null>(null);
   const albumTouchStartXRef = useRef<number | null>(null);
-  const albumTransitionModeRef = useRef<'commit' | 'reset' | null>(null);
+  const albumTouchMovedRef = useRef(false);
+  const collectionDetailCloseTimeoutRef = useRef<number | null>(null);
   const preloadedAlbumCoversRef = useRef<Set<string>>(new Set());
   const playbackModeHoldTimeoutRef = useRef<number | null>(null);
   const playbackModePointerDownRef = useRef(false);
@@ -173,15 +186,24 @@ function MusicMobile() {
   } = useMusicPlayer();
 
   const selectedAlbum = sortedAlbums.find((album) => album.id === selectedAlbumId) ?? sortedAlbums[0] ?? null;
+  const detailAlbum = collectionDetailAlbumId
+    ? sortedAlbums.find((album) => album.id === collectionDetailAlbumId) ?? selectedAlbum
+    : null;
   const selectedAlbumIndex = selectedAlbum ? sortedAlbums.findIndex((album) => album.id === selectedAlbum.id) : -1;
-  const focusedAlbumId = pendingAlbumId ?? selectedAlbum?.id ?? '';
-  const focusedAlbum = sortedAlbums.find((album) => album.id === focusedAlbumId) ?? selectedAlbum;
-  const focusedAlbumIndex = focusedAlbum ? sortedAlbums.findIndex((album) => album.id === focusedAlbum.id) : -1;
+  const focusedAlbumId = selectedAlbum?.id ?? '';
+  const focusedAlbumIndex = selectedAlbumIndex;
   const previousAlbum = selectedAlbumIndex > 0 ? sortedAlbums[selectedAlbumIndex - 1] : null;
   const nextAlbum = selectedAlbumIndex >= 0 && selectedAlbumIndex < sortedAlbums.length - 1
     ? sortedAlbums[selectedAlbumIndex + 1]
     : null;
-  const transitioningAlbum = pendingAlbumId ? sortedAlbums.find((album) => album.id === pendingAlbumId) ?? null : null;
+  const pendingAlbum = pendingAlbumId
+    ? sortedAlbums.find((album) => album.id === pendingAlbumId) ?? null
+    : null;
+  const pendingAlbumIndex = pendingAlbum ? sortedAlbums.findIndex((album) => album.id === pendingAlbum.id) : -1;
+  const albumMoveDirection = pendingAlbumIndex >= 0 && selectedAlbumIndex >= 0
+    ? (pendingAlbumIndex > selectedAlbumIndex ? 'next' : 'prev')
+    : null;
+  const albumViewerOffset = albumViewerWidth || (typeof window !== 'undefined' ? window.innerWidth : 0);
   const selectedHighlight =
     playableHighlights.find((item) => item.id === activeHighlightId)
     ?? playableHighlights.find((item) => item.id === selectedHighlightId)
@@ -196,7 +218,21 @@ function MusicMobile() {
     }
 
     setSelectedAlbumId((current) => (current && sortedAlbums.some((album) => album.id === current) ? current : sortedAlbums[0].id));
+    setCollectionDetailAlbumId((current) => {
+      if (!current) {
+        return current;
+      }
+
+      return sortedAlbums.some((album) => album.id === current) ? current : sortedAlbums[0].id;
+    });
   }, [sortedAlbums]);
+
+  useEffect(() => {
+    if (tab !== 'collection') {
+      setCollectionDetailAlbumId(null);
+      setCollectionDetailVisible(false);
+    }
+  }, [tab]);
 
   useEffect(() => {
     if (!playableHighlights.length) {
@@ -237,7 +273,35 @@ function MusicMobile() {
   }, [focusedAlbumId, tab]);
 
   useEffect(() => {
-    const covers = [selectedAlbum, previousAlbum, nextAlbum, transitioningAlbum]
+    const viewer = albumViewerRef.current;
+    if (!viewer) {
+      return;
+    }
+
+    const updateWidth = () => {
+      setAlbumViewerWidth(viewer.clientWidth);
+    };
+
+    updateWidth();
+
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', updateWidth);
+      return () => {
+        window.removeEventListener('resize', updateWidth);
+      };
+    }
+
+    const observer = new ResizeObserver(() => {
+      updateWidth();
+    });
+    observer.observe(viewer);
+    return () => {
+      observer.disconnect();
+    };
+  }, [tab]);
+
+  useEffect(() => {
+    const covers = [selectedAlbum, previousAlbum, nextAlbum]
       .map((album) => album?.cover.file)
       .filter((cover): cover is string => Boolean(cover));
 
@@ -251,7 +315,7 @@ function MusicMobile() {
       void image.decode?.().catch(() => undefined);
       preloadedAlbumCoversRef.current.add(cover);
     });
-  }, [selectedAlbum, previousAlbum, nextAlbum, transitioningAlbum]);
+  }, [selectedAlbum, previousAlbum, nextAlbum]);
 
   useEffect(() => () => {
     if (playbackModeHoldTimeoutRef.current !== null) {
@@ -262,6 +326,12 @@ function MusicMobile() {
   useEffect(() => () => {
     if (playlistCloseTimeoutRef.current !== null) {
       window.clearTimeout(playlistCloseTimeoutRef.current);
+    }
+  }, []);
+
+  useEffect(() => () => {
+    if (collectionDetailCloseTimeoutRef.current !== null) {
+      window.clearTimeout(collectionDetailCloseTimeoutRef.current);
     }
   }, []);
 
@@ -315,10 +385,6 @@ function MusicMobile() {
       window.removeEventListener('pointercancel', handlePointerCancel);
     };
   }, [playbackModeHover, playbackModeMenuOpen]);
-
-  function getAlbumViewerWidth() {
-    return albumViewerRef.current?.clientWidth ?? window.innerWidth;
-  }
 
   function getPlaybackTarget(direction: 1 | -1) {
     if (!playableHighlights.length) {
@@ -445,14 +511,16 @@ function MusicMobile() {
 
   function resetAlbumInteraction() {
     setPendingAlbumId(null);
-    setAlbumTransitionDirection(null);
     setAlbumDragOffset(0);
-    setIsAlbumAnimating(false);
-    albumTransitionModeRef.current = null;
+    setAlbumTrackAnimating(false);
+  }
+
+  function getAlbumViewerWidth() {
+    return albumViewerWidth || albumViewerRef.current?.clientWidth || 0;
   }
 
   function animateAlbumTo(nextAlbumId: string) {
-    if (!selectedAlbum || nextAlbumId === selectedAlbum.id || isAlbumAnimating) {
+    if (!selectedAlbum || nextAlbumId === selectedAlbum.id) {
       return;
     }
 
@@ -461,30 +529,27 @@ function MusicMobile() {
       return;
     }
 
-    const direction: AlbumTransitionDirection = nextIndex > selectedAlbumIndex ? 'next' : 'prev';
     const viewerWidth = getAlbumViewerWidth();
-
-    setPendingAlbumId(nextAlbumId);
-    setAlbumTransitionDirection(direction);
-    setAlbumDragOffset(0);
-    setIsAlbumAnimating(true);
-    albumTransitionModeRef.current = 'commit';
-
-    window.requestAnimationFrame(() => {
-      setAlbumDragOffset(direction === 'next' ? -viewerWidth : viewerWidth);
-    });
-  }
-
-  function handleAlbumTouchStart(event: TouchEvent<HTMLDivElement>) {
-    if (isAlbumAnimating) {
+    if (viewerWidth <= 0) {
+      triggerHaptic(8);
+      setSelectedAlbumId(nextAlbumId);
+      resetAlbumInteraction();
       return;
     }
 
+    triggerHaptic(8);
+    setPendingAlbumId(nextAlbumId);
+    setAlbumTrackAnimating(true);
+    setAlbumDragOffset(nextIndex > selectedAlbumIndex ? -viewerWidth : viewerWidth);
+  }
+
+  function handleAlbumTouchStart(event: TouchEvent<HTMLDivElement>) {
+    albumTouchMovedRef.current = false;
     albumTouchStartXRef.current = event.changedTouches[0]?.clientX ?? null;
   }
 
   function handleAlbumTouchMove(event: TouchEvent<HTMLDivElement>) {
-    if (albumTouchStartXRef.current === null || !selectedAlbum || isAlbumAnimating) {
+    if (albumTouchStartXRef.current === null || !selectedAlbum || albumTrackAnimating) {
       return;
     }
 
@@ -495,22 +560,20 @@ function MusicMobile() {
       return;
     }
 
-    const direction: AlbumTransitionDirection = deltaX < 0 ? 'next' : 'prev';
-    const candidateAlbum = direction === 'next' ? nextAlbum : previousAlbum;
-    if (!candidateAlbum) {
-      setPendingAlbumId(null);
-      setAlbumTransitionDirection(null);
-      setAlbumDragOffset(deltaX * 0.18);
+    albumTouchMovedRef.current = true;
+    const candidateAlbum = deltaX < 0 ? nextAlbum : previousAlbum;
+    if (candidateAlbum) {
+      setPendingAlbumId(candidateAlbum.id);
+      setAlbumDragOffset(deltaX);
       return;
     }
 
-    setPendingAlbumId(candidateAlbum.id);
-    setAlbumTransitionDirection(direction);
-    setAlbumDragOffset(deltaX);
+    setPendingAlbumId(null);
+    setAlbumDragOffset(deltaX * 0.22);
   }
 
   function handleAlbumTouchEnd(event: TouchEvent<HTMLDivElement>) {
-    if (albumTouchStartXRef.current === null || isAlbumAnimating) {
+    if (albumTouchStartXRef.current === null || albumTrackAnimating) {
       albumTouchStartXRef.current = null;
       return;
     }
@@ -518,34 +581,60 @@ function MusicMobile() {
     const endX = event.changedTouches[0]?.clientX ?? albumTouchStartXRef.current;
     const deltaX = endX - albumTouchStartXRef.current;
     albumTouchStartXRef.current = null;
+    const candidateAlbum = deltaX < 0 ? nextAlbum : previousAlbum;
 
-    if (!pendingAlbumId || !albumTransitionDirection) {
+    if (Math.abs(deltaX) >= ALBUM_SWIPE_THRESHOLD && candidateAlbum) {
+      const viewerWidth = getAlbumViewerWidth();
+      if (viewerWidth > 0) {
+        triggerHaptic(8);
+        setPendingAlbumId(candidateAlbum.id);
+        setAlbumTrackAnimating(true);
+        setAlbumDragOffset(deltaX < 0 ? -viewerWidth : viewerWidth);
+        return;
+      }
+
+      triggerHaptic(8);
+      setSelectedAlbumId(candidateAlbum.id);
       resetAlbumInteraction();
       return;
     }
 
-    if (Math.abs(deltaX) < ALBUM_SWIPE_THRESHOLD) {
-      setIsAlbumAnimating(true);
-      albumTransitionModeRef.current = 'reset';
-      setAlbumDragOffset(0);
-      return;
-    }
-
-    const viewerWidth = getAlbumViewerWidth();
-    setIsAlbumAnimating(true);
-    albumTransitionModeRef.current = 'commit';
-    setAlbumDragOffset(albumTransitionDirection === 'next' ? -viewerWidth : viewerWidth);
+    setPendingAlbumId(null);
+    setAlbumTrackAnimating(true);
+    setAlbumDragOffset(0);
   }
 
-  function handleAlbumTrackTransitionEnd(event: TransitionEvent<HTMLDivElement>) {
-    if (event.target !== event.currentTarget || !isAlbumAnimating) {
+  function openAlbumDetail() {
+    if (!selectedAlbum || albumTouchMovedRef.current) {
+      albumTouchMovedRef.current = false;
       return;
     }
 
-    if (albumTransitionModeRef.current === 'commit' && pendingAlbumId) {
-      const nextAlbumId = pendingAlbumId;
+    if (collectionDetailCloseTimeoutRef.current !== null) {
+      window.clearTimeout(collectionDetailCloseTimeoutRef.current);
+      collectionDetailCloseTimeoutRef.current = null;
+    }
+    setCollectionDetailAlbumId(selectedAlbum.id);
+    window.requestAnimationFrame(() => {
+      setCollectionDetailVisible(true);
+    });
+  }
+
+  function closeAlbumDetail() {
+    setCollectionDetailVisible(false);
+    if (collectionDetailCloseTimeoutRef.current !== null) {
+      window.clearTimeout(collectionDetailCloseTimeoutRef.current);
+    }
+    collectionDetailCloseTimeoutRef.current = window.setTimeout(() => {
+      setCollectionDetailAlbumId(null);
+      collectionDetailCloseTimeoutRef.current = null;
+    }, COLLECTION_DETAIL_ANIMATION_MS);
+  }
+
+  function handleAlbumTrackTransitionEnd() {
+    if (pendingAlbum) {
       flushSync(() => {
-        setSelectedAlbumId(nextAlbumId);
+        setSelectedAlbumId(pendingAlbum.id);
       });
       window.requestAnimationFrame(() => {
         resetAlbumInteraction();
@@ -560,275 +649,375 @@ function MusicMobile() {
     <div className={[layout.page, layout.pageWithFooter, styles.page].join(' ')}>
       <main className={styles.shell}>
         <section className={styles.content}>
-          <div key={tab} className={styles.viewStage}>
-          {tab === 'collection' ? (
-            selectedAlbum ? (
-              <div className={styles.collectionView}>
-                <div className={styles.collectionHero}>
-                  <div className={styles.collectionSummaryBar}>
-                    <span className={styles.collectionIndexBadge}>
-                      {focusedAlbumIndex >= 0 ? `${focusedAlbumIndex + 1} / ${sortedAlbums.length}` : '--'}
-                    </span>
-                  </div>
-                  <div
-                    ref={albumViewerRef}
-                    className={styles.collectionViewer}
-                    onTouchStart={handleAlbumTouchStart}
-                    onTouchMove={handleAlbumTouchMove}
-                    onTouchEnd={handleAlbumTouchEnd}
-                    onTouchCancel={handleAlbumTouchEnd}
-                  >
-                    <div
-                      className={[
-                        styles.collectionTrack,
-                        isAlbumAnimating ? styles.collectionTrackAnimated : '',
-                      ].join(' ').trim()}
-                      style={{ transform: `translate3d(${albumDragOffset}px, 0, 0)` }}
-                      onTransitionEnd={handleAlbumTrackTransitionEnd}
-                    >
-                      <div className={styles.collectionSlide}>
-                        <MobileAlbumArt
-                          album={
-                            albumTransitionDirection === 'prev' && transitioningAlbum
-                              ? transitioningAlbum
-                              : previousAlbum ?? selectedAlbum
-                          }
-                        />
-                      </div>
-                      <div className={styles.collectionSlide}>
-                        <MobileAlbumArt album={selectedAlbum} />
-                      </div>
-                      <div className={styles.collectionSlide}>
-                        <MobileAlbumArt
-                          album={
-                            albumTransitionDirection === 'next' && transitioningAlbum
-                              ? transitioningAlbum
-                              : nextAlbum ?? selectedAlbum
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.collectionInfo}>
-                    <h2 className={styles.collectionTitle}>{selectedAlbum.title}</h2>
-                    <p className={styles.collectionArtist}>{selectedAlbum.artist}</p>
-                  </div>
-                </div>
-
-                <div ref={albumRailRef} className={styles.albumRail} aria-label="收藏专辑">
-                  {sortedAlbums.map((album) => (
-                    <button
-                      key={album.id}
-                      type="button"
-                      ref={(node) => {
-                        albumThumbRefs.current[album.id] = node;
-                      }}
-                      className={[styles.albumThumb, album.id === focusedAlbumId ? styles.albumThumbActive : ''].join(' ').trim()}
-                      onClick={() => animateAlbumTo(album.id)}
-                      aria-pressed={album.id === focusedAlbumId}
-                    >
-                      {album.cover.file ? (
-                        <img className={styles.albumThumbImage} src={album.cover.file} alt={`${album.title} cover`} loading="lazy" />
-                      ) : (
-                        <span className={styles.albumThumbFallback}>{album.title.slice(0, 1)}</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div className={styles.emptyState}>还没有可显示的收藏专辑。</div>
-            )
-          ) : selectedHighlight ? (
-            <div className={styles.recommendView}>
-              <div className={styles.recommendHero}>
-                <MobileHighlightArt highlight={selectedHighlight} />
-                <div className={styles.recommendInfo}>
-                  <p className={styles.recommendLabel}>{selectedHighlight.label}</p>
-                  <h2 className={styles.recommendTitle}>{selectedHighlight.value}</h2>
-                  <p className={styles.recommendMeta}>{selectedHighlight.meta ?? 'No metadata'}</p>
-                </div>
-              </div>
-
-              <div className={styles.progressBlock}>
-                <div className={styles.progressHeader}>
-                  <span>{formatTime(previewCurrentTime)}</span>
-                  <span>{formatTime(previewDuration)}</span>
-                </div>
-                <div className={styles.progressTrack} aria-hidden="true">
-                  <span className={styles.progressFill} style={{ transform: `scaleX(${progressRatio})` }} />
-                </div>
-              </div>
-
-              <div className={styles.transport}>
-                <div
-                  className={styles.transportMode}
-                  onPointerUp={handlePlaybackModePointerUp}
-                  onPointerCancel={handlePlaybackModePointerCancel}
-                >
-                  {playbackModeMenuOpen ? (
-                    <div className={styles.playbackModeMenu} role="menu" aria-label="播放顺序">
-                      {playbackModeOrder.map((mode) => (
-                        <button
-                          key={mode}
-                          type="button"
-                          className={[
-                            styles.playbackModeOption,
-                            playbackModeHover === mode ? styles.playbackModeOptionActive : '',
-                          ].join(' ').trim()}
-                          data-playback-mode={mode}
-                          onContextMenu={(event) => event.preventDefault()}
-                          onDragStart={(event) => event.preventDefault()}
-                        >
-                          <img className={styles.playbackModeIcon} src={playbackModeIconSrc[mode]} alt="" aria-hidden="true" />
-                          <span>{playbackModeLabels[mode]}</span>
-                        </button>
-                      ))}
-                    </div>
-                  ) : null}
-                  <button
-                    type="button"
-                    className={[
-                      styles.transportButton,
-                      playbackModeMenuOpen ? styles.transportButtonToggled : '',
-                    ].join(' ').trim()}
-                    onPointerDown={handlePlaybackModePointerDown}
-                    onContextMenu={(event) => event.preventDefault()}
-                    onDragStart={(event) => event.preventDefault()}
-                    aria-label={`当前播放顺序：${playbackModeLabels[playbackMode]}`}
-                    aria-pressed={playbackModeMenuOpen}
-                  >
-                    <img className={styles.playbackModeIcon} src={playbackModeIconSrc[playbackMode]} alt="" aria-hidden="true" draggable="false" />
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  className={styles.transportButton}
-                  onClick={() => handlePlayAdjacent(-1)}
-                  disabled={!selectedHighlight?.track}
-                  aria-label="上一首"
-                >
-                  <span className={[styles.controlIcon, styles.controlIconPrevious].join(' ')} aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  className={[styles.transportButton, styles.transportButtonPrimary].join(' ')}
-                  onClick={() => {
-                    triggerHaptic(12);
-                    void handlePlayToggle();
-                  }}
-                  disabled={!selectedHighlight?.track}
-                  aria-label={isPlayingPreview ? '暂停' : '播放'}
-                >
-                  <span
-                    className={[
-                      styles.controlIcon,
-                      isPlayingPreview ? styles.controlIconPause : styles.controlIconPlay,
-                    ].join(' ')}
-                    aria-hidden="true"
-                  />
-                </button>
-                <button
-                  type="button"
-                  className={styles.transportButton}
-                  onClick={() => handlePlayAdjacent(1)}
-                  disabled={!selectedHighlight?.track}
-                  aria-label="下一首"
-                >
-                  <span className={[styles.controlIcon, styles.controlIconNext].join(' ')} aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  className={[styles.transportButton, playlistOpen ? styles.transportButtonToggled : ''].join(' ').trim()}
-                  onClick={() => {
-                    if (playlistOpen) {
-                      closePlaylist();
-                      return;
-                    }
-                    openPlaylist();
-                  }}
-                  aria-expanded={playlistOpen}
-                  aria-label="播放列表"
-                >
-                  <img className={styles.transportListIcon} src="/icons/UI/list.svg" alt="" aria-hidden="true" />
-                </button>
-              </div>
-              {playlistOpen ? (
-                <div
-                  className={[
-                    styles.mobilePlaylistOverlay,
-                    playlistVisible ? styles.mobilePlaylistOverlayVisible : '',
-                  ].join(' ').trim()}
-                >
-                  <button
-                    type="button"
-                    className={[
-                      styles.mobilePlaylistBackdrop,
-                      playlistVisible ? styles.mobilePlaylistBackdropVisible : '',
-                    ].join(' ').trim()}
-                    onClick={closePlaylist}
-                    aria-label="关闭播放列表"
-                  />
-                  <div
-                    className={[
-                      styles.mobilePlaylistSheet,
-                      playlistVisible ? styles.mobilePlaylistSheetVisible : '',
-                    ].join(' ').trim()}
-                  >
-                    <div className={styles.mobilePlaylistPanel}>
-                      <div className={styles.mobilePlaylistHeader}>
-                        <p className={styles.mobilePlaylistTitle}>播放列表</p>
+          <div className={styles.viewStage}>
+            <div
+              className={styles.viewTrack}
+              style={{ transform: `translate3d(${tab === 'collection' ? '0%' : '-50%'}, 0, 0)` }}
+            >
+              <section className={[styles.viewPane, styles.viewPaneCollection].join(' ')}>
+                {selectedAlbum ? (
+                  <>
+                    <div className={styles.collectionView}>
+                      <div className={styles.collectionHero}>
+                        <div className={styles.collectionSummaryBar}>
+                          <span className={styles.collectionIndexBadge}>
+                            {focusedAlbumIndex >= 0 ? `${focusedAlbumIndex + 1} / ${sortedAlbums.length}` : '--'}
+                          </span>
+                        </div>
                         <button
                           type="button"
-                          className={styles.mobilePlaylistClose}
-                          onClick={closePlaylist}
+                          className={styles.collectionViewerButton}
+                          onClick={openAlbumDetail}
+                          aria-label={`查看 ${selectedAlbum.title} 的详情`}
                         >
-                          收起
-                        </button>
-                      </div>
-                      <div className={styles.mobilePlaylistItems}>
-                        {playableHighlights.map((item) => (
-                          <button
-                            key={item.id}
-                            type="button"
-                            className={[
-                              styles.mobilePlaylistItem,
-                              selectedHighlight?.id === item.id ? styles.mobilePlaylistItemActive : '',
-                            ].join(' ').trim()}
-                            onClick={() => {
-                              triggerHaptic(10);
-                              setSelectedHighlightId(item.id);
-                              void startPlayback(item);
-                              closePlaylist();
-                            }}
+                          <div
+                            ref={albumViewerRef}
+                            className={styles.collectionViewer}
+                            onTouchStart={handleAlbumTouchStart}
+                            onTouchMove={handleAlbumTouchMove}
+                            onTouchEnd={handleAlbumTouchEnd}
+                            onTouchCancel={handleAlbumTouchEnd}
                           >
-                            {item.cover ? (
-                              <img
-                                className={styles.mobilePlaylistItemArtwork}
-                                src={item.cover.src}
-                                alt={item.cover.alt}
-                                loading="lazy"
-                              />
+                            <div
+                              className={[
+                                styles.collectionCardLayer,
+                                styles.collectionCardPrev,
+                                albumMoveDirection === 'prev' ? styles.collectionCardIncoming : styles.collectionCardBackground,
+                                albumTrackAnimating ? styles.collectionCardLayerAnimated : '',
+                              ].join(' ').trim()}
+                              style={{ transform: `translate3d(${albumDragOffset - albumViewerOffset}px, 0, 0)` }}
+                            >
+                              <div className={styles.collectionCard}>
+                                <MobileAlbumArt album={pendingAlbum && albumDragOffset > 0 ? pendingAlbum : previousAlbum ?? selectedAlbum} />
+                              </div>
+                            </div>
+                            <div
+                              className={[
+                                styles.collectionCardLayer,
+                                styles.collectionCardCurrent,
+                                albumMoveDirection ? styles.collectionCardOutgoing : styles.collectionCardForeground,
+                                albumTrackAnimating ? styles.collectionCardLayerAnimated : '',
+                              ].join(' ').trim()}
+                              style={{ transform: `translate3d(${albumDragOffset}px, 0, 0)` }}
+                              onTransitionEnd={handleAlbumTrackTransitionEnd}
+                            >
+                              <div className={styles.collectionCard}>
+                                <MobileAlbumArt album={selectedAlbum} />
+                              </div>
+                            </div>
+                            <div
+                              className={[
+                                styles.collectionCardLayer,
+                                styles.collectionCardNext,
+                                albumMoveDirection === 'next' ? styles.collectionCardIncoming : styles.collectionCardBackground,
+                                albumTrackAnimating ? styles.collectionCardLayerAnimated : '',
+                              ].join(' ').trim()}
+                              style={{ transform: `translate3d(${albumDragOffset + albumViewerOffset}px, 0, 0)` }}
+                            >
+                              <div className={styles.collectionCard}>
+                                <MobileAlbumArt album={pendingAlbum && albumDragOffset < 0 ? pendingAlbum : nextAlbum ?? selectedAlbum} />
+                              </div>
+                            </div>
+                          </div>
+                        </button>
+                        <div className={styles.collectionInfo}>
+                          <h2 className={styles.collectionTitle}>{selectedAlbum.title}</h2>
+                          <p className={styles.collectionArtist}>{selectedAlbum.artist}</p>
+                        </div>
+                      </div>
+
+                      <div ref={albumRailRef} className={styles.albumRail} aria-label="收藏专辑">
+                        {sortedAlbums.map((album) => (
+                          <button
+                            key={album.id}
+                            type="button"
+                            ref={(node) => {
+                              albumThumbRefs.current[album.id] = node;
+                            }}
+                            className={[styles.albumThumb, album.id === focusedAlbumId ? styles.albumThumbActive : ''].join(' ').trim()}
+                            onClick={() => animateAlbumTo(album.id)}
+                            aria-pressed={album.id === focusedAlbumId}
+                          >
+                            {album.cover.file ? (
+                              <img className={styles.albumThumbImage} src={album.cover.file} alt={`${album.title} cover`} loading="lazy" />
                             ) : (
-                              <span className={styles.mobilePlaylistItemArtworkFallback} aria-hidden="true">
-                                {item.value.slice(0, 1)}
-                              </span>
+                              <span className={styles.albumThumbFallback}>{album.title.slice(0, 1)}</span>
                             )}
-                            <span className={styles.mobilePlaylistItemText}>
-                              <strong>{item.track?.title ?? item.value}</strong>
-                              <span>{item.value}</span>
-                            </span>
                           </button>
                         ))}
                       </div>
                     </div>
+
+                    {detailAlbum ? (
+                      <div
+                        className={[
+                          styles.collectionDetailView,
+                          collectionDetailVisible ? styles.collectionDetailViewOpen : styles.collectionDetailViewClosing,
+                        ].join(' ').trim()}
+                      >
+                        <div className={styles.collectionDetailTopbar}>
+                          <button
+                            type="button"
+                            className={styles.collectionDetailBack}
+                            onClick={closeAlbumDetail}
+                            aria-label="返回收藏页"
+                          >
+                            <span>返回</span>
+                            <span className={styles.collectionDetailBackIcon} aria-hidden="true" />
+                          </button>
+                          <span className={styles.collectionDetailIndex}>
+                            {sortedAlbums.findIndex((album) => album.id === detailAlbum.id) + 1} / {sortedAlbums.length}
+                          </span>
+                        </div>
+
+                        <div className={styles.collectionDetailBody}>
+                          <div className={styles.collectionDetailHero}>
+                            <MobileAlbumArt album={detailAlbum} />
+                          </div>
+
+                          <section className={styles.collectionDetailHeader}>
+                            <h2 className={styles.collectionDetailTitle}>{detailAlbum.title}</h2>
+                            <p className={styles.collectionDetailArtist}>{detailAlbum.artist}</p>
+                          </section>
+
+                          <section className={styles.collectionDetailMetaSection} aria-label="专辑信息">
+                            <div className={styles.collectionDetailMetaGrid}>
+                              <div className={styles.collectionDetailMetaCard}>
+                                <span className={styles.collectionDetailMetaLabel}>购买时间</span>
+                                <strong>{detailAlbum.purchase.display || '未知'}</strong>
+                              </div>
+                              <div className={styles.collectionDetailMetaCard}>
+                                <span className={styles.collectionDetailMetaLabel}>购买地点</span>
+                                <strong>{detailAlbum.purchase.location || '未知'}</strong>
+                              </div>
+                              <div className={styles.collectionDetailMetaCard}>
+                                <span className={styles.collectionDetailMetaLabel}>价格</span>
+                                <strong>{detailAlbum.purchase.priceText || '未记录'}</strong>
+                              </div>
+                              <div className={styles.collectionDetailMetaCard}>
+                                <span className={styles.collectionDetailMetaLabel}>发行年份</span>
+                                <strong>{detailAlbum.releaseYear ?? '未知'}</strong>
+                              </div>
+                            </div>
+                          </section>
+
+                          {detailAlbum.note ? (
+                            <section className={styles.collectionDetailNoteSection} aria-label="我的笔记">
+                              <div className={styles.collectionDetailSectionHeader}>
+                                <p className={styles.collectionDetailSectionEyebrow}>Note</p>
+                              </div>
+
+                              <article className={styles.collectionDetailNoteArticle}>
+                                {formatAlbumNote(detailAlbum.note).map((paragraph, index) => (
+                                  <p key={`${detailAlbum.id}-note-${index}`} className={styles.collectionDetailNoteParagraph}>
+                                    {paragraph}
+                                  </p>
+                                ))}
+                              </article>
+                            </section>
+                          ) : null}
+                        </div>
+                      </div>
+                    ) : null}
+                  </>
+                ) : (
+                  <div className={styles.emptyState}>还没有可显示的收藏专辑。</div>
+                )}
+              </section>
+
+              <section className={[styles.viewPane, styles.viewPaneRecommend].join(' ')}>
+                {selectedHighlight ? (
+                  <div className={styles.recommendView}>
+                    <div className={styles.recommendHero}>
+                      <MobileHighlightArt highlight={selectedHighlight} />
+                      <div className={styles.recommendInfo}>
+                        <p className={styles.recommendLabel}>{selectedHighlight.label}</p>
+                        <h2 className={styles.recommendTitle}>{selectedHighlight.value}</h2>
+                        <p className={styles.recommendMeta}>{selectedHighlight.meta ?? 'No metadata'}</p>
+                      </div>
+                    </div>
+
+                    <div className={styles.progressBlock}>
+                      <div className={styles.progressHeader}>
+                        <span>{formatTime(previewCurrentTime)}</span>
+                        <span>{formatTime(previewDuration)}</span>
+                      </div>
+                      <div className={styles.progressTrack} aria-hidden="true">
+                        <span className={styles.progressFill} style={{ transform: `scaleX(${progressRatio})` }} />
+                      </div>
+                    </div>
+
+                    <div className={styles.transport}>
+                      <div
+                        className={styles.transportMode}
+                        onPointerUp={handlePlaybackModePointerUp}
+                        onPointerCancel={handlePlaybackModePointerCancel}
+                      >
+                        {playbackModeMenuOpen ? (
+                          <div className={styles.playbackModeMenu} role="menu" aria-label="播放顺序">
+                            {playbackModeOrder.map((mode) => (
+                              <button
+                                key={mode}
+                                type="button"
+                                className={[
+                                  styles.playbackModeOption,
+                                  playbackModeHover === mode ? styles.playbackModeOptionActive : '',
+                                ].join(' ').trim()}
+                                data-playback-mode={mode}
+                                onContextMenu={(event) => event.preventDefault()}
+                                onDragStart={(event) => event.preventDefault()}
+                              >
+                                <img className={styles.playbackModeIcon} src={playbackModeIconSrc[mode]} alt="" aria-hidden="true" />
+                                <span>{playbackModeLabels[mode]}</span>
+                              </button>
+                            ))}
+                          </div>
+                        ) : null}
+                        <button
+                          type="button"
+                          className={[
+                            styles.transportButton,
+                            playbackModeMenuOpen ? styles.transportButtonToggled : '',
+                          ].join(' ').trim()}
+                          onPointerDown={handlePlaybackModePointerDown}
+                          onContextMenu={(event) => event.preventDefault()}
+                          onDragStart={(event) => event.preventDefault()}
+                          aria-label={`当前播放顺序：${playbackModeLabels[playbackMode]}`}
+                          aria-pressed={playbackModeMenuOpen}
+                        >
+                          <img className={styles.playbackModeIcon} src={playbackModeIconSrc[playbackMode]} alt="" aria-hidden="true" draggable="false" />
+                        </button>
+                      </div>
+                      <button
+                        type="button"
+                        className={styles.transportButton}
+                        onClick={() => handlePlayAdjacent(-1)}
+                        disabled={!selectedHighlight?.track}
+                        aria-label="上一首"
+                      >
+                        <span className={[styles.controlIcon, styles.controlIconPrevious].join(' ')} aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        className={[styles.transportButton, styles.transportButtonPrimary].join(' ')}
+                        onClick={() => {
+                          triggerHaptic(12);
+                          void handlePlayToggle();
+                        }}
+                        disabled={!selectedHighlight?.track}
+                        aria-label={isPlayingPreview ? '暂停' : '播放'}
+                      >
+                        <span
+                          className={[
+                            styles.controlIcon,
+                            isPlayingPreview ? styles.controlIconPause : styles.controlIconPlay,
+                          ].join(' ')}
+                          aria-hidden="true"
+                        />
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.transportButton}
+                        onClick={() => handlePlayAdjacent(1)}
+                        disabled={!selectedHighlight?.track}
+                        aria-label="下一首"
+                      >
+                        <span className={[styles.controlIcon, styles.controlIconNext].join(' ')} aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        className={[styles.transportButton, playlistOpen ? styles.transportButtonToggled : ''].join(' ').trim()}
+                        onClick={() => {
+                          if (playlistOpen) {
+                            closePlaylist();
+                            return;
+                          }
+                          openPlaylist();
+                        }}
+                        aria-expanded={playlistOpen}
+                        aria-label="播放列表"
+                      >
+                        <img className={styles.transportListIcon} src="/icons/UI/list.svg" alt="" aria-hidden="true" />
+                      </button>
+                    </div>
+                    {playlistOpen ? (
+                      <div
+                        className={[
+                          styles.mobilePlaylistOverlay,
+                          playlistVisible ? styles.mobilePlaylistOverlayVisible : '',
+                        ].join(' ').trim()}
+                      >
+                        <button
+                          type="button"
+                          className={[
+                            styles.mobilePlaylistBackdrop,
+                            playlistVisible ? styles.mobilePlaylistBackdropVisible : '',
+                          ].join(' ').trim()}
+                          onClick={closePlaylist}
+                          aria-label="关闭播放列表"
+                        />
+                        <div
+                          className={[
+                            styles.mobilePlaylistSheet,
+                            playlistVisible ? styles.mobilePlaylistSheetVisible : '',
+                          ].join(' ').trim()}
+                        >
+                          <div className={styles.mobilePlaylistPanel}>
+                            <div className={styles.mobilePlaylistHeader}>
+                              <p className={styles.mobilePlaylistTitle}>播放列表</p>
+                              <button
+                                type="button"
+                                className={styles.mobilePlaylistClose}
+                                onClick={closePlaylist}
+                              >
+                                收起
+                              </button>
+                            </div>
+                            <div className={styles.mobilePlaylistItems}>
+                              {playableHighlights.map((item) => (
+                                <button
+                                  key={item.id}
+                                  type="button"
+                                  className={[
+                                    styles.mobilePlaylistItem,
+                                    selectedHighlight?.id === item.id ? styles.mobilePlaylistItemActive : '',
+                                  ].join(' ').trim()}
+                                  onClick={() => {
+                                    triggerHaptic(10);
+                                    setSelectedHighlightId(item.id);
+                                    void startPlayback(item);
+                                    closePlaylist();
+                                  }}
+                                >
+                                  {item.cover ? (
+                                    <img
+                                      className={styles.mobilePlaylistItemArtwork}
+                                      src={item.cover.src}
+                                      alt={item.cover.alt}
+                                      loading="lazy"
+                                    />
+                                  ) : (
+                                    <span className={styles.mobilePlaylistItemArtworkFallback} aria-hidden="true">
+                                      {item.value.slice(0, 1)}
+                                    </span>
+                                  )}
+                                  <span className={styles.mobilePlaylistItemText}>
+                                    <strong>{item.track?.title ?? item.value}</strong>
+                                    <span>{item.value}</span>
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
-                </div>
-              ) : null}
+                ) : (
+                  <div className={styles.emptyState}>还没有可播放的推荐内容。</div>
+                )}
+              </section>
             </div>
-          ) : (
-            <div className={styles.emptyState}>还没有可播放的推荐内容。</div>
-          )}
           </div>
         </section>
 
