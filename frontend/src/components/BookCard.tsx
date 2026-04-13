@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './BookCard.module.css';
 
 export interface BookCardInfo {
+  index?: string;
   cover: string;
   title: string;
   author: string;
@@ -21,6 +22,7 @@ export interface BookCardInfo {
 const BookCard: React.FC<BookCardInfo> = (book: BookCardInfo) => {
   return (
     <article className={styles.card}>
+      <div className={styles.index} aria-hidden="true">{book.index}</div>
       <div className={styles.imageWrap}>
         <img src={book.cover} alt={book.title} className={styles.cover} />
       </div>

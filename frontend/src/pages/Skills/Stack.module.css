@@ -3,6 +3,35 @@
   gap: 22px;
 }
 
+.detailRail {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.detailEntry {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 18px;
+  padding: 18px 0 20px;
+  border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+}
+
+.detailEntry:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+}
+
+.detailIndex {
+  color: color-mix(in srgb, var(--text-color) 38%, transparent);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+}
+
+.detailBody {
+  display: grid;
+  gap: 8px;
+}
+
 .stackSplit {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
@@ -33,18 +62,26 @@
 
 .skillHeroCard,
 .personalityCard,
-.gameCard {
+.gameCard,
+.minecraftCard {
   position: relative;
   overflow: hidden;
   border-radius: 30px;
 }
 
+.personalityCard,
+.gameCard,
+.minecraftCard {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
 .skillHeroCard {
   padding: 28px;
   border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
-  background:
-    radial-gradient(circle at top right, rgba(65, 131, 196, 0.08), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 251, 0.98) 100%);
+  background: color-mix(in srgb, var(--background) 95%, white 5%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.64),
     0 20px 40px rgba(15, 23, 42, 0.08);
@@ -64,18 +101,14 @@
   padding: 28px;
   border-radius: 28px;
   border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
-  background:
-    radial-gradient(circle at top right, rgba(65, 131, 196, 0.07), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 249, 252, 0.98) 100%);
+  background: color-mix(in srgb, var(--background) 96%, white 4%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.64),
     0 18px 36px rgba(15, 23, 42, 0.08);
 }
 
 .toolCard {
-  background:
-    radial-gradient(circle at top right, rgba(106, 162, 120, 0.08), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(246, 249, 247, 0.98) 100%);
+  background: color-mix(in srgb, var(--background) 95%, white 5%);
 }
 
 .stackCardHead {
@@ -143,8 +176,7 @@
   padding: 6px 18px 6px 8px;
   border-radius: 999px;
   border: 1px solid rgba(196, 209, 227, 0.72);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 249, 252, 0.98) 100%);
+  background: color-mix(in srgb, var(--background) 96%, white 4%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
     0 10px 22px rgba(15, 23, 42, 0.06);
@@ -225,7 +257,7 @@
 .toolManifestoLine {
   margin: 0;
   padding-left: 16px;
-  border-left: 2px solid color-mix(in srgb, #6aa278 18%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--text-color) 14%, transparent);
   color: color-mix(in srgb, var(--text-color) 76%, transparent);
   line-height: 1.82;
 }
@@ -241,6 +273,37 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
     0 20px 42px rgba(15, 23, 42, 0.08);
+}
+
+.personalityCard::before {
+  content: '';
+  position: absolute;
+  left: 26%;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  background:
+    linear-gradient(160deg, rgba(116, 160, 130, 0.82) 0%, rgba(99, 142, 114, 0.88) 48%, rgba(83, 118, 95, 0.96) 100%);
+  clip-path: polygon(6% 34%, 100% 0, 100% 100%, 0 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 -1px 0 rgba(72, 101, 83, 0.16);
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+.personalityCard::after {
+  content: '';
+  position: absolute;
+  left: 33%;
+  right: 4%;
+  bottom: 16%;
+  height: 13%;
+  background:
+    linear-gradient(152deg, rgba(150, 192, 162, 0.54) 0%, rgba(122, 166, 136, 0.26) 58%, rgba(255, 255, 255, 0) 100%);
+  clip-path: polygon(0 48%, 100% 0, 100% 40%, 4% 100%);
+  opacity: 0.75;
+  pointer-events: none;
 }
 
 .personalityCopy {
@@ -289,7 +352,7 @@
   right: -18px;
   bottom: -6px;
   width: auto;
-  height: 108%;
+  height: 104%;
   max-width: 82%;
   max-height: none;
   object-fit: contain;
@@ -303,6 +366,254 @@
   border: 1px solid rgba(19, 78, 74, 0.34);
   background: #071514;
   box-shadow: 0 24px 48px rgba(3, 17, 16, 0.28);
+}
+
+.minecraftCard {
+  min-height: 320px;
+  border: 1px solid rgba(88, 104, 72, 0.34);
+  background: linear-gradient(180deg, rgba(23, 31, 23, 0.98) 0%, rgba(17, 22, 17, 1) 100%);
+  box-shadow: 0 24px 48px rgba(8, 12, 8, 0.28);
+}
+
+.minecraftBackdrop,
+.minecraftContent {
+  position: absolute;
+  inset: 0;
+}
+
+.minecraftBackdrop {
+  overflow: hidden;
+}
+
+.minecraftGlow {
+  position: absolute;
+  inset: auto 12% 24% auto;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 188, 77, 0.18) 0%, rgba(255, 188, 77, 0.05) 34%, transparent 66%);
+}
+
+.minecraftGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(167, 185, 145, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167, 185, 145, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.42;
+}
+
+.minecraftDust {
+  position: absolute;
+  left: 34%;
+  right: 6%;
+  bottom: 25%;
+  height: 4px;
+  background:
+    linear-gradient(90deg,
+      rgba(186, 30, 39, 0) 0%,
+      rgba(186, 30, 39, 0.92) 14%,
+      rgba(236, 62, 71, 0.98) 48%,
+      rgba(186, 30, 39, 0.78) 76%,
+      rgba(186, 30, 39, 0) 100%);
+  filter: drop-shadow(0 0 8px rgba(236, 62, 71, 0.24));
+  transform: skewX(-24deg);
+}
+
+.minecraftRepeater,
+.minecraftComparator {
+  position: absolute;
+  bottom: 21%;
+  width: 72px;
+  height: 30px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgba(190, 177, 149, 0.96) 0%, rgba(137, 124, 97, 0.96) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 8px 18px rgba(0, 0, 0, 0.2);
+  transform: skewX(-26deg);
+}
+
+.minecraftRepeater {
+  left: 52%;
+}
+
+.minecraftComparator {
+  left: 66%;
+}
+
+.minecraftRepeater::before,
+.minecraftRepeater::after,
+.minecraftComparator::before,
+.minecraftComparator::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  width: 8px;
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 82, 82, 0.95), rgba(171, 29, 29, 0.92));
+}
+
+.minecraftRepeater::before,
+.minecraftComparator::before {
+  left: 16px;
+}
+
+.minecraftRepeater::after,
+.minecraftComparator::after {
+  right: 16px;
+}
+
+.minecraftBlockA,
+.minecraftBlockB,
+.minecraftBlockC {
+  position: absolute;
+  bottom: 14%;
+  width: 88px;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, rgba(109, 127, 91, 0.96) 0%, rgba(78, 96, 67, 0.96) 100%);
+  clip-path: polygon(14% 0, 100% 0, 86% 100%, 0 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 16px 28px rgba(0, 0, 0, 0.24);
+}
+
+.minecraftBlockA {
+  left: 62%;
+}
+
+.minecraftBlockB {
+  left: 72%;
+  bottom: 12%;
+  width: 102px;
+}
+
+.minecraftBlockC {
+  left: 52%;
+  bottom: 12%;
+  width: 96px;
+  background: linear-gradient(135deg, rgba(124, 107, 73, 0.96) 0%, rgba(92, 77, 48, 0.96) 100%);
+}
+
+.minecraftGround {
+  position: absolute;
+  left: 28%;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background: linear-gradient(160deg, rgba(81, 103, 67, 0.96) 0%, rgba(62, 79, 50, 0.98) 52%, rgba(44, 56, 36, 1) 100%);
+  clip-path: polygon(7% 26%, 100% 0, 100% 100%, 0 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 -1px 0 rgba(143, 172, 120, 0.08);
+}
+
+.minecraftContent {
+  position: relative;
+  z-index: 1;
+  min-height: 296px;
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.minecraftHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.minecraftEyebrow {
+  margin: 0 0 10px;
+  color: rgba(214, 227, 205, 0.78);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.minecraftTitle {
+  margin: 0;
+  color: #f4f8ef;
+  font-family: 'Minecraft Ten', monospace;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.minecraftSummary {
+  margin: 14px 0 0;
+  max-width: 36ch;
+  color: rgba(219, 229, 214, 0.82);
+  line-height: 1.72;
+}
+
+.minecraftCodeBlock {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid rgba(179, 197, 161, 0.12);
+  border-radius: 14px;
+  background: rgba(12, 17, 12, 0.42);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.minecraftCodeBlock span {
+  color: rgba(212, 222, 206, 0.88);
+  font-family: 'Fira Mono', monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
+.minecraftStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 560px;
+}
+
+.minecraftStat {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid rgba(170, 190, 151, 0.12);
+  border-radius: 14px;
+  background: rgba(16, 23, 16, 0.42);
+}
+
+.minecraftStatLabel {
+  color: rgba(183, 198, 171, 0.62);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.minecraftStatValue {
+  color: #f4f8ef;
+  font-size: 1rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.minecraftTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 560px;
+}
+
+.minecraftTag {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(167, 188, 147, 0.14);
+  background: rgba(26, 36, 24, 0.5);
+  color: rgba(220, 230, 214, 0.88);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .gameBackdrop,
@@ -328,8 +639,8 @@
 .gameContent {
   position: relative;
   z-index: 1;
-  min-height: 320px;
-  padding: 28px;
+  min-height: 296px;
+  padding: 24px 26px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -341,6 +652,45 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
+}
+
+.gameHoverAnchor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: inherit;
+}
+
+.gameTooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  bottom: auto;
+  transform: translate(-50%, -4px);
+  opacity: 0;
+  pointer-events: none;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(214, 228, 223, 0.12);
+  background: rgba(12, 18, 17, 0.7);
+  color: rgba(232, 239, 236, 0.78);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.gameHoverAnchor:hover .gameTooltip,
+.gameHoverAnchor:focus-visible .gameTooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 .gameEyebrow {
@@ -378,6 +728,32 @@
   gap: 6px;
 }
 
+.gameMetaLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  color: inherit;
+}
+
+.gameMetaLink:hover .gameMetaValue,
+.gameMetaLink:focus-visible .gameMetaValue {
+  color: #d7e7ff;
+}
+
+.gameMetaHint {
+  color: rgba(205, 227, 216, 0.62);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.gameMetaLink:hover .gameMetaHint,
+.gameMetaLink:focus-visible .gameMetaHint {
+  color: rgba(233, 242, 249, 0.82);
+  transform: translateX(2px);
+}
+
 .gameMetaLabel {
   color: rgba(205, 227, 216, 0.72);
   font-size: 0.76rem;
@@ -400,6 +776,25 @@
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.3));
+}
+
+.gameRankAnchor {
+  position: absolute;
+  right: -6px;
+  bottom: -10px;
+}
+
+.gameRankAnchor .gameTooltip {
+  left: auto;
+  right: 18px;
+  top: auto;
+  bottom: 92px;
+  transform: translate(0, 4px);
+}
+
+.gameRankAnchor:hover .gameTooltip,
+.gameRankAnchor:focus-visible .gameTooltip {
+  transform: translate(0, 0);
 }
 
 .detailCards {
@@ -455,9 +850,7 @@
 
 :global([data-theme='dark']) .skillHeroCard {
   border-color: rgba(93, 106, 126, 0.28);
-  background:
-    radial-gradient(circle at top right, rgba(58, 109, 160, 0.12), transparent 28%),
-    linear-gradient(180deg, rgba(24, 28, 38, 0.94) 0%, rgba(17, 21, 29, 0.98) 100%);
+  background: rgba(20, 25, 34, 0.96);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
     0 20px 44px rgba(2, 6, 23, 0.26);
@@ -470,18 +863,14 @@
 :global([data-theme='dark']) .stackCard,
 :global([data-theme='dark']) .toolCard {
   border-color: rgba(93, 106, 126, 0.24);
-  background:
-    radial-gradient(circle at top right, rgba(58, 109, 160, 0.1), transparent 30%),
-    linear-gradient(180deg, rgba(24, 28, 38, 0.94) 0%, rgba(17, 21, 29, 0.98) 100%);
+  background: rgba(20, 25, 34, 0.95);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
     0 18px 34px rgba(2, 6, 23, 0.22);
 }
 
 :global([data-theme='dark']) .toolCard {
-  background:
-    radial-gradient(circle at top right, rgba(80, 142, 101, 0.14), transparent 30%),
-    linear-gradient(180deg, rgba(23, 30, 29, 0.94) 0%, rgba(16, 22, 22, 0.98) 100%);
+  background: rgba(19, 26, 25, 0.95);
 }
 
 :global([data-theme='dark']) .stackCardSummary,
@@ -509,8 +898,7 @@
 
 :global([data-theme='dark']) .skillBadge {
   border-color: rgba(111, 124, 146, 0.22);
-  background:
-    linear-gradient(180deg, rgba(31, 36, 47, 0.92) 0%, rgba(23, 27, 36, 0.98) 100%);
+  background: rgba(24, 29, 38, 0.96);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
     0 10px 24px rgba(2, 6, 23, 0.16);
@@ -549,6 +937,19 @@
     0 20px 44px rgba(2, 6, 23, 0.28);
 }
 
+:global([data-theme='dark']) .personalityCard::before {
+  background:
+    linear-gradient(160deg, rgba(58, 88, 69, 0.94) 0%, rgba(49, 76, 60, 0.96) 48%, rgba(35, 55, 44, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 -1px 0 rgba(144, 197, 163, 0.08);
+}
+
+:global([data-theme='dark']) .personalityCard::after {
+  background:
+    linear-gradient(152deg, rgba(113, 157, 126, 0.34) 0%, rgba(74, 109, 86, 0.14) 58%, rgba(255, 255, 255, 0) 100%);
+}
+
 :global([data-theme='dark']) .personalityCode {
   color: #84d5aa;
 }
@@ -557,6 +958,23 @@
   border-color: rgba(132, 213, 170, 0.16);
   background: rgba(132, 213, 170, 0.08);
   color: rgba(217, 245, 228, 0.88);
+}
+
+:global([data-theme='dark']) .minecraftCard {
+  border-color: rgba(92, 114, 76, 0.34);
+  background: linear-gradient(180deg, rgba(18, 24, 18, 0.98) 0%, rgba(12, 16, 12, 1) 100%);
+  box-shadow: 0 24px 48px rgba(3, 8, 3, 0.32);
+}
+
+:global([data-theme='dark']) .minecraftCodeBlock,
+:global([data-theme='dark']) .minecraftStat {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(190, 212, 171, 0.1);
+}
+
+:global([data-theme='dark']) .minecraftTag {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(190, 212, 171, 0.1);
 }
 
 :global([data-theme='dark']) .detailCard {
@@ -592,9 +1010,26 @@
     grid-template-columns: 1fr;
   }
 
+  .detailEntry {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
   .personalityCard {
     padding: 24px 22px;
-    min-height: 280px;
+    min-height: 268px;
+  }
+
+  .personalityCard::before {
+    left: 20%;
+    right: 0;
+    height: 35%;
+  }
+
+  .personalityCard::after {
+    left: 27%;
+    right: 3%;
+    bottom: 13%;
   }
 
   .personalityCopy {
@@ -608,17 +1043,57 @@
   }
 
   .gameContent,
+  .minecraftContent,
   .skillHeroCard,
   .stackCard,
   .toolCard {
     padding: 24px 22px;
+  }
+
+  .gameContent {
+    min-height: 272px;
+  }
+
+  .minecraftContent {
+    min-height: 272px;
+  }
+
+  .minecraftHead {
+    flex-direction: column;
+  }
+
+  .minecraftStats {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
+
+  .minecraftGround {
+    left: 18%;
+  }
+
+  .minecraftDust {
+    left: 22%;
+    right: 2%;
+  }
+
+  .minecraftBlockA {
+    left: 48%;
+  }
+
+  .minecraftBlockB {
+    left: 64%;
+  }
+
+  .minecraftBlockC {
+    left: 34%;
   }
 }
 
 @media (max-width: 640px) {
   .skillHeroCard,
   .personalityCard,
-  .gameCard {
+  .gameCard,
+  .minecraftCard {
     border-radius: 24px;
   }
 
@@ -640,8 +1115,31 @@
     min-height: 250px;
   }
 
+  .personalityCard::before {
+    left: 0;
+    right: 0;
+    height: 27%;
+  }
+
+  .personalityCard::after {
+    left: 8%;
+    right: 8%;
+    bottom: 8%;
+    height: 9%;
+  }
+
   .personalityCopy {
-    max-width: min(42%, 180px);
+    max-width: none;
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "eyebrow tags"
+      "title tags"
+      "code tags";
+    align-items: start;
+    column-gap: 12px;
+    row-gap: 6px;
   }
 
   .personalityBackdrop {
@@ -652,14 +1150,142 @@
     opacity: 0.82;
   }
 
+  .cardEyebrow {
+    grid-area: eyebrow;
+    margin-bottom: 0;
+  }
+
+  .personalityTitle {
+    grid-area: title;
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .personalityCode {
+    grid-area: code;
+    font-size: clamp(1.9rem, 8vw, 2.7rem);
+  }
+
+  .personalityTags {
+    grid-area: tags;
+    align-self: center;
+    justify-content: flex-end;
+    gap: 7px;
+    max-width: 126px;
+  }
+
+  .personalityTag {
+    padding: 6px 9px;
+    font-size: 0.74rem;
+  }
+
   .gameContent {
-    min-height: 280px;
+    min-height: 248px;
+    padding: 20px 18px;
+  }
+
+  .minecraftContent {
+    min-height: 250px;
+    padding: 20px 18px;
+    gap: 18px;
+  }
+
+  .minecraftTitle {
+    font-size: clamp(1.7rem, 8vw, 2.35rem);
+  }
+
+  .minecraftSummary {
+    max-width: 26ch;
+    font-size: 0.94rem;
+    line-height: 1.62;
+  }
+
+  .minecraftCodeBlock {
+    padding: 10px 12px;
+  }
+
+  .minecraftCodeBlock span {
+    font-size: 0.74rem;
+  }
+
+  .minecraftStat {
+    padding: 9px 10px;
+  }
+
+  .minecraftTag {
+    padding: 7px 10px;
+    font-size: 0.76rem;
+  }
+
+  .minecraftGround {
+    left: 8%;
+    height: 34%;
+  }
+
+  .minecraftDust {
+    left: 10%;
+    right: 0;
+    bottom: 24%;
+  }
+
+  .minecraftRepeater,
+  .minecraftComparator {
+    width: 54px;
+    height: 24px;
+    bottom: 20%;
+  }
+
+  .minecraftComparator {
+    left: 62%;
+  }
+
+  .minecraftRepeater {
+    left: 46%;
+  }
+
+  .minecraftBlockA,
+  .minecraftBlockB,
+  .minecraftBlockC {
+    width: 70px;
+  }
+
+  .minecraftBlockA {
+    left: 44%;
+  }
+
+  .minecraftBlockB {
+    left: 62%;
+    width: 80px;
+  }
+
+  .minecraftBlockC {
+    left: 26%;
+    width: 74px;
   }
 
   .gameRankBadge {
     right: -6px;
     bottom: -8px;
     width: 132px;
+  }
+
+  .gameTooltip {
+    padding: 5px 8px;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  .gameRankAnchor .gameTooltip {
+    right: 8px;
+    bottom: 72px;
+  }
+
+  .gameMetaLink {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .gameMetaHint {
+    font-size: 0.68rem;
   }
 
   .detailCard {

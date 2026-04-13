@@ -143,7 +143,7 @@
 }
 
 .navItem > a:hover {
-  color: inherit;
+  color: var(--link-color);
 }
 
 .navLinkActive {
@@ -242,6 +242,7 @@
 }
 
 .navbarHero .navItem > a,
+.navbarHero .mobileSectionTop > a,
 .navbarHero .brandLink {
   color: rgba(255, 255, 255, 0.96);
 }

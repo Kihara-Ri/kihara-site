@@ -1,56 +1,54 @@
 .card {
   width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #eee;
-  border-radius: 20px;
-  background: color-mix(in srgb, var(--background) 95%, white 5%);
+  padding: 16px 0 18px;
+  border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
   box-sizing: border-box;
+  display: grid;
+  gap: 10px;
+}
+
+.card:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+}
+
+.main {
+  display: grid;
+  gap: 8px;
 }
 
 .title {
-  margin: 0 0 8px;
+  margin: 0;
 }
 
 .abstract {
-  margin: 0 0 12px;
+  margin: 0;
+  color: color-mix(in srgb, var(--text-color) 78%, transparent);
+  line-height: 1.75;
 }
 
 .meta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
+  color: color-mix(in srgb, var(--text-color) 56%, transparent);
+  font-size: 0.84rem;
 }
 
 .category {
   margin: 0;
-  padding: 4px 6px;
-  border-radius: 8px;
-  transition: background-color 0.2s ease;
-}
-
-.category:hover {
-  background-color: #efefef;
-  cursor: pointer;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   margin: 0;
 }
 
 .tag {
-  padding: 2px 6px;
-  border-radius: 5px;
-  color: #6e6e6e;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.tag:hover {
-  background-color: #af5ddb;
-  color: #fff;
+  padding: 0;
+  border-radius: 0;
+  color: color-mix(in srgb, var(--accent-strong) 88%, transparent);
+  font-size: 0.82rem;
 }

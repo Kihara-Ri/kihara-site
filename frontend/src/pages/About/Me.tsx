@@ -2,7 +2,19 @@ import React from "react";
 import styles from '../SectionLayout.module.css';
 import showcaseStyles from '../Skills/Stack.module.css';
 
-const personalityTags = ['细节打磨', '产品导向', '慢热投入', '自驱迭代', '语言学习', '开始困难'];
+const personalityTags = ['细节打磨', '产品导向', '自驱迭代', '开始困难'];
+const detailNotes = [
+  {
+    eyebrow: 'Interests',
+    title: '兴趣方向',
+    text: '前端界面、交互细节、实在的工具构建、写作表达，以及日语和其他外语',
+  },
+  {
+    eyebrow: 'Workflow',
+    title: '做事方式',
+    text: '永远没有计划，走一步看一步，坚信车到山前必有路，船到桥头自然直。也正因为这样，生活里总会有些意外之喜，因为明天本来就无法完全预测。',
+  },
+];
 
 const AboutMe: React.FC = () => {
   return (
@@ -46,45 +58,114 @@ const AboutMe: React.FC = () => {
         <div className={showcaseStyles.gameContent}>
           <div className={showcaseStyles.gameHead}>
             <div>
-              <p className={showcaseStyles.gameEyebrow}>爱好游戏</p>
+              <p className={showcaseStyles.gameEyebrow}>10年+网瘾少年</p>
               <h2 className={showcaseStyles.gameTitle}>英雄联盟</h2>
             </div>
-            <img
-              className={showcaseStyles.gameRoleIcon}
-              src="/games/lol/top-lane.png"
-              alt="Top lane"
-              loading="lazy"
-            />
+            <button type="button" className={showcaseStyles.gameHoverAnchor} aria-label="上单">
+              <img
+                className={showcaseStyles.gameRoleIcon}
+                src="/games/lol/top-lane.png"
+                alt="Top lane"
+                loading="lazy"
+              />
+              <span className={showcaseStyles.gameTooltip}>上单</span>
+            </button>
           </div>
 
           <div className={showcaseStyles.gameFoot}>
             <div className={showcaseStyles.gameMetaBlock}>
-              <strong className={showcaseStyles.gameMetaValue}>海洋之灾</strong>
-              <span className={showcaseStyles.gameMetaLabel}>人柱力</span>
+              <a
+                className={showcaseStyles.gameMetaLink}
+                href="https://www.bilibili.com/video/BV1GmCdYhE7N/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <strong className={showcaseStyles.gameMetaValue}>海洋之灾</strong>
+                <span className={showcaseStyles.gameMetaHint}>详情</span>
+              </a>
+              <span className={showcaseStyles.gameMetaLabel}>3000+</span>
             </div>
           </div>
-          <img
-            className={showcaseStyles.gameRankBadge}
-            src="/games/lol/master-rank.png"
-            alt="Master rank"
-            loading="lazy"
-          />
+          <button type="button" className={[showcaseStyles.gameHoverAnchor, showcaseStyles.gameRankAnchor].join(' ')} aria-label="超凡大师">
+            <img
+              className={showcaseStyles.gameRankBadge}
+              src="/games/lol/master-rank.png"
+              alt="Master rank"
+              loading="lazy"
+            />
+            <span className={showcaseStyles.gameTooltip}>超凡大师</span>
+          </button>
         </div>
       </section>
 
-      <div className={[styles.split, showcaseStyles.detailCards].join(' ')}>
-        <section className={[styles.card, showcaseStyles.detailCard].join(' ')}>
-          <p className={showcaseStyles.detailCardEyebrow}>Interests</p>
-          <h3 className={showcaseStyles.detailCardTitle}>兴趣方向</h3>
-          <p className={showcaseStyles.detailCardText}>前端界面、交互细节、实在的工具构建、写作表达，以及日语和其他外语</p>
-        </section>
-        <section className={[styles.card, showcaseStyles.detailCard].join(' ')}>
-          <p className={showcaseStyles.detailCardEyebrow}>Workflow</p>
-          <h3 className={showcaseStyles.detailCardTitle}>做事方式</h3>
-          <p className={showcaseStyles.detailCardText}>永远没有计划，走一步看一步，坚信车到山前必有路，船到桥头自然直。</p>
-          <p className={showcaseStyles.detailCardText}>也正因为这样，生活里总会有些意外之喜，因为明天本来就无法完全预测。</p>
-        </section>
-      </div>
+      {/*
+      <section className={showcaseStyles.minecraftCard}>
+        <div className={showcaseStyles.minecraftBackdrop} aria-hidden="true">
+          <span className={showcaseStyles.minecraftGlow} />
+          <span className={showcaseStyles.minecraftGrid} />
+          <span className={showcaseStyles.minecraftDust} />
+          <span className={showcaseStyles.minecraftRepeater} />
+          <span className={showcaseStyles.minecraftComparator} />
+          <span className={showcaseStyles.minecraftBlockA} />
+          <span className={showcaseStyles.minecraftBlockB} />
+          <span className={showcaseStyles.minecraftBlockC} />
+          <span className={showcaseStyles.minecraftGround} />
+        </div>
+
+        <div className={showcaseStyles.minecraftContent}>
+          <div className={showcaseStyles.minecraftHead}>
+            <div>
+              <p className={showcaseStyles.minecraftEyebrow}>Sandbox / Mechanics</p>
+              <h2 className={showcaseStyles.minecraftTitle}>Minecraft</h2>
+              <p className={showcaseStyles.minecraftSummary}>
+                对我来说它不只是生存和建筑，更像一个把机制、逻辑和自动化持续推到极致的工程沙盒。
+              </p>
+            </div>
+            <div className={showcaseStyles.minecraftCodeBlock} aria-label="Minecraft specialties">
+              <span>REDSTONE</span>
+              <span>TECH MC</span>
+            </div>
+          </div>
+
+          <div className={showcaseStyles.minecraftStats}>
+            <div className={showcaseStyles.minecraftStat}>
+              <span className={showcaseStyles.minecraftStatLabel}>Focus</span>
+              <strong className={showcaseStyles.minecraftStatValue}>生电流派</strong>
+            </div>
+            <div className={showcaseStyles.minecraftStat}>
+              <span className={showcaseStyles.minecraftStatLabel}>Method</span>
+              <strong className={showcaseStyles.minecraftStatValue}>红石技术</strong>
+            </div>
+            <div className={showcaseStyles.minecraftStat}>
+              <span className={showcaseStyles.minecraftStatLabel}>Playstyle</span>
+              <strong className={showcaseStyles.minecraftStatValue}>机制创造</strong>
+            </div>
+          </div>
+
+          <div className={showcaseStyles.minecraftTags} aria-label="Minecraft playstyle tags">
+            <span className={showcaseStyles.minecraftTag}>自动化产线</span>
+            <span className={showcaseStyles.minecraftTag}>漏斗物流</span>
+            <span className={showcaseStyles.minecraftTag}>机制验证</span>
+            <span className={showcaseStyles.minecraftTag}>活塞 / 观察者</span>
+          </div>
+        </div>
+      </section>
+      */}
+
+      <section className={showcaseStyles.detailRail} aria-label="Personal notes">
+        {detailNotes.map((item, index) => (
+          <article key={item.title} className={showcaseStyles.detailEntry}>
+            <span className={showcaseStyles.detailIndex} aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <div className={showcaseStyles.detailBody}>
+              <p className={showcaseStyles.detailCardEyebrow}>{item.eyebrow}</p>
+              <h3 className={showcaseStyles.detailCardTitle}>{item.title}</h3>
+              <p className={showcaseStyles.detailCardText}>{item.text}</p>
+            </div>
+          </article>
+        ))}
+      </section>
     </div>
   )
 }

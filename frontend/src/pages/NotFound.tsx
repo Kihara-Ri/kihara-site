@@ -28,8 +28,14 @@ const NotFound: React.FC<NotFoundProps> = ({
     <div className={[layout.page, layout.main, layout.mainStretch].join(' ')}>
       <section className={styles.shell}>
         <div className={styles.head}>
-          <span className={styles.emoji} aria-hidden="true">😳</span>
-          <p className={styles.code}>{code}</p>
+          <div className={styles.headTop}>
+            <span className={styles.emoji} aria-hidden="true">😳</span>
+            <p className={styles.eyebrow}>System Response</p>
+          </div>
+          <div className={styles.codePanel}>
+            <span className={styles.codeLabel}>Error Code</span>
+            <code className={styles.code}>{code}</code>
+          </div>
         </div>
         <h1 className={styles.title}>{title}</h1>
         <p className={styles.description}>{description}</p>

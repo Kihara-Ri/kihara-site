@@ -7,15 +7,15 @@
 }
 
 .tag {
-  padding: 2px 6px;
-  border-radius: 5px;
-  color: #6e6e6e;
+  padding: 0;
+  border-radius: 0;
+  color: color-mix(in srgb, var(--text-color) 64%, transparent);
   font-size: 0.9rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
   cursor: pointer;
 }
 
 .tag:hover {
-  background-color: #af5ddb;
-  color: #fff;
+  color: var(--accent-strong);
+  transform: translateY(-1px);
 }

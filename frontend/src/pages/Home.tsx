@@ -263,8 +263,12 @@ const Home: React.FC = () => {
         <div className={styles.content}>
           <section className={styles.homeIntro}>
             <p className={styles.sectionEyebrow}>{siteConfig.homeContent.introduction.eyebrow}</p>
-            <h2 className={styles.sectionTitle}>{siteConfig.homeContent.introduction.title}</h2>
-            <p className={styles.sectionText}>{siteConfig.homeContent.introduction.text}</p>
+            <div className={styles.homeIntroRow}>
+              <div className={styles.homeIntroCopy}>
+                <h2 className={styles.sectionTitle}>{siteConfig.homeContent.introduction.title}</h2>
+                <p className={styles.sectionText}>{siteConfig.homeContent.introduction.text}</p>
+              </div>
+            </div>
           </section>
 
           <section className={styles.contentGrid}>
@@ -275,10 +279,15 @@ const Home: React.FC = () => {
                   <h3 className={styles.subTitle}>我在做什么</h3>
                 </div>
                 <div className={styles.storyList}>
-                  {siteConfig.homeContent.featuredWriting.map((item) => (
+                  {siteConfig.homeContent.featuredWriting.map((item, index) => (
                     <article key={item.title} className={styles.storyCard}>
-                      <p className={styles.storyCategory}>{item.category}</p>
-                      <h4 className={styles.storyTitle}>{item.title}</h4>
+                      <div className={styles.storyIndex} aria-hidden="true">
+                        {String(index + 1).padStart(2, '0')}
+                      </div>
+                      <div className={styles.storyMeta}>
+                        <p className={styles.storyCategory}>{item.category}</p>
+                        <h4 className={styles.storyTitle}>{item.title}</h4>
+                      </div>
                       <p className={styles.storySummary}>{item.summary}</p>
                     </article>
                   ))}
@@ -313,8 +322,13 @@ const Home: React.FC = () => {
                   <h3 className={styles.subTitle}>正在展开</h3>
                 </div>
                 <div className={styles.signalList}>
-                  {siteConfig.homeContent.currentSignals.map((item) => (
-                    <p key={item} className={styles.signalItem}>{item}</p>
+                  {siteConfig.homeContent.currentSignals.map((item, index) => (
+                    <p key={item} className={styles.signalItem}>
+                      <span className={styles.signalIndex} aria-hidden="true">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <span>{item}</span>
+                    </p>
                   ))}
                 </div>
               </section>

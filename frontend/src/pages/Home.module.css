@@ -365,17 +365,38 @@
   position: relative;
   width: min(1160px, 100%);
   margin: 0 auto;
-  padding: 48px 20px 48px;
+  padding: 56px 20px 72px;
   display: flex;
   flex-direction: column;
-  gap: 34px;
+  gap: 44px;
   box-sizing: border-box;
   background: var(--background);
-  border-radius: 32px 32px 0 0;
 }
 
 .homeIntro {
-  width: min(760px, 100%);
+  display: grid;
+  gap: 16px;
+  padding: 0 0 30px;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+}
+
+.homeIntroRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+
+.homeIntroCopy {
+  display: grid;
+  gap: 14px;
+}
+
+.introNote {
+  margin: 0;
+  padding-left: 18px;
+  color: color-mix(in srgb, var(--text-color) 62%, transparent);
+  line-height: 1.8;
+  border-left: 1px solid color-mix(in srgb, var(--text-color) 14%, transparent);
 }
 
 .sectionEyebrow {
@@ -387,72 +408,100 @@
 }
 
 .sectionTitle {
-  margin: 0 0 14px;
-  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  margin: 0;
+  white-space: nowrap;
+  font-size: clamp(1.9rem, 3vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
 }
 
 .sectionText {
   margin: 0;
+  color: color-mix(in srgb, var(--text-color) 64%, transparent);
   line-height: 1.7;
   white-space: pre-line;
+  max-width: 34rem;
 }
 
 .contentGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
-  gap: 28px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: 42px;
+  align-items: start;
 }
 
 .mainColumn,
 .sideColumn {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 40px;
+}
+
+.sideColumn {
+  position: relative;
+  padding-left: 26px;
+  border-left: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
 }
 
 .writingSection,
 .signalsSection,
 .shelfPanel {
-  padding: 24px;
-  border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
-  border-radius: 28px;
-  background: color-mix(in srgb, var(--background) 88%, white 12%);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  padding: 0;
 }
 
 .sectionHead {
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .subTitle {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.42rem;
+  letter-spacing: -0.02em;
 }
 
 .storyList {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .storyCard {
-  padding: 18px;
-  border-radius: 22px;
-  background: color-mix(in srgb, var(--background) 80%, white 20%);
+  display: grid;
+  grid-template-columns: 56px minmax(180px, 0.42fr) minmax(0, 1fr);
+  gap: 16px 20px;
+  align-items: start;
+  padding: 18px 0 22px;
+  border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+}
+
+.storyCard:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+}
+
+.storyIndex {
+  padding-top: 2px;
+  color: color-mix(in srgb, var(--text-color) 38%, transparent);
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.storyMeta {
+  display: grid;
+  gap: 10px;
 }
 
 .storyCategory {
-  margin: 0 0 10px;
-  color: #127da8;
+  margin: 0;
+  color: color-mix(in srgb, var(--text-color) 48%, transparent);
   font-size: 0.78rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .storyTitle {
-  margin: 0 0 10px;
-  font-size: 1.05rem;
-  line-height: 1.4;
+  margin: 0;
+  font-size: 1.18rem;
+  line-height: 1.35;
 }
 
 .storySummary {
@@ -460,32 +509,47 @@
   color: color-mix(in srgb, var(--text-color) 78%, transparent);
   line-height: 1.7;
   white-space: pre-line;
+  max-width: 42rem;
 }
 
 .signalList {
-  display: grid;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .signalItem {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 16px;
   margin: 0;
-  padding: 16px 18px;
-  border-left: 3px solid #127da8;
-  border-radius: 0 18px 18px 0;
-  background: color-mix(in srgb, var(--background) 82%, white 18%);
+  padding: 14px 0;
   line-height: 1.7;
+  border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+}
+
+.signalItem:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+}
+
+.signalIndex {
+  color: color-mix(in srgb, var(--text-color) 38%, transparent);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
 }
 
 .shelfList {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .shelfItem {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(90px, auto) minmax(0, 1fr);
+  align-items: baseline;
   justify-content: space-between;
-  gap: 18px;
-  padding: 14px 0;
+  gap: 16px;
+  padding: 10px 0;
   border-bottom: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
 }
 
@@ -502,7 +566,7 @@
 }
 
 .shelfValue {
-  text-align: right;
+  text-align: left;
   line-height: 1.6;
 }
 
@@ -573,10 +637,35 @@
 
   .contentGrid {
     grid-template-columns: 1fr;
+    gap: 34px;
   }
 
-  .storyList {
+  .homeIntro {
+    gap: 18px;
+  }
+
+  .homeIntroRow {
     grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .sideColumn {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+    padding-top: 28px;
+  }
+
+  .storyCard {
+    grid-template-columns: 40px 1fr;
+  }
+
+  .storySummary {
+    grid-column: 2;
+  }
+
+  .signalItem {
+    grid-template-columns: 40px 1fr;
   }
 }
 
@@ -692,12 +781,40 @@
 
   .content {
     padding-top: 34px;
-    border-radius: 24px 24px 0 0;
   }
 
   .arrowIcon {
     width: 34px;
     height: 34px;
+  }
+
+  .sectionTitle {
+    white-space: normal;
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
+  }
+
+  .storyCard {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .storySummary {
+    grid-column: auto;
+  }
+
+  .storyIndex,
+  .signalIndex {
+    font-size: 0.74rem;
+  }
+
+  .signalItem {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .shelfItem {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 }
 
@@ -760,10 +877,9 @@
 }
 
 .latestPostCard {
-  padding: 18px;
-  border: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
-  border-radius: 22px;
-  background: color-mix(in srgb, var(--background) 92%, white 8%);
+  padding: 18px 0 22px;
+  border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -798,9 +914,7 @@
 }
 
 .latestPostTag {
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--text-color) 8%, transparent);
+  color: color-mix(in srgb, var(--text-color) 62%, transparent);
   font-size: 0.82rem;
 }
 

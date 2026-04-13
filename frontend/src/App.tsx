@@ -55,13 +55,13 @@ function AppContent() {
           path="/blogs/*"
           element={
             <NotFound
-              code="..."
+              code="503 / BLOGS_OFFLINE"
               title="当前页面正在维护"
               description="博客区域暂时关闭访问，正在整理内容和结构。"
               note="维护完成后会恢复访问，现有其它页面不受影响。"
-              primaryActionLabel="返回首页"
+              primaryActionLabel="Return /"
               primaryActionTo="/"
-              secondaryActionLabel="去音乐页"
+              secondaryActionLabel="Open /music"
               secondaryActionTo="/music/"
             />
           }

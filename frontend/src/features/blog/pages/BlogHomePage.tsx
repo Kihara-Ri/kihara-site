@@ -119,6 +119,7 @@ export function BlogHomePage({ selectedTag, onSelectTag, onOpenArticle }: BlogHo
                   className={styles.leadCard}
                   onClick={() => onOpenArticle(leadArticle.slug)}
                 >
+                  <span className={styles.leadIndex} aria-hidden="true">01</span>
                   <div className={styles.leadMeta}>
                     <span>{formatDate(leadArticle.date)}</span>
                     <span>{renderWordCount(leadArticle.wordCount)}</span>
@@ -161,13 +162,16 @@ export function BlogHomePage({ selectedTag, onSelectTag, onOpenArticle }: BlogHo
                 <p className={styles.placeholder}>当前筛选条件下没有文章。</p>
               ) : (
                 <div className={styles.list}>
-                  {remainingArticles.map((article) => (
+                  {remainingArticles.map((article, index) => (
                     <button
                       key={article.slug}
                       type="button"
                       className={styles.listItem}
                       onClick={() => onOpenArticle(article.slug)}
                     >
+                      <span className={styles.listIndex} aria-hidden="true">
+                        {String(index + 2).padStart(2, '0')}
+                      </span>
                       <div className={styles.listItemMain}>
                         <h3 className={styles.cardTitle}>{article.title}</h3>
                         <p className={styles.cardMeta}>

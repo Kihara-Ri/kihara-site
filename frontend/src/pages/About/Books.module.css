@@ -1,4 +1,38 @@
+.booksShell {
+  display: grid;
+  gap: 28px;
+}
+
+.intro {
+  display: grid;
+  gap: 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+}
+
+.eyebrow {
+  margin: 0;
+  color: color-mix(in srgb, var(--text-color) 56%, transparent);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+
+.summary {
+  margin: 0;
+  max-width: 62ch;
+  color: color-mix(in srgb, var(--text-color) 74%, transparent);
+  line-height: 1.8;
+}
+
 .list {
   display: grid;
-  gap: 18px;
+  gap: 0;
 }

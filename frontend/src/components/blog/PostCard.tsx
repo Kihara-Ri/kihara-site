@@ -18,8 +18,10 @@ export interface PostInfo {
 const PostCard: React.FC<PostInfo> = ( post: PostInfo ) => {
   return (
     <article className={styles.card}>
-      <h3 className={styles.title}><Link to={`/blogs/${post.id}`}>{post.title}</Link></h3>
-      <p className={styles.abstract}>{post.abstract}</p>
+      <div className={styles.main}>
+        <h3 className={styles.title}><Link to={`/blogs/${post.id}`}>{post.title}</Link></h3>
+        <p className={styles.abstract}>{post.abstract}</p>
+      </div>
       <div className={styles.meta}>
         <p className={styles.category}>
           {blogCategoryMap[post.category].label} 
