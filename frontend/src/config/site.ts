@@ -27,12 +27,12 @@ export const siteConfig = {
     featuredWriting: [
       {
         category: 'Project',
-        title: '一个自我实现的个人网站',
+        title: '自我实现',
         summary: '我不是一个很擅长想象的人，但我最擅长的是总结与联想，我希望把我所有学习过的东西通过小巧思连接起来，做成我自己的项目',
       },
       {
         category: 'Notebook',
-        title: '杂七杂八，有的没的',
+        title: '杂七杂八有的没的',
         summary: '什么内容都可能出现，技术是手段不是目的，表达是形式不是内容，我想把我在各个领域的零碎想法都放在这里，看看它们之间能不能碰撞出什么有趣的东西',
       },
       {
@@ -43,7 +43,7 @@ export const siteConfig = {
       {
         category: 'Write',
         title: '写',
-        summary: 'Even with the rest belated, everything is antiquated Are you writing from the heart? \nEven in his heart, the Devil has to know the water level\nAre you wrting from the heart?',
+        summary: 'Even with the rest belated, everything is antiquated\nAre you writing from the heart? \nEven in his heart, the Devil has to know the water level\nAre you wrting from the heart?',
       }
     ],
     currentSignals: [
@@ -53,8 +53,8 @@ export const siteConfig = {
     ],
     shelves: [
       { label: 'Writing', value: '技术笔记 / 语言 / 随想' },
-      { label: 'Making', value: '地图 / 前端 / 小工具' },
-      { label: 'Reading', value: '历史 / 方法 / 编程' },
+      { label: 'Making', value: '交互UX / 前端 / 小工具' },
+      { label: 'Reading', value: '历史 / 形而上学 / 编程' },
       { label: 'Learning', value: '无线电 / 语言 / 操作系统'},
       { label: 'Now', value: '重构这个网站' },
     ],

@@ -11,7 +11,7 @@ const About: React.FC = () => {
           <p className={styles.eyebrow}>About</p>
           <h1 className={styles.title}>抽丝剥茧</h1>
           <p className={styles.description}>
-            业务能力以外的我
+            业务能力之外
           </p>
         </section>
 

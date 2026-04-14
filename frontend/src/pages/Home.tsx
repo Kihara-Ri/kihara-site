@@ -338,7 +338,7 @@ const Home: React.FC = () => {
               <section className={styles.shelfPanel}>
                 <div className={styles.sectionHead}>
                   <p className={styles.sectionEyebrow}>{siteConfig.homeContent.blogHighlights.latestLabel}</p>
-                  <h3 className={styles.subTitle}>最新文章</h3>
+                  <h3 className={styles.subTitle}>栈顶</h3>
                 </div>
                 {latestArticle ? (
                   <Link to={`/blogs/${latestArticle.slug}`} className={styles.latestPostCard}>
@@ -361,7 +361,7 @@ const Home: React.FC = () => {
               <section className={styles.shelfPanel}>
                 <div className={styles.sectionHead}>
                   <p className={styles.sectionEyebrow}>Shelves</p>
-                  <h3 className={styles.subTitle}>长期工作</h3>
+                  <h3 className={styles.subTitle}>长跑</h3>
                 </div>
                 <div className={styles.shelfList}>
                   {siteConfig.homeContent.shelves.map((item) => (

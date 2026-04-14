@@ -8,9 +8,7 @@
     "build": "npm run typecheck && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
-    "diary-build": "tsc -p tsconfig.scripts.json",
-    "diary-run": "node dist/scripts/diary-parser.js"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json"
   },
   "dependencies": {
     "@react-three/drei": "^9.77.1",

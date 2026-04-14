@@ -21,6 +21,7 @@ import NotFound from './pages/NotFound';
 // Context
 import { ThemeProvider } from './context/ThemeContext';
 import { MusicPlayerProvider } from './context/MusicPlayerContext';
+import { ToastProvider } from './context/ToastContext';
 
 function AppContent() {
   const location = useLocation();
@@ -83,11 +84,13 @@ function App() {
 
   return (
     <ThemeProvider>
-      <MusicPlayerProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
-      </MusicPlayerProvider>
+      <ToastProvider>
+        <MusicPlayerProvider>
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </MusicPlayerProvider>
+      </ToastProvider>
     </ThemeProvider>
   )
 }

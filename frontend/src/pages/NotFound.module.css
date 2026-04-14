@@ -88,7 +88,8 @@
   font-size: clamp(2rem, 5vw, 3.4rem);
   line-height: 1.05;
   letter-spacing: -0.05em;
-  max-width: 12ch;
+  max-width: none;
+  white-space: nowrap;
 }
 
 .description {
@@ -238,6 +239,7 @@
     max-width: none;
     font-size: clamp(1.6rem, 9vw, 2.2rem);
     line-height: 1.08;
+    white-space: nowrap;
   }
 
   .description,
