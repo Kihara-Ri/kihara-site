@@ -1,51 +1,268 @@
 import React from "react";
-import styles from '../SectionLayout.module.css';
 import showcaseStyles from '../Skills/Stack.module.css';
+import { useToast } from '../../context/ToastContext';
 
 const personalityTags = ['细节打磨', '产品导向', '自驱迭代', '开始困难'];
-const detailNotes = [
-  {
-    eyebrow: 'Interests',
-    title: '兴趣方向',
-    text: '前端界面、交互细节、实在的工具构建、写作表达，以及日语和其他外语',
-  },
-  {
-    eyebrow: 'Workflow',
-    title: '做事方式',
-    text: '永远没有计划，走一步看一步，坚信车到山前必有路，船到桥头自然直。也正因为这样，生活里总会有些意外之喜，因为明天本来就无法完全预测。',
-  },
+const motivationWords = ['体验', '思考', '记录', '创造'];
+const MOTIVATION_INTERVAL_MS = 2200;
+const MOTIVATION_TRANSITION_MS = 260;
+const personalityTraits = [
+  { leftLabel: 'Extraverted', rightLabel: 'Introverted', result: 'Introverted', value: 76, side: 'right', color: '#4a9dbb' },
+  { leftLabel: 'Intuitive', rightLabel: 'Observant', result: 'Intuitive', value: 73, side: 'left', color: '#d9a01a' },
+  { leftLabel: 'Thinking', rightLabel: 'Feeling', result: 'Feeling', value: 73, side: 'right', color: '#36a271' },
+  { leftLabel: 'Judging', rightLabel: 'Prospecting', result: 'Prospecting', value: 88, side: 'right', color: '#8560aa' },
+  { leftLabel: 'Assertive', rightLabel: 'Turbulent', result: 'Turbulent', value: 56, side: 'right', color: '#e7646b' },
 ];
 
+const personalityCopyText = [
+  '你是一名擅长人格分析、行为模式归纳和长期发展建议的观察者。请基于以下 MBTI 结果，对这个人做一份尽量具体、克制、可感知的性格分析。',
+  '',
+  '[基础数据]',
+  '人格类型：INFP-T',
+  '类型别名：Mediator / 调停者',
+  '维度结果：',
+  '- Introverted 76%',
+  '- Intuitive 73%',
+  '- Feeling 73%',
+  '- Prospecting 88%',
+  '- Turbulent 56%',
+  '',
+  '[分析要求]',
+  '1. 不要只复述 MBTI 标签含义，要尽量推断出更具体的心理倾向与行为模式。',
+  '2. 结论需要贴近现实生活，避免空泛、模板化、鸡汤式表达。',
+  '3. 如果某些结论只是高概率推测，请明确说明是推测，不要说得过于绝对。',
+  '',
+  '[请重点分析这些方面]',
+  '1. 这个人的核心性格气质与内在驱动力。',
+  '2. 这个人的思维方式、做决定时更看重什么、容易被什么打动或困住。',
+  '3. 这个人的行为倾向：做事节奏、面对计划与变化的态度、是否容易拖延、是否容易反复打磨细节。',
+  '4. 这个人的人际互动风格：表达方式、边界感、共情能力、冲突处理倾向。',
+  '5. 这个人在学习、创作、技术工作、长期项目推进中的潜在优势。',
+  '6. 这个人的潜在盲点、缺点以及可能遇到的挑战和困难。',
+  '7. 对这个人来说，什么样的环境、协作方式、成长路径可能更合适。',
+  '',
+  '[输出方式]',
+  '请分点作答，尽量具体。如果可以，请在最后补充一个“适合这个人的行动建议”小节。',
+].join('\n');
+
 const AboutMe: React.FC = () => {
+  const [isPersonalityOpen, setIsPersonalityOpen] = React.useState(false);
+  const [isCopied, setIsCopied] = React.useState(false);
+  const [motivationIndex, setMotivationIndex] = React.useState(0);
+  const [isMotivationAnimating, setIsMotivationAnimating] = React.useState(true);
+  const { showToast } = useToast();
+  const motivationLoopWords = React.useMemo(
+    () => [...motivationWords, motivationWords[0]],
+    [],
+  );
+
+  React.useEffect(() => {
+    const timer = window.setInterval(() => {
+      setMotivationIndex((current) => current + 1);
+    }, MOTIVATION_INTERVAL_MS);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  React.useEffect(() => {
+    if (isMotivationAnimating) {
+      return undefined;
+    }
+
+    let frameId = 0;
+    frameId = window.requestAnimationFrame(() => {
+      setIsMotivationAnimating(true);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [isMotivationAnimating]);
+
+  const handleMotivationTransitionEnd = () => {
+    if (motivationIndex !== motivationWords.length) {
+      return;
+    }
+
+    setIsMotivationAnimating(false);
+    setMotivationIndex(0);
+  };
+
+  React.useEffect(() => {
+    if (!isCopied) {
+      return undefined;
+    }
+
+    const timer = window.setTimeout(() => {
+      setIsCopied(false);
+    }, 1400);
+
+    return () => window.clearTimeout(timer);
+  }, [isCopied]);
+
+  const handleCopyPersonality = async () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(personalityCopyText);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = personalityCopyText;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        textarea.style.pointerEvents = 'none';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+
+        const copied = document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        if (!copied) {
+          throw new Error('copy_failed');
+        }
+      }
+
+      setIsCopied(true);
+      showToast('已复制到剪贴板', 'success');
+    } catch {
+      setIsCopied(false);
+      showToast('复制失败，请重试', 'error');
+    }
+  };
+
   return (
     <div className={showcaseStyles.stackShowcase}>
-      <div className={styles.prose}>
-        <h2>关于我</h2>
-        <p>
-          我主要把时间花在交互、连接和做一点图形相关的尝试，以及长期的语言学习上。
-          我偏好把事情做得干净、可控，而不是堆很多现成模块快速拼出来；当我投入到一个项目里时，往往会反复打磨细节，直到满意为止，因此有时候容易钻牛角尖
-        </p>
-      </div>
+      <section className={showcaseStyles.aboutTopCards} aria-label="About highlights">
+        <article className={showcaseStyles.motivationCard}>
+          <p className={showcaseStyles.aboutMiniEyebrow}>追求</p>
+          <div className={showcaseStyles.motivationBody}>
+            <h2 className={showcaseStyles.motivationTitle}>
+              <span>源于热情</span>
+              <span>所以保持</span>
+            </h2>
+            <div className={showcaseStyles.motivationSwitch} aria-live="polite">
+              <div
+                className={showcaseStyles.motivationTrack}
+                onTransitionEnd={handleMotivationTransitionEnd}
+                style={{
+                  transform: `translate3d(0, calc(-1 * ${motivationIndex} * var(--motivation-row-height)), 0)`,
+                  transitionDuration: isMotivationAnimating
+                    ? `${MOTIVATION_TRANSITION_MS}ms`
+                    : '0ms',
+                }}
+              >
+                {motivationLoopWords.map((word, index) => (
+                  <span key={`${word}-${index}`} className={showcaseStyles.motivationWord}>{word}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </article>
 
-      <section className={showcaseStyles.personalityCard}>
-        <img
-          className={showcaseStyles.personalityBackdrop}
-          src="/mbti/infp-mediator.svg"
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-        />
-        <div className={showcaseStyles.personalityCopy}>
-          <p className={showcaseStyles.cardEyebrow}>标签</p>
-          <h2 className={showcaseStyles.personalityTitle}>调停者</h2>
-          <p className={showcaseStyles.personalityCode}>INFP-T</p>
-          <div className={showcaseStyles.personalityTags} aria-label="Personality tags">
-            {personalityTags.map((tag) => (
-              <span key={tag} className={showcaseStyles.personalityTag}>{tag}</span>
+        <article className={showcaseStyles.traitCard}>
+          <p className={showcaseStyles.aboutMiniEyebrow}>特点</p>
+          <div className={showcaseStyles.traitLines}>
+            <p className={showcaseStyles.traitLine}>折腾自己一把好手</p>
+            <p className={showcaseStyles.traitLine}>除了正事什么都干</p>
+          </div>
+        </article>
+      </section>
+
+      <div className={showcaseStyles.personalityCluster}>
+        <section className={showcaseStyles.personalityCard}>
+          <img
+            className={showcaseStyles.personalityBackdrop}
+            src="/mbti/infp-mediator.svg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
+          <div className={showcaseStyles.personalityCopy}>
+            <p className={showcaseStyles.cardEyebrow}>标签</p>
+            <h2 className={showcaseStyles.personalityTitle}>调停者</h2>
+            <button
+              type="button"
+              className={showcaseStyles.personalityCode}
+              aria-expanded={isPersonalityOpen}
+              aria-controls="personality-traits-panel"
+              onClick={() => setIsPersonalityOpen((open) => !open)}
+            >
+              <span className={showcaseStyles.personalityCodeValue}>INFP-T</span>
+              <span className={showcaseStyles.personalityCodeHint}>
+                {isPersonalityOpen ? '收起' : '展开'}
+              </span>
+            </button>
+            <div className={showcaseStyles.personalityTags} aria-label="Personality tags">
+              {personalityTags.map((tag) => (
+                <span key={tag} className={showcaseStyles.personalityTag}>{tag}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section
+          id="personality-traits-panel"
+          className={[
+            showcaseStyles.personalityPanel,
+            isPersonalityOpen ? showcaseStyles.personalityPanelOpen : '',
+          ].join(' ')}
+          aria-label="Personality traits details"
+        >
+          <div className={showcaseStyles.personalityPanelHead}>
+            <div className={showcaseStyles.personalityPanelTitleRow}>
+              <h3 className={showcaseStyles.personalityPanelTitle}>Mediator / INFP-T</h3>
+              <button
+                type="button"
+                className={[
+                  showcaseStyles.personalityPanelCopy,
+                  isCopied ? showcaseStyles.personalityPanelCopyActive : '',
+                ].join(' ')}
+                aria-label={isCopied ? 'Copied' : 'Copy personality details'}
+                onClick={handleCopyPersonality}
+              >
+                <span className={showcaseStyles.personalityPanelCopyIcon} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+          <div className={showcaseStyles.personalityMetricList}>
+            {personalityTraits.map((trait) => (
+              <div
+                key={trait.result}
+                className={showcaseStyles.personalityMetric}
+                style={{ '--trait-color': trait.color } as React.CSSProperties}
+              >
+                <div className={showcaseStyles.personalityMetricHead}>
+                  <strong
+                    className={showcaseStyles.personalityMetricValue}
+                    style={
+                      {
+                        left: `${trait.side === 'right' ? trait.value : 100 - trait.value}%`,
+                      } as React.CSSProperties
+                    }
+                  >
+                    {trait.value}% {trait.result}
+                  </strong>
+                </div>
+                <span className={showcaseStyles.personalityMetricTrack} aria-hidden="true">
+                  <span className={showcaseStyles.personalityMetricIndicator} />
+                  <span
+                    className={showcaseStyles.personalityMetricMarker}
+                    style={
+                      {
+                        left: `${trait.side === 'right' ? trait.value : 100 - trait.value}%`,
+                      } as React.CSSProperties
+                    }
+                  />
+                </span>
+                <span className={showcaseStyles.personalityMetricAxis}>
+                  <span>{trait.leftLabel}</span>
+                  <span>{trait.rightLabel}</span>
+                </span>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <section className={showcaseStyles.gameCard}>
         <img
@@ -152,20 +369,6 @@ const AboutMe: React.FC = () => {
       </section>
       */}
 
-      <section className={showcaseStyles.detailRail} aria-label="Personal notes">
-        {detailNotes.map((item, index) => (
-          <article key={item.title} className={showcaseStyles.detailEntry}>
-            <span className={showcaseStyles.detailIndex} aria-hidden="true">
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            <div className={showcaseStyles.detailBody}>
-              <p className={showcaseStyles.detailCardEyebrow}>{item.eyebrow}</p>
-              <h3 className={showcaseStyles.detailCardTitle}>{item.title}</h3>
-              <p className={showcaseStyles.detailCardText}>{item.text}</p>
-            </div>
-          </article>
-        ))}
-      </section>
     </div>
   )
 }
