@@ -3,18 +3,143 @@
   gap: 22px;
 }
 
-.detailRail {
+.aboutTopCards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.motivationCard,
+.traitCard {
+  min-height: 196px;
+  padding: 24px 24px 26px;
+  border-radius: 30px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  background: color-mix(in srgb, var(--background) 84%, white 16%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.64),
+    0 18px 38px rgba(15, 23, 42, 0.08);
+  box-sizing: border-box;
+  display: grid;
+  align-content: space-between;
+}
+
+.aboutMiniEyebrow {
+  margin: 0;
+  color: color-mix(in srgb, var(--text-color) 56%, transparent);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.motivationBody {
+  --motivation-row-height: clamp(1.8rem, 3.2vw, 2.7rem);
+  display: grid;
+  gap: 10px;
+}
+
+.motivationTitle {
+  margin: 10px 0 0;
+  max-width: 9ch;
+  display: grid;
+  gap: 2px;
+  font-size: clamp(1.8rem, 3.2vw, 2.7rem);
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+
+.motivationSwitch {
+  position: relative;
+  height: var(--motivation-row-height);
+  overflow: hidden;
+}
+
+.motivationTrack {
   display: flex;
   flex-direction: column;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.motivationWord {
+  display: flex;
+  align-items: center;
+  flex: 0 0 var(--motivation-row-height);
+  height: var(--motivation-row-height);
+  font-size: var(--motivation-row-height);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+
+.motivationWord:nth-child(4n + 1) {
+  color: #d98a1f;
+}
+
+.motivationWord:nth-child(4n + 2) {
+  color: #5f9f3c;
+}
+
+.motivationWord:nth-child(4n + 3) {
+  color: #7a56d8;
+}
+
+.motivationWord:nth-child(4n + 4) {
+  color: #3f88c8;
+}
+
+.traitLines {
+  display: grid;
+  align-content: end;
+  gap: 10px;
+}
+
+.traitLine {
+  margin: 0;
+  max-width: none;
+  white-space: nowrap;
+  font-size: clamp(1.8rem, 3.2vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+
+.personalityCluster {
+  display: grid;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
   gap: 0;
+}
+
+.detailRail {
+  width: 100%;
+  max-width: 860px;
+  margin: 4px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .detailEntry {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 18px;
-  padding: 18px 0 20px;
-  border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  min-height: 100%;
+  padding: 22px 22px 24px;
+  border-radius: 28px;
+  border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--background) 96%, white 4%) 0%, color-mix(in srgb, var(--background) 93%, white 7%) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.64),
+    0 16px 34px rgba(15, 23, 42, 0.08);
+  box-sizing: border-box;
 }
 
 .detailEntry:last-child {
@@ -29,7 +154,8 @@
 
 .detailBody {
   display: grid;
-  gap: 8px;
+  gap: 10px;
+  align-items: start;
 }
 
 .stackSplit {
@@ -309,7 +435,7 @@
 .personalityCopy {
   position: relative;
   z-index: 1;
-  max-width: min(24%, 220px);
+  max-width: min(28%, 280px);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -324,11 +450,48 @@
 
 .personalityCode {
   margin: 0;
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: #63ad86;
   font-size: clamp(2rem, 4vw, 3.3rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.04em;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.personalityCodeValue {
+  white-space: nowrap;
+}
+
+.personalityCode:hover,
+.personalityCode:focus-visible {
+  color: #4d9971;
+  transform: translateX(3px);
+}
+
+.personalityCode:focus-visible {
+  outline: none;
+}
+
+.personalityCodeHint {
+  color: color-mix(in srgb, var(--text-color) 42%, transparent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .personalityTags {
@@ -359,6 +522,178 @@
   object-position: right bottom;
   filter: drop-shadow(0 16px 26px rgba(17, 24, 39, 0.12));
   pointer-events: none;
+}
+
+.personalityPanel {
+  position: relative;
+  align-self: start;
+  justify-self: start;
+  width: min(360px, 100%);
+  margin-top: -8px;
+  z-index: 2;
+  display: grid;
+  gap: 12px;
+  padding: 18px 18px 20px;
+  border: 1px solid color-mix(in srgb, #7cb695 22%, rgba(15, 23, 42, 0.16));
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(250, 252, 250, 0.94) 0%, rgba(239, 246, 240, 0.92) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    0 18px 36px rgba(15, 23, 42, 0.14);
+  backdrop-filter: blur(12px);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-12px);
+  pointer-events: none;
+  transition:
+    max-height 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms ease,
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.personalityPanelOpen {
+  max-height: 520px;
+  margin-top: 12px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.personalityPanelHead {
+  display: grid;
+  gap: 0;
+  align-items: start;
+}
+
+.personalityPanelTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.personalityPanelTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.personalityPanelCopy {
+  position: relative;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #60a5fa;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.personalityPanelCopy:hover,
+.personalityPanelCopy:focus-visible {
+  background: color-mix(in srgb, #60a5fa 10%, transparent);
+  color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+.personalityPanelCopy:focus-visible {
+  outline: none;
+}
+
+.personalityPanelCopyActive {
+  background: color-mix(in srgb, #60a5fa 14%, transparent);
+  color: #2563eb;
+}
+
+.personalityPanelCopyIcon {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  -webkit-mask-image: url('/icons/UI/copy.svg');
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-image: url('/icons/UI/copy.svg');
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+.personalityMetricList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.personalityMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.personalityMetricHead {
+  position: relative;
+  height: 22px;
+}
+
+.personalityMetricValue {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  color: var(--trait-color);
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.personalityMetricTrack {
+  position: relative;
+  display: block;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--trait-color);
+}
+
+.personalityMetricIndicator {
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  opacity: 0.92;
+}
+
+.personalityMetricMarker {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border: 3px solid white;
+  border-radius: 50%;
+  background: var(--trait-color);
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--trait-color) 18%, transparent),
+    0 2px 6px rgba(15, 23, 42, 0.16);
+}
+
+.personalityMetricAxis {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: color-mix(in srgb, var(--text-color) 52%, transparent);
+  font-size: 0.76rem;
+  line-height: 1.2;
 }
 
 .gameCard {
@@ -828,24 +1163,29 @@
 }
 
 .detailCardEyebrow {
+  grid-area: eyebrow;
   margin: 0;
-  color: color-mix(in srgb, var(--text-color) 52%, transparent);
+  color: color-mix(in srgb, var(--accent-strong) 72%, transparent);
   font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .detailCardTitle {
+  grid-area: title;
   margin: 0;
-  font-size: 1.1rem;
-  line-height: 1.2;
+  max-width: none;
+  font-size: 1.12rem;
+  line-height: 1.26;
   letter-spacing: -0.03em;
 }
 
 .detailCardText {
+  grid-area: text;
   margin: 0;
-  color: color-mix(in srgb, var(--text-color) 74%, transparent);
-  line-height: 1.78;
+  max-width: none;
+  color: color-mix(in srgb, var(--text-color) 72%, transparent);
+  line-height: 1.7;
 }
 
 :global([data-theme='dark']) .skillHeroCard {
@@ -954,10 +1294,51 @@
   color: #84d5aa;
 }
 
+:global([data-theme='dark']) .personalityCode:hover,
+:global([data-theme='dark']) .personalityCode:focus-visible {
+  color: #a3ddb8;
+}
+
+:global([data-theme='dark']) .personalityCodeHint {
+  color: rgba(228, 236, 242, 0.42);
+}
+
 :global([data-theme='dark']) .personalityTag {
   border-color: rgba(132, 213, 170, 0.16);
   background: rgba(132, 213, 170, 0.08);
   color: rgba(217, 245, 228, 0.88);
+}
+
+:global([data-theme='dark']) .personalityPanel {
+  border-color: rgba(101, 156, 121, 0.22);
+  background:
+    linear-gradient(180deg, rgba(13, 25, 19, 0.92) 0%, rgba(11, 20, 15, 0.96) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 18px 36px rgba(0, 0, 0, 0.28);
+}
+
+:global([data-theme='dark']) .personalityMetricAxis {
+  color: rgba(228, 236, 242, 0.5);
+}
+
+:global([data-theme='dark']) .personalityMetricTrack {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+:global([data-theme='dark']) .personalityPanelCopy {
+  color: #7aa8ff;
+}
+
+:global([data-theme='dark']) .personalityPanelCopy:hover,
+:global([data-theme='dark']) .personalityPanelCopy:focus-visible {
+  background: color-mix(in srgb, #7aa8ff 14%, transparent);
+  color: #9fc2ff;
+}
+
+:global([data-theme='dark']) .personalityPanelCopyActive {
+  background: color-mix(in srgb, #7aa8ff 16%, transparent);
+  color: #c4d9ff;
 }
 
 :global([data-theme='dark']) .minecraftCard {
@@ -988,11 +1369,47 @@
 }
 
 :global([data-theme='dark']) .detailCardEyebrow {
-  color: rgba(191, 202, 220, 0.56);
+  color: rgba(147, 197, 253, 0.82);
 }
 
 :global([data-theme='dark']) .detailCardText {
   color: rgba(216, 224, 235, 0.74);
+}
+
+:global([data-theme='dark']) .aboutLeadEyebrow {
+  color: rgba(228, 236, 242, 0.4);
+}
+
+:global([data-theme='dark']) .motivationCard,
+:global([data-theme='dark']) .traitCard {
+  border-color: rgba(93, 106, 126, 0.24);
+  background: rgba(20, 25, 34, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 34px rgba(2, 6, 23, 0.22);
+}
+
+:global([data-theme='dark']) .aboutMiniEyebrow {
+  color: rgba(228, 236, 242, 0.56);
+}
+
+:global([data-theme='dark']) .motivationWord,
+:global([data-theme='dark']) .traitLine {
+  color: rgba(228, 236, 242, 0.84);
+}
+
+:global([data-theme='dark']) .motivationWord {
+  color: #8f78ff;
+}
+
+:global([data-theme='dark']) .detailEntry {
+  border-color: rgba(92, 105, 128, 0.24);
+  background:
+    radial-gradient(circle at top right, rgba(90, 126, 170, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(26, 31, 40, 0.94) 0%, rgba(18, 22, 30, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 34px rgba(2, 6, 23, 0.22);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1006,13 +1423,16 @@
 }
 
 @media (max-width: 860px) {
+  .aboutTopCards {
+    grid-template-columns: 1fr;
+  }
+
   .stackSplit {
     grid-template-columns: 1fr;
   }
 
-  .detailEntry {
-    grid-template-columns: 1fr;
-    gap: 8px;
+  .detailRail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .personalityCard {
@@ -1115,6 +1535,40 @@
     min-height: 250px;
   }
 
+  .motivationCard,
+  .traitCard {
+    min-height: auto;
+    padding: 20px 18px 22px;
+    border-radius: 24px;
+  }
+
+  .motivationTitle {
+    max-width: none;
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
+  }
+
+  .motivationBody {
+    --motivation-row-height: clamp(1.5rem, 7vw, 2.2rem);
+  }
+
+  .motivationSwitch {
+    height: var(--motivation-row-height);
+  }
+
+  .motivationWord {
+    height: var(--motivation-row-height);
+    font-size: var(--motivation-row-height);
+  }
+
+  .traitLines {
+    gap: 10px;
+  }
+
+  .traitLine {
+    max-width: none;
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
+  }
+
   .personalityCard::before {
     left: 0;
     right: 0;
@@ -1165,6 +1619,11 @@
     font-size: clamp(1.9rem, 8vw, 2.7rem);
   }
 
+  .personalityCodeHint {
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+  }
+
   .personalityTags {
     grid-area: tags;
     align-self: center;
@@ -1176,6 +1635,65 @@
   .personalityTag {
     padding: 6px 9px;
     font-size: 0.74rem;
+  }
+
+  .personalityPanel {
+    width: min(420px, calc(100vw - 28px));
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: -6px;
+    gap: 12px;
+    padding: 14px 14px 16px;
+    border-radius: 18px;
+  }
+
+  .personalityPanelOpen {
+    margin-top: 10px;
+  }
+
+  .personalityPanelTitle {
+    font-size: 1.02rem;
+  }
+
+  .personalityPanelCopy {
+    width: 26px;
+    height: 26px;
+    border-radius: 9px;
+  }
+
+  .personalityPanelCopyIcon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .personalityMetricHead {
+    gap: 8px;
+  }
+
+  .personalityMetricValue {
+    font-size: 0.82rem;
+  }
+
+  .personalityMetricAxis {
+    font-size: 0.72rem;
+  }
+
+  .detailRail {
+    grid-template-columns: 1fr;
+  }
+
+  .detailEntry {
+    gap: 14px;
+    padding: 18px 18px 20px;
+    border-radius: 24px;
+  }
+
+  .detailBody {
+    gap: 8px;
+  }
+
+  .detailCardTitle {
+    font-size: 1.06rem;
   }
 
   .gameContent {
