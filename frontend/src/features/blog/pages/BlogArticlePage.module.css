@@ -1,12 +1,16 @@
 .page {
+  flex: 1 0 auto;
   width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
+  padding-top: calc(60px + env(safe-area-inset-top) + 24px);
+  padding-bottom: 32px;
 }
 
 .backButton {
   position: fixed;
   left: max(20px, calc((100vw - 1560px) / 2 + 20px));
-  top: calc(60px + 24px);
+  top: calc(60px + env(safe-area-inset-top) + 24px);
   z-index: 40;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -53,11 +57,11 @@
 .articleCard {
   border: 1px solid var(--line);
   border-radius: 28px;
-  background: linear-gradient(
+  /* background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--panel-strong) 92%, white 8%),
     color-mix(in srgb, var(--panel) 94%, var(--background) 6%)
-  );
+  ); */
   box-shadow: var(--shadow-md);
   overflow: hidden;
 }
@@ -65,13 +69,13 @@
 .contentCard {
   border: 1px solid var(--line);
   border-radius: 28px;
-  background: linear-gradient(
+  /* background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--panel-strong) 92%, white 8%),
     color-mix(in srgb, var(--panel) 94%, var(--background) 6%)
-  );
+  ); */
   box-shadow: var(--shadow-md);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .outlineColumn {
@@ -79,7 +83,7 @@
   min-width: 0;
   align-self: start;
   position: sticky;
-  top: calc(60px + 24px);
+  top: calc(60px + env(safe-area-inset-top) + 24px);
 }
 
 .articleHeader {
@@ -173,11 +177,11 @@
   padding: 1.2rem 1.1rem 1.1rem;
   border: 1px solid var(--line);
   border-radius: 24px;
-  background: linear-gradient(
+  /* background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--panel-strong) 92%, white 8%),
     color-mix(in srgb, var(--panel) 94%, var(--background) 6%)
-  );
+  ); */
   box-shadow: var(--shadow-md);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -206,7 +210,7 @@
   .backButton {
     position: sticky;
     left: auto;
-    top: calc(60px + 12px);
+    top: calc(60px + env(safe-area-inset-top) + 12px);
     margin-bottom: 1rem;
     z-index: 20;
   }
@@ -245,5 +249,10 @@
   .pagination {
     border-radius: 22px;
     grid-template-columns: 1fr;
+  }
+
+  .page {
+    padding-top: calc(60px + env(safe-area-inset-top) + 20px);
+    padding-bottom: 24px;
   }
 }

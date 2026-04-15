@@ -237,6 +237,9 @@ func (s *Store) loadWithPolicy(failOnValidationError bool) ([]Article, error) {
 			loadErrors = append(loadErrors, parseErr)
 			continue
 		}
+		if !parsed.Published {
+			continue
+		}
 
 		articles = append(articles, parsed)
 	}

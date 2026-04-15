@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { renderMarkdown } from '../markdown/renderer';
 import type { HeadingItem } from '../plugins/types';
 import { MarkdownArticle } from './MarkdownArticle';
@@ -19,28 +19,30 @@ interface HeadingSection {
   end: number;
 }
 
-function buildHeadingSections(article: HTMLElement, headings: HeadingItem[]): HeadingSection[] {
-  const articleTop = article.getBoundingClientRect().top + window.scrollY;
-
-  return headings
-    .map((heading, index) => {
-      const element = article.querySelector<HTMLElement>(`#${CSS.escape(heading.id)}`);
+function buildHeadingSections(headings: HeadingItem[]): HeadingSection[] {
+  const resolved = headings
+    .map((heading) => {
+      const element = document.getElementById(heading.id);
       if (!element) {
         return null;
       }
 
-      const start = element.getBoundingClientRect().top + window.scrollY;
-      const nextHeading = headings
-        .slice(index + 1)
-        .map((item) => article.querySelector<HTMLElement>(`#${CSS.escape(item.id)}`))
-        .find(Boolean);
-      const end = nextHeading
-        ? nextHeading.getBoundingClientRect().top + window.scrollY
-        : articleTop + article.offsetHeight;
-
-      return { id: heading.id, start, end };
+      return {
+        id: heading.id,
+        start: element.getBoundingClientRect().top + window.scrollY,
+        height: element.getBoundingClientRect().height,
+      };
     })
-    .filter((section): section is HeadingSection => section !== null);
+    .filter((section): section is { id: string; start: number; height: number } => section !== null);
+
+  return resolved.map((section, index) => {
+    const next = resolved[index + 1];
+    return {
+      id: section.id,
+      start: section.start,
+      end: next ? next.start : section.start + Math.max(section.height, window.innerHeight * 0.6),
+    };
+  });
 }
 
 function resolveActiveHeadingIds(sections: HeadingSection[]): string[] {
@@ -67,20 +69,16 @@ export function ArticleContent({ markdown }: ArticleContentProps) {
 }
 
 export function ArticleOutline({ markdown }: ArticleOutlineProps) {
-  const articleRef = useRef<HTMLElement | null>(null);
   const [activeHeadingIds, setActiveHeadingIds] = useState<string[]>([]);
   const rendered = useMemo(() => renderMarkdown(markdown), [markdown]);
 
   useEffect(() => {
-    const article = articleRef.current;
-    if (!article || rendered.env.headings.length === 0) {
+    if (rendered.env.headings.length === 0) {
       return;
     }
 
-    const resolveSections = () => buildHeadingSections(article, rendered.env.headings);
-
     const resolveActiveHeading = () => {
-      const nextActiveIds = resolveActiveHeadingIds(resolveSections());
+      const nextActiveIds = resolveActiveHeadingIds(buildHeadingSections(rendered.env.headings));
       setActiveHeadingIds((current) =>
         current.length === nextActiveIds.length &&
         current.every((item, index) => item === nextActiveIds[index])
@@ -101,16 +99,8 @@ export function ArticleOutline({ markdown }: ArticleOutlineProps) {
   }, [rendered.env.headings]);
 
   return (
-    <>
-      <article
-        ref={articleRef}
-        className={styles.measureArticle}
-        dangerouslySetInnerHTML={{ __html: rendered.html }}
-        aria-hidden="true"
-      />
-      <div className={styles.outlineWrap}>
-        <TableOfContents headings={rendered.env.headings} activeIds={activeHeadingIds} />
-      </div>
-    </>
+    <div className={styles.outlineWrap}>
+      <TableOfContents headings={rendered.env.headings} activeIds={activeHeadingIds} />
+    </div>
   );
 }

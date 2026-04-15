@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 52px 160px minmax(0, 1fr);
   align-items: start;
-  gap: 28px;
+  gap: 15px;
   padding: 22px 0;
   border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
 }

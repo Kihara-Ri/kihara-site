@@ -1638,7 +1638,9 @@
   }
 
   .personalityPanel {
-    width: min(420px, calc(100vw - 28px));
+    width: min(100%, 420px);
+    max-width: 100%;
+    box-sizing: border-box;
     margin-left: 0;
     margin-right: 0;
     margin-top: -6px;

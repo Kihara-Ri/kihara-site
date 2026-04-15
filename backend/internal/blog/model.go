@@ -8,8 +8,10 @@ type Article struct {
 	Date      time.Time
 	Tags      []string
 	Series    string
+	Layout    string
 	Summary   string
 	Cover     string
+	Published bool
 	WordCount int
 	Content   string
 	Source    string
@@ -21,6 +23,7 @@ type ArticleMeta struct {
 	Date      string   `json:"date"`
 	Tags      []string `json:"tags"`
 	Series    string   `json:"series,omitempty"`
+	Layout    string   `json:"layout,omitempty"`
 	Summary   string   `json:"summary,omitempty"`
 	Cover     string   `json:"cover,omitempty"`
 	WordCount int      `json:"wordCount"`
@@ -32,6 +35,7 @@ type APIArticle struct {
 	Date      string   `json:"date"`
 	Tags      []string `json:"tags"`
 	Series    string   `json:"series,omitempty"`
+	Layout    string   `json:"layout,omitempty"`
 	Summary   string   `json:"summary,omitempty"`
 	Cover     string   `json:"cover,omitempty"`
 	WordCount int      `json:"wordCount"`
@@ -78,6 +82,7 @@ func (a Article) Meta() ArticleMeta {
 		Date:      a.Date.Format("2006-01-02"),
 		Tags:      append([]string(nil), a.Tags...),
 		Series:    a.Series,
+		Layout:    a.Layout,
 		Summary:   a.Summary,
 		Cover:     a.Cover,
 		WordCount: a.WordCount,
@@ -91,6 +96,7 @@ func (a Article) API() APIArticle {
 		Date:      a.Date.Format("2006-01-02"),
 		Tags:      append([]string(nil), a.Tags...),
 		Series:    a.Series,
+		Layout:    a.Layout,
 		Summary:   a.Summary,
 		Cover:     a.Cover,
 		WordCount: a.WordCount,

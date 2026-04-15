@@ -72,6 +72,7 @@
   background-color: var(--background);
   min-height: 100dvh;
   min-width: 100dvw;
+  overscroll-behavior-y: none;
 
   display: flex;
   flex-direction: column;
@@ -88,6 +89,7 @@ html, body {
   margin: 0;
   padding: 0;
   display: flex;
+  overscroll-behavior-y: none;
 }
 
 ::view-transition-old(root),

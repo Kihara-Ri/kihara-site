@@ -22,6 +22,7 @@ title: Valid
 date: 2026-03-14
 tags:
   - go
+published: true
 ---
 
 ok`)
@@ -31,6 +32,7 @@ title: Invalid
 date: 2026-03-14
 tags:
   - unknown
+published: true
 ---
 
 bad`)
@@ -59,6 +61,7 @@ title: Valid
 date: 2026-03-14
 tags:
   - go
+published: true
 ---
 
 ok`)
@@ -68,6 +71,7 @@ title: Invalid
 date: 2026-03-14
 tags:
   - unknown
+published: true
 ---
 
 bad`)
@@ -97,6 +101,7 @@ title: Invalid
 date: 2026-03-14
 tags:
   - unknown
+published: true
 ---
 
 bad`)
@@ -106,5 +111,47 @@ bad`)
 	err := store.ValidateAll()
 	if err == nil {
 		t.Fatal("expected validation error even in lenient mode")
+	}
+}
+
+func TestStoreOnlyReturnsPublishedArticles(t *testing.T) {
+	dir := t.TempDir()
+
+	writeFile(t, filepath.Join(dir, "published.md"), `---
+title: Published
+date: 2026-03-14
+tags:
+  - go
+published: true
+---
+
+ok`)
+
+	writeFile(t, filepath.Join(dir, "draft.md"), `---
+title: Draft
+date: 2026-03-13
+tags:
+  - go
+---
+
+hidden`)
+
+	store := NewStore(dir, []string{"go"}, true, false)
+
+	items, err := store.List("")
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	if len(items) != 1 {
+		t.Fatalf("expected 1 published article, got %d", len(items))
+	}
+
+	if items[0].Slug != "published" {
+		t.Fatalf("unexpected slug: %s", items[0].Slug)
+	}
+
+	if _, err := store.GetBySlug("draft"); !errors.Is(err, ErrNotFound) {
+		t.Fatalf("expected draft article to be hidden, got %v", err)
 	}
 }

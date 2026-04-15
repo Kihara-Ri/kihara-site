@@ -101,7 +101,7 @@ const SkillsStack: React.FC = () => {
                   <Badge key={item.name} item={item} />
                 ))}
               </div>
-              <p className={styles.stackGroupNote}>大模型触发器🤓👆</p>
+              <p className={styles.stackGroupNote}>本质上只是一个大模型触发器🤣</p>
             </section>
           </div>
         </section>
@@ -125,7 +125,7 @@ const SkillsStack: React.FC = () => {
           <div className={styles.toolManifesto}>
             <p className={styles.toolManifestoLine}>
               <code className={styles.inlineCode}>Markdown</code>
-              {' '}不要过度关注内容样式的设计，专注于内容本身的表达和组织，样式和内容分离
+              {' '}不过度关注内容样式的设计，专注于内容本身的表达和组织，样式和内容分离
             </p>
             <p className={styles.toolManifestoLine}>
               <code className={styles.inlineCode}>Vim</code>

@@ -1,25 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from '../SectionLayout.module.css';
 
 const SkillsExperience: React.FC = () => {
   return (
     <div className={styles.prose}>
       <h2>Experience</h2>
-      <p>我擅长处理的问题</p>
+      <p>当前展示的项目。</p>
 
       <div className={styles.list}>
-        <section className={styles.card}>
-          <h3 className={styles.cardTitle}>信息架构与页面重组</h3>
-          <p>能把内容混乱的页面重新梳理成更清楚的结构，明确“个人信息”“能力信息”“内容信息”的边界。</p>
-        </section>
-        <section className={styles.card}>
-          <h3 className={styles.cardTitle}>个人站与博客系统整合</h3>
-          <p>处理文章渲染、博客首页、文章页、导航、主题切换，以及前后端并入后的整体体验。</p>
-        </section>
-        <section className={styles.card}>
-          <h3 className={styles.cardTitle}>视觉与交互细节</h3>
-          <p>会关注滚动行为、悬浮反馈、阅读宽度、布局稳定性，以及不必要的视觉噪音。</p>
-        </section>
+        <Link className={styles.projectLink} to="/projects/second-person-novel/">
+          <h3 className={styles.cardTitle}>二人称小说</h3>
+          <p>DEV 目录下的双语阅读项目，已作为站内独立页面接入，支持分组浏览、搜索和词条提示。</p>
+          <span className={styles.projectMeta}>点击进入项目页面</span>
+        </Link>
       </div>
     </div>
   );

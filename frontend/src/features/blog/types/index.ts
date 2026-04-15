@@ -4,6 +4,7 @@ export interface ArticleMeta {
   date: string;
   tags: string[];
   series?: string;
+  layout?: string;
   summary?: string;
   cover?: string;
   wordCount: number;

@@ -1,6 +1,10 @@
 .page {
+  flex: 1 0 auto;
   max-width: 1360px;
   margin: 0 auto;
+  box-sizing: border-box;
+  padding-top: calc(60px + env(safe-area-inset-top) + 24px);
+  padding-bottom: 32px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
   gap: 2.5rem;
@@ -227,9 +231,9 @@
   color: inherit;
   text-align: left;
   cursor: pointer;
-  display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
-  gap: 0.9rem 1.2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
   width: 100%;
   padding: 1.1rem 0 1.3rem;
   transition:
@@ -243,10 +247,19 @@
 }
 
 .leadIndex {
+  flex: 0 0 56px;
   color: var(--muted);
   font-size: 0.82rem;
   letter-spacing: 0.18em;
   padding-top: 0.15rem;
+}
+
+.leadBody {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
 }
 
 .leadMeta {
@@ -389,6 +402,11 @@
 }
 
 @media (max-width: 768px) {
+  .page {
+    padding-top: calc(60px + env(safe-area-inset-top) + 20px);
+    padding-bottom: 24px;
+  }
+
   .heroStats,
   .statsGrid {
     grid-template-columns: 1fr;
@@ -397,6 +415,14 @@
   .cardsHeader {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .leadCard {
+    gap: 0.9rem;
+  }
+
+  .leadIndex {
+    flex-basis: 42px;
   }
 
   .listItem {

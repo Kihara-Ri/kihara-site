@@ -6,9 +6,10 @@ tags:
   - markdown
   - math
   - tooling
+published: true
 ---
 
-# 🟢 ${\LaTeX}$常用表达式
+# ${\LaTeX}$
 
 记录了常用的$\LaTeX$数学式表达，必然有收录不完整的地方
 

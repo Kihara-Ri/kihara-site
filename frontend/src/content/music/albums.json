@@ -1896,5 +1896,47 @@
       "status": "fetched",
       "matchedTitle": "Minecraft - Volume Alpha"
     }
+  },
+  {
+    "id": "kanye-west-my-beautiful-dark-twisted-fantasy",
+    "title": "My Beautiful Dark Twisted Fantasy",
+    "artist": "Kanye West",
+    "releaseYear": 2010,
+    "purchase": {
+      "date": "2026-04-15",
+      "display": "2026-4-15",
+      "location": "disk unionお茶の水駅前店",
+      "priceText": "1100",
+      "priceValue": 1100.0,
+      "currency": "JPY"
+    },
+    "note": "「Power」采样King Crimson的「21st Century Schizoid Man」\n「Runaway」的结构和The Microphones的「I Want Wind to Blow」很像\n「采样Aphex Twin的「Avril 14th」",
+    "rawRemark": "1100",
+    "cover": {
+      "file": "/music/covers/kanye-west-my-beautiful-dark-twisted-fantasy.jpg",
+      "source": "rateyourmusic",
+      "status": "missing"
+    }
+  },
+  {
+    "id": "kendrick-lamar-good-kid-m-a-a-d-city",
+    "title": "Good Kid, M.A.A.D City",
+    "artist": "Kendrick Lamar",
+    "releaseYear": "2012",
+    "purchase": {
+      "date": "2026-04-15",
+      "display": "2026-4-15",
+      "location": "disk unionお茶の水駅前店",
+      "priceText": "780",
+      "priceValue": 780.0,
+      "currency": "JPY"
+    },
+    "note": "字面意义上的牛大了",
+    "rawRemark": "780",
+    "cover": {
+      "file": "/music/covers/kendrick-lamar-good-kid-maad-city.jpg",
+      "source": "rateyourmusic",
+      "status": "missing"
+    }
   }
 ]

@@ -78,9 +78,12 @@ export function BlogHomePage({ selectedTag, onSelectTag, onOpenArticle }: BlogHo
       <main className={styles.mainColumn}>
         <header className={styles.hero}>
           <p className={styles.eyebrow}>Blogs</p>
-          <h1 className={styles.title}>写作、笔记与一些长期会回头看的问题</h1>
+          <h1 className={styles.title}>🏗️ 施工中</h1>
           <p className={styles.subtitle}>
-            这里先保持简单。默认按发布时间倒序展开，标签筛选保留在右侧，方便先浏览再缩小范围。
+            留住 温度 速度 温柔和愤怒<br />
+            凝住 今日 怎样好<br />
+            音乐 话剧 诗词和舞蹈<br />
+            揉合 生命 千样好<br />
           </p>
           <div className={styles.heroStats}>
             <div>
@@ -120,19 +123,21 @@ export function BlogHomePage({ selectedTag, onSelectTag, onOpenArticle }: BlogHo
                   onClick={() => onOpenArticle(leadArticle.slug)}
                 >
                   <span className={styles.leadIndex} aria-hidden="true">01</span>
-                  <div className={styles.leadMeta}>
-                    <span>{formatDate(leadArticle.date)}</span>
-                    <span>{renderWordCount(leadArticle.wordCount)}</span>
-                    {leadArticle.series ? <span>{leadArticle.series}</span> : null}
-                  </div>
-                  <h2 className={styles.leadTitle}>{leadArticle.title}</h2>
-                  {leadArticle.summary ? <p className={styles.leadSummary}>{leadArticle.summary}</p> : null}
-                  <div className={styles.cardTags}>
-                    {leadArticle.tags.map((tag) => (
-                      <span key={`${leadArticle.slug}-${tag}`} className={styles.cardTag}>
-                        {tag}
-                      </span>
-                    ))}
+                  <div className={styles.leadBody}>
+                    <div className={styles.leadMeta}>
+                      <span>{formatDate(leadArticle.date)}</span>
+                      <span>{renderWordCount(leadArticle.wordCount)}</span>
+                      {leadArticle.series ? <span>{leadArticle.series}</span> : null}
+                    </div>
+                    <h2 className={styles.leadTitle}>{leadArticle.title}</h2>
+                    {leadArticle.summary ? <p className={styles.leadSummary}>{leadArticle.summary}</p> : null}
+                    <div className={styles.cardTags}>
+                      {leadArticle.tags.map((tag) => (
+                        <span key={`${leadArticle.slug}-${tag}`} className={styles.cardTag}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </button>
               </section>
@@ -140,7 +145,7 @@ export function BlogHomePage({ selectedTag, onSelectTag, onOpenArticle }: BlogHo
 
             {overview.series.length > 0 ? (
               <section className={styles.panel}>
-                <h2 className={styles.sectionTitle}>文章系列</h2>
+                <h2 className={styles.sectionTitle}>系列</h2>
                 <div className={styles.seriesRow}>
                   {overview.series.map((item) => (
                     <span key={item.series} className={styles.seriesChip}>
@@ -155,11 +160,11 @@ export function BlogHomePage({ selectedTag, onSelectTag, onOpenArticle }: BlogHo
             <section className={styles.panel}>
               <div className={styles.cardsHeader}>
                 <h2 className={styles.sectionTitle}>文章列表</h2>
-                <p className={styles.metaText}>最新发布的内容默认排在最上面</p>
+                <p className={styles.metaText}>默认新到旧</p>
               </div>
 
               {articles.length === 0 ? (
-                <p className={styles.placeholder}>当前筛选条件下没有文章。</p>
+                <p className={styles.placeholder}>当前筛选条件下没有文章</p>
               ) : (
                 <div className={styles.list}>
                   {remainingArticles.map((article, index) => (

@@ -10,6 +10,12 @@
   width: 250px;
 }
 
+.measureWrap {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+}
+
 .measureArticle {
   position: absolute;
   inset: 0 auto auto 0;
@@ -44,7 +50,7 @@
 .measureArticle :global(h4) {
   letter-spacing: -0.03em;
   line-height: 1.2;
-  color: var(--ink);
+  color: var(--link-color);
 }
 
 .blogArticle :global(h2),
@@ -291,9 +297,17 @@
 
 .blogArticle :global(.md-annotation mark),
 .measureArticle :global(.md-annotation mark) {
-  background: color-mix(in srgb, #f6d365 28%, var(--background) 72%);
+  background: linear-gradient(
+    180deg,
+    transparent 0.16em,
+    #ffbf00 0.16em,
+    #ffbf00 calc(100% - 0.18em),
+    transparent calc(100% - 0.18em)
+  );
   border-radius: 4px;
-  padding: 0 0.2rem;
+  padding: 0 0.18rem;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .blogArticle :global(.md-tooltip),

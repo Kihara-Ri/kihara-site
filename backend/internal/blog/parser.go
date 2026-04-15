@@ -11,13 +11,15 @@ import (
 )
 
 var allowedMetaFields = map[string]struct{}{
-	"title":   {},
-	"slug":    {},
-	"date":    {},
-	"tags":    {},
-	"series":  {},
-	"summary": {},
-	"cover":   {},
+	"title":     {},
+	"slug":      {},
+	"date":      {},
+	"tags":      {},
+	"series":    {},
+	"layout":    {},
+	"summary":   {},
+	"cover":     {},
+	"published": {},
 }
 
 type ValidationError struct {
@@ -67,15 +69,17 @@ func ParseArticle(path string, raw string, allowedTags map[string]struct{}, enfo
 	}
 
 	article := Article{
-		Title:   meta.Title,
-		Slug:    meta.Slug,
-		Date:    meta.Date,
-		Tags:    meta.Tags,
-		Series:  meta.Series,
-		Summary: meta.Summary,
-		Cover:   meta.Cover,
-		Content: strings.TrimLeft(body, "\n"),
-		Source:  path,
+		Title:     meta.Title,
+		Slug:      meta.Slug,
+		Date:      meta.Date,
+		Tags:      meta.Tags,
+		Series:    meta.Series,
+		Layout:    meta.Layout,
+		Summary:   meta.Summary,
+		Cover:     meta.Cover,
+		Published: meta.Published,
+		Content:   strings.TrimLeft(body, "\n"),
+		Source:    path,
 	}
 	article.WordCount = countWords(article.Content)
 
@@ -83,13 +87,15 @@ func ParseArticle(path string, raw string, allowedTags map[string]struct{}, enfo
 }
 
 type frontMatterMeta struct {
-	Title   string
-	Slug    string
-	Date    time.Time
-	Tags    []string
-	Series  string
-	Summary string
-	Cover   string
+	Title     string
+	Slug      string
+	Date      time.Time
+	Tags      []string
+	Series    string
+	Layout    string
+	Summary   string
+	Cover     string
+	Published bool
 }
 
 func parseMetadata(
@@ -200,10 +206,43 @@ func parseMetadata(
 			}
 		case "series":
 			meta.Series = strings.TrimSpace(valueNode.Value)
+		case "layout":
+			meta.Layout = strings.TrimSpace(valueNode.Value)
+			if meta.Layout == "" {
+				return frontMatterMeta{}, &ValidationError{
+					File:    path,
+					Line:    lineOffset + valueNode.Line - 1,
+					Column:  valueNode.Column,
+					Field:   "layout",
+					Message: "cannot be empty",
+				}
+			}
 		case "summary":
 			meta.Summary = strings.TrimSpace(valueNode.Value)
 		case "cover":
 			meta.Cover = strings.TrimSpace(valueNode.Value)
+		case "published":
+			if valueNode.Kind != yaml.ScalarNode {
+				return frontMatterMeta{}, &ValidationError{
+					File:    path,
+					Line:    lineOffset + valueNode.Line - 1,
+					Column:  valueNode.Column,
+					Field:   "published",
+					Message: "must be a boolean",
+				}
+			}
+
+			published, parseErr := parseYAMLBool(valueNode.Value)
+			if parseErr != nil {
+				return frontMatterMeta{}, &ValidationError{
+					File:    path,
+					Line:    lineOffset + valueNode.Line - 1,
+					Column:  valueNode.Column,
+					Field:   "published",
+					Message: "must be a boolean",
+				}
+			}
+			meta.Published = published
 		}
 	}
 
@@ -228,6 +267,17 @@ func parseMetadata(
 	}
 
 	return meta, nil
+}
+
+func parseYAMLBool(value string) (bool, error) {
+	switch strings.ToLower(strings.TrimSpace(value)) {
+	case "true":
+		return true, nil
+	case "false":
+		return false, nil
+	default:
+		return false, errors.New("invalid boolean")
+	}
 }
 
 func splitFrontMatter(content string) (frontMatter string, body string, frontMatterStartLine int, err error) {
