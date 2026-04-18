@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { renderMarkdown } from '../markdown/renderer';
 import styles from './ArticleContent.module.css';
 
@@ -12,6 +13,13 @@ function joinClassNames(...classNames: Array<string | undefined>) {
   return classNames.filter(Boolean).join(' ');
 }
 
+interface FloatingTooltipState {
+  content: string;
+  left: number;
+  top: number;
+  placement: 'top' | 'bottom';
+}
+
 export function MarkdownArticle({
   markdown,
   className,
@@ -19,6 +27,8 @@ export function MarkdownArticle({
 }: MarkdownArticleProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const articleRef = useRef<HTMLElement | null>(null);
+  const activeTooltipHostRef = useRef<HTMLElement | null>(null);
+  const [tooltip, setTooltip] = useState<FloatingTooltipState | null>(null);
   const rendered = useMemo(() => renderMarkdown(markdown), [markdown]);
 
   useEffect(() => {
@@ -35,6 +45,45 @@ export function MarkdownArticle({
       });
     };
 
+    const resolveTooltipContent = (host: HTMLElement) => {
+      const tooltipNode = host.querySelector('.md-tooltip');
+      return tooltipNode?.textContent?.trim() ?? '';
+    };
+
+    const updateTooltip = (host: HTMLElement | null) => {
+      if (!host) {
+        activeTooltipHostRef.current = null;
+        setTooltip(null);
+        return;
+      }
+
+      const content = resolveTooltipContent(host);
+      if (!content) {
+        activeTooltipHostRef.current = null;
+        setTooltip(null);
+        return;
+      }
+
+      const rect = host.getBoundingClientRect();
+      const tooltipWidth = Math.min(360, window.innerWidth - 24);
+      const left = Math.min(Math.max(12, rect.left), window.innerWidth - tooltipWidth - 12);
+      const preferTop = rect.bottom + 172 > window.innerHeight && rect.top > 180;
+      const top = preferTop ? Math.max(12, rect.top - 12) : Math.min(window.innerHeight - 12, rect.bottom + 12);
+
+      activeTooltipHostRef.current = host;
+      setTooltip({
+        content,
+        left,
+        top,
+        placement: preferTop ? 'top' : 'bottom',
+      });
+    };
+
+    const clearTooltip = () => {
+      activeTooltipHostRef.current = null;
+      setTooltip(null);
+    };
+
     const onArticleClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       const attach = target.closest('.md-attach');
@@ -42,6 +91,7 @@ export function MarkdownArticle({
 
       if (!attach && !annotation) {
         closeAll();
+        clearTooltip();
         return;
       }
 
@@ -50,22 +100,89 @@ export function MarkdownArticle({
       closeAll();
       if (!isOpen) {
         host.classList.add('is-open');
+        updateTooltip(host);
+        return;
       }
+
+      clearTooltip();
+    };
+
+    const onArticleMouseMove = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const host = target?.closest('.md-attach, .md-annotation') as HTMLElement | null;
+      const pinnedHost = article.querySelector('.md-attach.is-open, .md-annotation.is-open') as HTMLElement | null;
+
+      if (host) {
+        updateTooltip(host);
+        return;
+      }
+
+      if (pinnedHost) {
+        updateTooltip(pinnedHost);
+        return;
+      }
+
+      clearTooltip();
+    };
+
+    const onArticleMouseLeave = () => {
+      const pinnedHost = article.querySelector('.md-attach.is-open, .md-annotation.is-open') as HTMLElement | null;
+      if (pinnedHost) {
+        updateTooltip(pinnedHost);
+        return;
+      }
+
+      clearTooltip();
+    };
+
+    const onFocusIn = (event: FocusEvent) => {
+      const target = event.target as HTMLElement | null;
+      const host = target?.closest('.md-attach, .md-annotation') as HTMLElement | null;
+      if (host) {
+        updateTooltip(host);
+      }
+    };
+
+    const onFocusOut = () => {
+      window.requestAnimationFrame(() => {
+        const activeElement = document.activeElement as HTMLElement | null;
+        const focusedHost = activeElement?.closest('.md-attach, .md-annotation') as HTMLElement | null;
+        const pinnedHost = article.querySelector('.md-attach.is-open, .md-annotation.is-open') as HTMLElement | null;
+        updateTooltip(focusedHost ?? pinnedHost);
+      });
     };
 
     const onDocumentClick = (event: MouseEvent) => {
       const target = event.target as Node;
       if (!wrapper.contains(target)) {
         closeAll();
+        clearTooltip();
       }
     };
 
+    const refreshTooltipPosition = () => {
+      const pinnedHost = article.querySelector('.md-attach.is-open, .md-annotation.is-open') as HTMLElement | null;
+      updateTooltip(pinnedHost ?? activeTooltipHostRef.current);
+    };
+
     article.addEventListener('click', onArticleClick);
+    article.addEventListener('mousemove', onArticleMouseMove);
+    article.addEventListener('mouseleave', onArticleMouseLeave);
+    article.addEventListener('focusin', onFocusIn);
+    article.addEventListener('focusout', onFocusOut);
     document.addEventListener('click', onDocumentClick);
+    window.addEventListener('scroll', refreshTooltipPosition, true);
+    window.addEventListener('resize', refreshTooltipPosition);
 
     return () => {
       article.removeEventListener('click', onArticleClick);
+      article.removeEventListener('mousemove', onArticleMouseMove);
+      article.removeEventListener('mouseleave', onArticleMouseLeave);
+      article.removeEventListener('focusin', onFocusIn);
+      article.removeEventListener('focusout', onFocusOut);
       document.removeEventListener('click', onDocumentClick);
+      window.removeEventListener('scroll', refreshTooltipPosition, true);
+      window.removeEventListener('resize', refreshTooltipPosition);
     };
   }, [rendered.html]);
 
@@ -78,12 +195,46 @@ export function MarkdownArticle({
   );
 
   if (!wrapperClassName) {
-    return articleNode;
+    return (
+      <>
+        {articleNode}
+        {tooltip
+          ? createPortal(
+              <div
+                className={styles.floatingTooltip}
+                style={{
+                  left: tooltip.left,
+                  top: tooltip.top,
+                  transform: tooltip.placement === 'top' ? 'translateY(-100%)' : undefined,
+                }}
+              >
+                {tooltip.content}
+              </div>,
+              document.body,
+            )
+          : null}
+      </>
+    );
   }
 
   return (
     <div ref={wrapperRef} className={wrapperClassName}>
       {articleNode}
+      {tooltip
+        ? createPortal(
+            <div
+              className={styles.floatingTooltip}
+              style={{
+                left: tooltip.left,
+                top: tooltip.top,
+                transform: tooltip.placement === 'top' ? 'translateY(-100%)' : undefined,
+              }}
+            >
+              {tooltip.content}
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }

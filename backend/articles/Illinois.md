@@ -180,4 +180,5 @@ Carl Sandburg 是芝加哥的诗人意象，他代表另一种看城市的方式
 - [Frank Lloyd Wright Foundation 相关资料](https://flwright.org/sites/default/files/ckfinder/userfiles/files/The-Wright-Family.pdf)
 - [Le Cargo 访谈：Sufjan Stevens](https://www.lecargo.org/spip/sufjan-stevens/un-premier-whoo-hoo-pour-sufjan/article2414.html)
 - [Pitchfork：Inside the Recording Sessions for Sufjan Stevens' Illinois](https://pitchfork.com/thepitch/822-inside-the-recording-sessions-for-sufjan-stevens-illinois/)
-- [BYU / Aperture 论文：Sufjan Stevens's Illinois as a Redemption Narrative](https://aperture.byu.edu/wp-content/uploads/2024/05/Empathy-for-the-Fallen-World_-Sufjan-Stevenss-Illinois-as-a-Redemption-Narrative-1.pdf)- - [Foods of the 1893 World's Fair](https://www.chicagohistory.org/foods-of-the-1893-worlds-fair/)
+- [BYU / Aperture 论文：Sufjan Stevens's Illinois as a Redemption Narrative](https://aperture.byu.edu/wp-content/uploads/2024/05/Empathy-for-the-Fallen-World_-Sufjan-Stevenss-Illinois-as-a-Redemption-Narrative-1.pdf)
+- [Foods of the 1893 World's Fair](https://www.chicagohistory.org/foods-of-the-1893-worlds-fair/)

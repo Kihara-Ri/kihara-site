@@ -216,7 +216,15 @@ export function NovelViewerPage() {
               <h1>二人称</h1>
               <p className={styles.sidebarCopy}>ヨルシカ</p>
             </div>
-            <img className={styles.coverArt} src={coverArt} alt="二人称专辑封面" />
+            <a
+              className={styles.coverLink}
+              href="https://yorushika.com/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="打开ヨルシカ官方网站"
+            >
+              <img className={styles.coverArt} src={coverArt} alt="二人称专辑封面" />
+            </a>
           </div>
         </div>
 

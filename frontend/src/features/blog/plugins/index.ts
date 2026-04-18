@@ -6,12 +6,14 @@ import { citationPlugin } from './citationPlugin';
 import { furiganaPlugin } from './furiganaPlugin';
 import { headingAnchorPlugin } from './headingAnchorPlugin';
 import { linkIconPlugin } from './linkIconPlugin';
+import { referenceSectionPlugin } from './referenceSectionPlugin';
 
 const customPluginRegistry: Record<CustomPluginName, (md: MarkdownIt) => void> = {
   annotation: annotationPlugin,
   attach: attachPlugin,
   citation: citationPlugin,
   furigana: furiganaPlugin,
+  referenceSection: referenceSectionPlugin,
   headingAnchor: headingAnchorPlugin,
   linkIcon: linkIconPlugin,
 };

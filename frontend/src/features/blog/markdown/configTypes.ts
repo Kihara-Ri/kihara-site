@@ -3,6 +3,7 @@ export type CustomPluginName =
   | 'attach'
   | 'citation'
   | 'furigana'
+  | 'referenceSection'
   | 'headingAnchor'
   | 'linkIcon';
 

@@ -32,15 +32,17 @@ import styles from './App.module.css';
 
 function AppContent() {
   const location = useLocation();
+  const isSecondPersonNovelPage =
+    location.pathname === '/projects/second-person-novel' ||
+    location.pathname === '/projects/second-person-novel/';
   const showFooter =
     location.pathname !== '/music' &&
     location.pathname !== '/music/' &&
-    location.pathname !== '/projects/second-person-novel' &&
-    location.pathname !== '/projects/second-person-novel/';
+    !isSecondPersonNovelPage;
 
   return (
     <div className={styles.appShell}>
-      <NavBar />
+      {isSecondPersonNovelPage ? null : <NavBar />}
       <main className={styles.routeShell}>
         <Routes>
           <Route path="/" element={<Home />} />

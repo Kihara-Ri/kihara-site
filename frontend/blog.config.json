@@ -22,6 +22,7 @@
       { "name": "attach", "enabled": true },
       { "name": "citation", "enabled": true },
       { "name": "furigana", "enabled": true },
+      { "name": "referenceSection", "enabled": true },
       { "name": "headingAnchor", "enabled": true },
       { "name": "linkIcon", "enabled": true }
     ]

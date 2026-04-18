@@ -63,13 +63,43 @@
   justify-content: center;
 }
 
+.coverLink {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  cursor: pointer;
+  transition: transform 180ms ease;
+}
+
+.coverLink:hover,
+.coverLink:focus-visible {
+  transform: translateY(-2px);
+}
+
+.coverLink:focus-visible {
+  outline: 2px solid rgba(60, 85, 110, 0.34);
+  outline-offset: 3px;
+}
+
 .coverArt {
   width: 76px;
   height: 76px;
   object-fit: cover;
   flex: none;
+  display: block;
   border: 1px solid rgba(60, 85, 110, 0.16);
   box-shadow: 0 8px 18px rgba(31, 45, 61, 0.08);
+  transition:
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    filter 180ms ease;
+}
+
+.coverLink:hover .coverArt,
+.coverLink:focus-visible .coverArt {
+  border-color: rgba(60, 85, 110, 0.32);
+  box-shadow: 0 14px 28px rgba(31, 45, 61, 0.16);
+  filter: saturate(1.05);
 }
 
 .sidebarCopy {
