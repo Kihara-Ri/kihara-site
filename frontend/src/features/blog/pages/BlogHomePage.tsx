@@ -85,22 +85,6 @@ export function BlogHomePage({ selectedTag, onSelectTag, onOpenArticle }: BlogHo
             音乐 话剧 诗词和舞蹈<br />
             揉合 生命 千样好<br />
           </p>
-          <div className={styles.heroStats}>
-            <div>
-              <span className={styles.heroStatLabel}>Articles</span>
-              <strong>{renderStat(overview?.stats.totalArticles ?? 0)}</strong>
-            </div>
-            <div>
-              <span className={styles.heroStatLabel}>Tags</span>
-              <strong>{renderStat(overview?.stats.totalTags ?? 0)}</strong>
-            </div>
-            <div>
-              <span className={styles.heroStatLabel}>Range</span>
-              <strong>
-                {overview?.stats.earliestDate ? formatDate(overview.stats.earliestDate) : '-'}
-              </strong>
-            </div>
-          </div>
         </header>
 
         {error ? <p className={styles.error}>{error}</p> : null}
@@ -215,8 +199,8 @@ export function BlogHomePage({ selectedTag, onSelectTag, onOpenArticle }: BlogHo
               <strong>{renderStat(overview?.stats.totalWords ?? 0)}</strong>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>总字符</span>
-              <strong>{renderStat(overview?.stats.totalCharacters ?? 0)}</strong>
+              <span className={styles.statLabel}>平均每篇字数</span>
+              <strong>{renderStat(overview?.stats.averageWordsPerArticle ?? 0)}</strong>
             </div>
             <div className={styles.statItem}>
               <span className={styles.statLabel}>标签数</span>

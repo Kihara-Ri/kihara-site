@@ -188,6 +188,11 @@
   gap: 0.9rem;
 }
 
+.pagerSlot {
+  min-width: 0;
+  display: flex;
+}
+
 .pagerCard {
   border: 1px solid var(--line);
   border-radius: 20px;
@@ -198,6 +203,21 @@
   align-items: flex-start;
   gap: 0.35rem;
   color: inherit;
+  width: 100%;
+  min-height: 112px;
+  box-sizing: border-box;
+}
+
+.pagerCardNext {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.pagerCardPlaceholder {
+  width: 100%;
+  min-height: 112px;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .pagerLabel,

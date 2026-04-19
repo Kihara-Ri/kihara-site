@@ -2,6 +2,17 @@ package blog
 
 import "testing"
 
+func TestCountWordsCountsMarkdownByCJKCharsAndEnglishWords(t *testing.T) {
+	content := "## 标题\nHello, world!\n中文测试。\n`code` block\n"
+
+	got := countWords(content)
+	want := 10
+
+	if got != want {
+		t.Fatalf("unexpected word count: got %d want %d", got, want)
+	}
+}
+
 func TestParseArticleRejectsUnsupportedTag(t *testing.T) {
 	allowed := map[string]struct{}{
 		"go": {},
@@ -54,8 +65,9 @@ layout: lyric-analysis
 published: true
 ---
 
-## title
-content`
+## 标题
+Hello, world!
+中文测试。`
 
 	article, err := ParseArticle("/tmp/demo-file.md", raw, allowed, true)
 	if err != nil {
@@ -86,8 +98,8 @@ content`
 		t.Fatal("expected article to be published")
 	}
 
-	if article.WordCount <= 0 {
-		t.Fatalf("expected positive word count, got %d", article.WordCount)
+	if article.WordCount != 8 {
+		t.Fatalf("unexpected word count: got %d want %d", article.WordCount, 8)
 	}
 }
 

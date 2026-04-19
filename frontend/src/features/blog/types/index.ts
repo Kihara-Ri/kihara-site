@@ -44,7 +44,7 @@ export interface SeriesCount {
 export interface OverviewStats {
   totalArticles: number;
   totalWords: number;
-  totalCharacters: number;
+  averageWordsPerArticle: number;
   totalTags: number;
   totalSeries: number;
   earliestDate?: string;

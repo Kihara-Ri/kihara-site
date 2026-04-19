@@ -134,8 +134,7 @@ func (s *Store) GetOverview() (Overview, error) {
 	for idx, article := range articles {
 		overview.Articles = append(overview.Articles, article.Meta())
 		overview.Stats.TotalArticles += 1
-		overview.Stats.TotalWords += countWords(article.Content)
-		overview.Stats.TotalCharacters += countCharacters(article.Content)
+		overview.Stats.TotalWords += article.WordCount
 
 		date := article.Date.Format("2006-01-02")
 		dateCounts[date] += 1
@@ -152,6 +151,10 @@ func (s *Store) GetOverview() (Overview, error) {
 		if article.Series != "" {
 			seriesCounts[article.Series] += 1
 		}
+	}
+
+	if overview.Stats.TotalArticles > 0 {
+		overview.Stats.AverageWords = overview.Stats.TotalWords / overview.Stats.TotalArticles
 	}
 
 	overview.Stats.TotalTags = len(tagCounts)
@@ -276,7 +279,31 @@ func WalkArticles(rootDir string, fn func(path string) error) error {
 }
 
 func countWords(content string) int {
-	return len(strings.Fields(content))
+	runes := []rune(content)
+	total := 0
+
+	for index := 0; index < len(runes); {
+		char := runes[index]
+
+		if isCountedCJK(char) {
+			total += 1
+			index += 1
+			continue
+		}
+
+		if isWordRune(char) {
+			total += 1
+			index += 1
+			for index < len(runes) && isWordRune(runes[index]) {
+				index += 1
+			}
+			continue
+		}
+
+		index += 1
+	}
+
+	return total
 }
 
 func countCharacters(content string) int {
@@ -288,4 +315,15 @@ func countCharacters(content string) int {
 		total += 1
 	}
 	return total
+}
+
+func isCountedCJK(char rune) bool {
+	return unicode.In(char, unicode.Han, unicode.Hiragana, unicode.Katakana, unicode.Hangul)
+}
+
+func isWordRune(char rune) bool {
+	return char == '_' ||
+		(char >= '0' && char <= '9') ||
+		(char >= 'a' && char <= 'z') ||
+		(char >= 'A' && char <= 'Z')
 }

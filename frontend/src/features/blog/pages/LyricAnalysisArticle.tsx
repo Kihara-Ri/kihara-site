@@ -62,28 +62,30 @@ export function LyricAnalysisArticle({
   return (
     <section className={styles.shell}>
       <header className={styles.headerCard}>
-        <div className={styles.headerMain}>
-          <p className={styles.eyebrow}>Lyric Analysis</p>
-          <h1 className={styles.title}>{article.title}</h1>
-          <p className={styles.meta}>
-            <span>{formatDate(article.date)}</span>
-            <span>{article.wordCount.toLocaleString('zh-CN')} 字</span>
-            {article.series ? <span>Series: {article.series}</span> : null}
-          </p>
-          {article.summary ? <p className={styles.summary}>{article.summary}</p> : null}
-        </div>
+        <div className={styles.headerInner}>
+          <div className={styles.headerMain}>
+            <p className={styles.eyebrow}>Lyric Analysis</p>
+            <h1 className={styles.title}>{article.title}</h1>
+            <p className={styles.meta}>
+              <span>{formatDate(article.date)}</span>
+              <span>{article.wordCount.toLocaleString('zh-CN')} 字</span>
+              {article.series ? <span>Series: {article.series}</span> : null}
+            </p>
+            {article.summary ? <p className={styles.summary}>{article.summary}</p> : null}
+          </div>
 
-        <div className={styles.tagsRow}>
-          {article.tags.map((tag) => (
-            <button
-              key={`${article.slug}-${tag}`}
-              type="button"
-              className={styles.tagButton}
-              onClick={() => onSelectTag(tag)}
-            >
-              #{tag}
-            </button>
-          ))}
+          <div className={styles.tagsRow}>
+            {article.tags.map((tag) => (
+              <button
+                key={`${article.slug}-${tag}`}
+                type="button"
+                className={styles.tagButton}
+                onClick={() => onSelectTag(tag)}
+              >
+                #{tag}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
@@ -113,21 +115,29 @@ export function LyricAnalysisArticle({
 
           {hasPagination ? (
             <nav className={styles.pagination} aria-label="文章翻页">
-              {previous ? (
-                <Link to={`/blogs/${previous.slug}`} className={styles.pagerCard}>
-                  <span className={styles.pagerLabel}>上一篇</span>
-                  <strong>{previous.title}</strong>
-                  <span className={styles.pagerDate}>{formatDate(previous.date)}</span>
-                </Link>
-              ) : null}
+              <div className={styles.pagerSlot}>
+                {previous ? (
+                  <Link to={`/blogs/${previous.slug}`} className={styles.pagerCard}>
+                    <span className={styles.pagerLabel}>上一篇</span>
+                    <strong>{previous.title}</strong>
+                    <span className={styles.pagerDate}>{formatDate(previous.date)}</span>
+                  </Link>
+                ) : (
+                  <div className={styles.pagerCardPlaceholder} aria-hidden="true" />
+                )}
+              </div>
 
-              {next ? (
-                <Link to={`/blogs/${next.slug}`} className={styles.pagerCard}>
-                  <span className={styles.pagerLabel}>下一篇</span>
-                  <strong>{next.title}</strong>
-                  <span className={styles.pagerDate}>{formatDate(next.date)}</span>
-                </Link>
-              ) : null}
+              <div className={styles.pagerSlot}>
+                {next ? (
+                  <Link to={`/blogs/${next.slug}`} className={[styles.pagerCard, styles.pagerCardNext].join(' ')}>
+                    <span className={styles.pagerLabel}>下一篇</span>
+                    <strong>{next.title}</strong>
+                    <span className={styles.pagerDate}>{formatDate(next.date)}</span>
+                  </Link>
+                ) : (
+                  <div className={styles.pagerCardPlaceholder} aria-hidden="true" />
+                )}
+              </div>
             </nav>
           ) : null}
         </div>

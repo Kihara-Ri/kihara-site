@@ -56,6 +56,14 @@
   color: #f5f5f5;
 }
 
+.echartsLink {
+  color: #d24155;
+}
+
+.d3Link {
+  color: #ea8445;
+}
+
 .techIcon {
   width: 16px;
   height: 16px;

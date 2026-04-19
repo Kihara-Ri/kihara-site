@@ -117,21 +117,29 @@ export function BlogArticlePage({ slug, onBackHome, onSelectTag }: BlogArticlePa
 
               {hasPagination ? (
                 <nav className={styles.pagination} aria-label="文章翻页">
-                  {neighbors.previous ? (
-                    <Link to={`/blogs/${neighbors.previous.slug}`} className={styles.pagerCard}>
-                      <span className={styles.pagerLabel}>上一篇</span>
-                      <strong>{neighbors.previous.title}</strong>
-                      <span className={styles.pagerDate}>{formatDate(neighbors.previous.date)}</span>
-                    </Link>
-                  ) : null}
+                  <div className={styles.pagerSlot}>
+                    {neighbors.previous ? (
+                      <Link to={`/blogs/${neighbors.previous.slug}`} className={styles.pagerCard}>
+                        <span className={styles.pagerLabel}>上一篇</span>
+                        <strong>{neighbors.previous.title}</strong>
+                        <span className={styles.pagerDate}>{formatDate(neighbors.previous.date)}</span>
+                      </Link>
+                    ) : (
+                      <div className={styles.pagerCardPlaceholder} aria-hidden="true" />
+                    )}
+                  </div>
 
-                  {neighbors.next ? (
-                    <Link to={`/blogs/${neighbors.next.slug}`} className={styles.pagerCard}>
-                      <span className={styles.pagerLabel}>下一篇</span>
-                      <strong>{neighbors.next.title}</strong>
-                      <span className={styles.pagerDate}>{formatDate(neighbors.next.date)}</span>
-                    </Link>
-                  ) : null}
+                  <div className={styles.pagerSlot}>
+                    {neighbors.next ? (
+                      <Link to={`/blogs/${neighbors.next.slug}`} className={[styles.pagerCard, styles.pagerCardNext].join(' ')}>
+                        <span className={styles.pagerLabel}>下一篇</span>
+                        <strong>{neighbors.next.title}</strong>
+                        <span className={styles.pagerDate}>{formatDate(neighbors.next.date)}</span>
+                      </Link>
+                    ) : (
+                      <div className={styles.pagerCardPlaceholder} aria-hidden="true" />
+                    )}
+                  </div>
                 </nav>
               ) : null}
             </div>

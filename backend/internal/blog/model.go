@@ -60,7 +60,7 @@ type SeriesCount struct {
 type OverviewStats struct {
 	TotalArticles   int    `json:"totalArticles"`
 	TotalWords      int    `json:"totalWords"`
-	TotalCharacters int    `json:"totalCharacters"`
+	AverageWords    int    `json:"averageWordsPerArticle"`
 	TotalTags       int    `json:"totalTags"`
 	TotalSeries     int    `json:"totalSeries"`
 	EarliestDate    string `json:"earliestDate,omitempty"`

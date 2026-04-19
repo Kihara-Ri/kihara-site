@@ -104,6 +104,61 @@ html, body {
 
 ::view-transition-new(root) {
   z-index: 1;
+  transform-origin: center center;
+}
+
+html.theme-animating,
+html.theme-animating body,
+html.theme-animating #root,
+html.theme-animating *,
+html.theme-animating *::before,
+html.theme-animating *::after {
+  transition:
+    background-color 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    fill 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke 240ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+::view-transition-old(root) {
+  animation: theme-fade-old 420ms cubic-bezier(0.4, 0, 1, 1);
+  will-change: opacity, filter, transform;
+  backface-visibility: hidden;
+}
+
+::view-transition-new(root) {
+  animation: theme-fade-new 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, filter, transform, clip-path;
+  backface-visibility: hidden;
+}
+
+@keyframes theme-fade-old {
+  from {
+    opacity: 1;
+    filter: blur(0px) brightness(1) saturate(1);
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0.62;
+    filter: blur(8px) brightness(1.1) saturate(1.12);
+    transform: scale(1.01);
+  }
+}
+
+@keyframes theme-fade-new {
+  from {
+    opacity: 0.32;
+    filter: saturate(1.12) brightness(1.12) blur(12px);
+    transform: scale(1.018);
+  }
+
+  to {
+    opacity: 1;
+    filter: saturate(1) brightness(1) blur(0px);
+    transform: scale(1);
+  }
 }
 
 h1 {

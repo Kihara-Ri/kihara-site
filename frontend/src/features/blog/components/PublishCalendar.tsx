@@ -1,6 +1,9 @@
 import { useMemo } from 'react';
+import { max, rollup } from 'd3-array';
+import { timeFormat } from 'd3-time-format';
+import type { EChartsOption } from 'echarts';
+import { BaseEChart } from '../../../components/charts/BaseEChart';
 import type { CalendarDay } from '../types';
-import { formatDate } from '../utils/formatDate';
 import styles from './PublishCalendar.module.css';
 
 interface PublishCalendarProps {
@@ -8,17 +11,13 @@ interface PublishCalendarProps {
   latestDate?: string;
 }
 
-interface HeatCell {
+interface MonthlyBucket {
   key: string;
-  date: string;
+  label: string;
   count: number;
-  inRange: boolean;
 }
 
-interface MonthMarker {
-  label: string;
-  weekIndex: number;
-}
+const monthLabel = timeFormat('%-m月');
 
 function parseDate(input?: string): Date | null {
   if (!input) {
@@ -29,170 +28,190 @@ function parseDate(input?: string): Date | null {
   if (Number.isNaN(parsed.valueOf())) {
     return null;
   }
+
   parsed.setHours(0, 0, 0, 0);
   return parsed;
 }
 
-function toDateString(date: Date): string {
-  const year = date.getFullYear();
-  const month = `${date.getMonth() + 1}`.padStart(2, '0');
-  const day = `${date.getDate()}`.padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
+function buildMonthlyBuckets(days: CalendarDay[], end: Date): MonthlyBucket[] {
+  const counts = rollup(
+    days,
+    (values) => values.reduce((sum, item) => sum + item.count, 0),
+    (day) => day.date.slice(0, 7),
+  );
 
-function clampLevel(count: number, maxCount: number): 0 | 1 | 2 | 3 | 4 {
-  if (count <= 0 || maxCount <= 0) {
-    return 0;
+  const buckets: MonthlyBucket[] = [];
+  for (let offset = 11; offset >= 0; offset -= 1) {
+    const monthDate = new Date(end.getFullYear(), end.getMonth() - offset, 1);
+    const year = monthDate.getFullYear();
+    const month = `${monthDate.getMonth() + 1}`.padStart(2, '0');
+    const key = `${year}-${month}`;
+
+    buckets.push({
+      key,
+      label: monthLabel(monthDate),
+      count: counts.get(key) ?? 0,
+    });
   }
 
-  const scaled = Math.ceil((count / maxCount) * 4);
-  const level = Math.max(1, Math.min(4, scaled));
-  return level as 1 | 2 | 3 | 4;
+  return buckets;
 }
 
 export function PublishCalendar({ days, latestDate }: PublishCalendarProps) {
-  const countByDate = useMemo(() => {
-    const map = new Map<string, number>();
-    days.forEach((day) => {
-      map.set(day.date, day.count);
-    });
-    return map;
-  }, [days]);
+  const end = useMemo(() => parseDate(latestDate) ?? parseDate(new Date().toISOString().slice(0, 10)), [latestDate]);
 
-  const activeDays = useMemo(() => days.filter((item) => item.count > 0).length, [days]);
-  const totalPublished = useMemo(() => days.reduce((sum, item) => sum + item.count, 0), [days]);
-
-  const end = useMemo(() => parseDate(latestDate) ?? parseDate(toDateString(new Date())), [latestDate]);
-
-  const heatmap = useMemo(() => {
+  const monthlyData = useMemo(() => {
     if (!end) {
-      return { weeks: [] as HeatCell[][], markers: [] as MonthMarker[], maxCount: 0 };
+      return [];
     }
 
-    const start = new Date(end);
-    start.setDate(end.getDate() - 364);
+    return buildMonthlyBuckets(days, end);
+  }, [days, end]);
 
-    const gridStart = new Date(start);
-    gridStart.setDate(start.getDate() - start.getDay());
+  const totalPublished = useMemo(
+    () => monthlyData.reduce((sum, item) => sum + item.count, 0),
+    [monthlyData],
+  );
+  const activeMonths = useMemo(
+    () => monthlyData.filter((item) => item.count > 0).length,
+    [monthlyData],
+  );
+  const peakCount = useMemo(
+    () => max(monthlyData, (item) => item.count) ?? 0,
+    [monthlyData],
+  );
 
-    const gridEnd = new Date(end);
-    gridEnd.setDate(end.getDate() + (6 - end.getDay()));
-
-    const weeks: HeatCell[][] = [];
-    const cursor = new Date(gridStart);
-
-    while (cursor <= gridEnd) {
-      const week: HeatCell[] = [];
-      for (let day = 0; day < 7; day += 1) {
-        const date = toDateString(cursor);
-        const count = countByDate.get(date) ?? 0;
-        const inRange = cursor >= start && cursor <= end;
-
-        week.push({
-          key: `${date}-${day}`,
-          date,
-          count,
-          inRange,
-        });
-
-        cursor.setDate(cursor.getDate() + 1);
-      }
-      weeks.push(week);
-    }
-
-    const markers: MonthMarker[] = [];
-    const seenMonth = new Set<string>();
-    weeks.forEach((week, index) => {
-      const pivot = week.find((cell) => cell.inRange && cell.date.endsWith('-01'));
-      if (!pivot) {
-        return;
-      }
-      const monthKey = pivot.date.slice(0, 7);
-      if (seenMonth.has(monthKey)) {
-        return;
-      }
-      seenMonth.add(monthKey);
-
-      const labelDate = parseDate(`${monthKey}-01`);
-      const label = labelDate
-        ? labelDate.toLocaleDateString('zh-CN', { month: 'short' })
-        : monthKey;
-
-      markers.push({
-        label,
-        weekIndex: index,
-      });
-    });
-
-    const maxCount = days.reduce((max, item) => Math.max(max, item.count), 0);
+  const option = useMemo<EChartsOption>(() => {
+    const labels = monthlyData.map((item) => item.label);
+    const values = monthlyData.map((item) => item.count);
+    const backgroundValues = monthlyData.map(() => Math.max(peakCount, 1));
 
     return {
-      weeks,
-      markers,
-      maxCount,
-    };
-  }, [countByDate, days, end]);
+      animationDuration: 500,
+      animationEasing: 'cubicOut',
+      grid: {
+        top: 18,
+        right: 6,
+        bottom: 4,
+        left: 6,
+        containLabel: true,
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow',
+          shadowStyle: {
+            color: 'rgba(125, 211, 252, 0.08)',
+          },
+        },
+        backgroundColor: 'rgba(15, 23, 42, 0.94)',
+        borderWidth: 0,
+        textStyle: {
+          color: '#f8fafc',
+          fontSize: 12,
+        },
+        extraCssText: 'border-radius: 12px; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22);',
+        formatter(params: unknown) {
+          const first = Array.isArray(params) ? params[0] : params;
+          const dataIndex = typeof first === 'object' && first && 'dataIndex' in first
+            ? Number(first.dataIndex)
+            : -1;
+          const item = dataIndex >= 0 ? monthlyData[dataIndex] : null;
+          if (!item) {
+            return '';
+          }
 
-  if (!end) {
+          return `${item.key}<br/>${item.count} 篇`;
+        },
+      },
+      xAxis: {
+        type: 'category',
+        data: labels,
+        boundaryGap: true,
+        axisTick: {
+          show: false,
+        },
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(148, 163, 184, 0.16)',
+          },
+        },
+        axisLabel: {
+          color: '#64748b',
+          fontSize: 11,
+          interval: 0,
+        },
+      },
+      yAxis: {
+        type: 'value',
+        minInterval: 1,
+        splitNumber: Math.min(4, Math.max(2, peakCount || 2)),
+        axisTick: {
+          show: false,
+        },
+        axisLine: {
+          show: false,
+        },
+        axisLabel: {
+          color: '#94a3b8',
+          fontSize: 11,
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgba(148, 163, 184, 0.1)',
+          },
+        },
+      },
+      series: [
+        {
+          type: 'bar',
+          silent: true,
+          data: backgroundValues,
+          barWidth: '38%',
+          barGap: '-100%',
+          itemStyle: {
+            color: 'rgba(148, 163, 184, 0.12)',
+            borderRadius: 0,
+          },
+          emphasis: {
+            disabled: true,
+          },
+          z: 1,
+        },
+        {
+          type: 'bar',
+          data: values,
+          barWidth: '38%',
+          itemStyle: {
+            borderRadius: 0,
+            color: '#3b82f6',
+          },
+          emphasis: {
+            focus: 'series',
+            itemStyle: {
+              color: '#1d4ed8',
+            },
+          },
+          z: 2,
+        },
+      ],
+    };
+  }, [monthlyData, peakCount]);
+
+  if (!end || monthlyData.length === 0) {
     return null;
   }
 
   return (
-    <section className={styles.calendar} aria-label="发文日历">
+    <section className={styles.calendar} aria-label="发文统计">
       <header className={styles.header}>
-        <h3 className={styles.title}>发文日历</h3>
+        <h3 className={styles.title}>发文统计</h3>
         <p className={styles.meta}>
-          最近 365 天 · {activeDays} 天有发布 · 共 {totalPublished} 篇
+          最近 12 个月 · {activeMonths} 个月有发布 · 共 {totalPublished} 篇
         </p>
       </header>
 
-      <div className={styles.heatmapScroll}>
-        <div className={styles.heatmapTrack}>
-          <div
-            className={styles.monthRow}
-            style={{ gridTemplateColumns: `repeat(${Math.max(heatmap.weeks.length, 1)}, minmax(0, 1fr))` }}
-          >
-            {heatmap.markers.map((marker) => (
-              <span
-                key={`${marker.label}-${marker.weekIndex}`}
-                className={styles.monthLabel}
-                style={{ gridColumn: `${marker.weekIndex + 1} / span 4` }}
-              >
-                {marker.label}
-              </span>
-            ))}
-          </div>
-
-          <div className={styles.grid}>
-            {heatmap.weeks.map((week, weekIndex) => (
-              <div key={`week-${weekIndex}`} className={styles.weekColumn}>
-                {week.map((cell) => {
-                  const level = clampLevel(cell.count, heatmap.maxCount);
-                  return (
-                    <span
-                      key={cell.key}
-                      className={`${styles.cell} ${styles[`level${level}`]} ${cell.inRange ? '' : styles.outside}`.trim()}
-                      title={`${formatDate(cell.date)}: ${cell.count} 篇`}
-                    />
-                  );
-                })}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.legend}>
-        <span>{formatDate(toDateString(new Date(end.getTime() - 364 * 24 * 3600 * 1000)))}</span>
-        <span>少</span>
-        <span className={`${styles.cell} ${styles.level0}`} />
-        <span className={`${styles.cell} ${styles.level1}`} />
-        <span className={`${styles.cell} ${styles.level2}`} />
-        <span className={`${styles.cell} ${styles.level3}`} />
-        <span className={`${styles.cell} ${styles.level4}`} />
-        <span>多</span>
-        <span>{formatDate(toDateString(end))}</span>
-      </div>
+      <BaseEChart className={styles.chart} option={option} renderer="svg" />
     </section>
   );
 }

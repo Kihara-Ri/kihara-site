@@ -1,6 +1,8 @@
 import React from 'react';
 import react_icon from '/icons/react.svg';
 import three_icon from '/icons/threejs.svg';
+import echarts_icon from '/icons/echarts.svg';
+import d3_icon from '/icons/d3.svg';
 import github from '/icons/github.svg';
 import wechat from '/icons/wechat.svg';
 import styles from './Footer.module.css';
@@ -19,6 +21,15 @@ const Footer: React.FC = () => {
           <p>Powered by{' '}
             <a href="https://threejs.org/" target="_blank" rel="noopener noreferrer" className={`${styles.techLink} ${styles.threeLink}`}>
             <img src={three_icon} alt="Three.js logo" className={`${styles.techIcon} ${styles.threeIcon}`} /> Three.js </a>
+          </p>
+          <p>Charts with{' '}
+            <a href="https://echarts.apache.org/" target="_blank" rel="noopener noreferrer" className={`${styles.techLink} ${styles.echartsLink}`}>
+              <img src={echarts_icon} alt="ECharts logo" className={styles.techIcon} /> ECharts
+            </a>
+            {' + '}
+            <a href="https://d3js.org/" target="_blank" rel="noopener noreferrer" className={`${styles.techLink} ${styles.d3Link}`}>
+              <img src={d3_icon} alt="D3 logo" className={styles.techIcon} /> D3
+            </a>
           </p>
           <p>ver1.0.0</p>
         </div>
