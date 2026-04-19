@@ -26,6 +26,45 @@ function getAlbumSortValue(album: MusicAlbum, mode: AlbumSortMode) {
   return album.releaseYear ?? Number.NEGATIVE_INFINITY;
 }
 
+function normalizePurchaseLocationToken(value: string | null | undefined) {
+  return String(value ?? '')
+    .toLowerCase()
+    .replace(/[\s\-_.・]/g, '')
+    .trim();
+}
+
+function getPurchaseLocationFilterValue(location: string | null | undefined) {
+  const normalized = normalizePurchaseLocationToken(location);
+
+  if (!normalized) {
+    return 'unknown';
+  }
+
+  if (normalized.includes('diskunion')) {
+    return 'disk-union';
+  }
+
+  if (normalized.includes('bookoff')) {
+    return 'book-off';
+  }
+
+  return `raw:${String(location ?? '').trim()}`;
+}
+
+function getPurchaseLocationFilterLabel(location: string | null | undefined) {
+  const filterValue = getPurchaseLocationFilterValue(location);
+
+  if (filterValue === 'disk-union') {
+    return 'Disk Union';
+  }
+
+  if (filterValue === 'book-off') {
+    return 'BOOKOFF';
+  }
+
+  return String(location ?? '').trim() || '未知';
+}
+
 function sortAlbums(albumList: MusicAlbum[], mode: AlbumSortMode) {
   return albumList
     .map((album, index) => ({ album, index }))
@@ -286,6 +325,7 @@ function MusicDesktop() {
   const [mobileNoteExpanded, setMobileNoteExpanded] = useState(false);
   const [artistFilter, setArtistFilter] = useState('all');
   const [yearFilter, setYearFilter] = useState('all');
+  const [locationFilter, setLocationFilter] = useState('all');
   const [sortMode, setSortMode] = useState<AlbumSortMode>('purchase-date');
   const [displayedAlbumOrderIds, setDisplayedAlbumOrderIds] = useState<string[]>(() =>
     sortAlbums(albums, 'purchase-date').map((album) => album.id),
@@ -663,14 +703,34 @@ function MusicDesktop() {
     ).sort((left, right) => right - left);
   }, []);
 
+  const locationOptions = useMemo(() => {
+    const optionMap = new Map<string, string>();
+
+    albums.forEach((album) => {
+      const location = album.purchase.location;
+      const value = getPurchaseLocationFilterValue(location);
+      const label = getPurchaseLocationFilterLabel(location);
+
+      if (!optionMap.has(value)) {
+        optionMap.set(value, label);
+      }
+    });
+
+    return Array.from(optionMap.entries())
+      .map(([value, label]) => ({ value, label }))
+      .sort((left, right) => left.label.localeCompare(right.label, 'ja'));
+  }, []);
+
   const filteredAlbums = useMemo(() => {
     return albums.filter((album) => {
       const artistMatched = artistFilter === 'all' || album.artist === artistFilter;
       const yearMatched = yearFilter === 'all' || String(album.releaseYear) === yearFilter;
-      return artistMatched && yearMatched;
+      const locationMatched =
+        locationFilter === 'all' || getPurchaseLocationFilterValue(album.purchase.location) === locationFilter;
+      return artistMatched && yearMatched && locationMatched;
     });
-  }, [artistFilter, yearFilter]);
-  const hasActiveFilter = artistFilter !== 'all' || yearFilter !== 'all';
+  }, [artistFilter, yearFilter, locationFilter]);
+  const hasActiveFilter = artistFilter !== 'all' || yearFilter !== 'all' || locationFilter !== 'all';
 
   const artistFilterOptions = useMemo<FilterOption[]>(() => {
     return [{ value: 'all', label: '全部' }, ...artistOptions.map((artist) => ({ value: artist, label: artist }))];
@@ -679,6 +739,10 @@ function MusicDesktop() {
   const yearFilterOptions = useMemo<FilterOption[]>(() => {
     return [{ value: 'all', label: '全部' }, ...yearOptions.map((year) => ({ value: String(year), label: String(year) }))];
   }, [yearOptions]);
+
+  const locationFilterOptions = useMemo<FilterOption[]>(() => {
+    return [{ value: 'all', label: '全部' }, ...locationOptions];
+  }, [locationOptions]);
 
   const filteredAlbumMap = useMemo(() => {
     return new Map(filteredAlbums.map((album) => [album.id, album]));
@@ -1132,6 +1196,15 @@ function MusicDesktop() {
                   disabled={sortingInProgress}
                 />
 
+                <FilterDropdown
+                  label="购买地点"
+                  value={locationFilter}
+                  options={locationFilterOptions}
+                  onChange={setLocationFilter}
+                  compactMenu
+                  disabled={sortingInProgress}
+                />
+
                 <button
                   type="button"
                   className={[
@@ -1141,6 +1214,7 @@ function MusicDesktop() {
                   onClick={() => {
                     setArtistFilter('all');
                     setYearFilter('all');
+                    setLocationFilter('all');
                   }}
                   disabled={!hasActiveFilter || sortingInProgress}
                   aria-hidden={!hasActiveFilter}
@@ -1546,12 +1620,32 @@ function MusicDesktop() {
               </div>
             </section>
 
+            <section className={styles.mobileControlGroup} aria-label="购买地点筛选">
+              <p className={styles.mobileControlLabel}>购买地点</p>
+              <div className={styles.mobileChipGrid}>
+                {locationFilterOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={[styles.mobileChip, locationFilter === option.value ? styles.mobileChipActive : ''].join(' ').trim()}
+                    onClick={() => {
+                      setLocationFilter(option.value);
+                      setMobileControlsOpen(false);
+                    }}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </section>
+
             <button
               type="button"
               className={styles.mobileResetButton}
               onClick={() => {
                 setArtistFilter('all');
                 setYearFilter('all');
+                setLocationFilter('all');
                 setMobileControlsOpen(false);
               }}
             >
