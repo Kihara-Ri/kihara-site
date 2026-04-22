@@ -12,31 +12,104 @@ import { escapeHtml } from '../plugins/utils';
 
 const blogMarkdownConfig = blogConfig.markdown as BlogMarkdownConfig;
 
-function createHighlightRenderer() {
-  const { highlight } = blogMarkdownConfig;
+function resolveLanguage(info: string): string {
+  return info.trim().split(/\s+/)[0]?.toLowerCase() ?? '';
+}
 
-  if (!highlight.enabled) {
-    return undefined;
+function formatLanguageLabel(language: string): string {
+  if (!language) {
+    return 'Plain Text';
   }
 
-  return (code: string, language: string) => {
-    if (language && hljs.getLanguage(language)) {
-      const rendered = hljs.highlight(code, {
-        language,
-        ignoreIllegals: true,
-      }).value;
-      return `<pre class="${highlight.codeBlockClassName}"><code class="language-${escapeHtml(language)}">${rendered}</code></pre>`;
-    }
-
-    return `<pre class="${highlight.codeBlockClassName}"><code>${escapeHtml(code)}</code></pre>`;
+  const normalized = language.toLowerCase();
+  const languageLabels: Record<string, string> = {
+    ts: 'TypeScript',
+    typescript: 'TypeScript',
+    js: 'JavaScript',
+    javascript: 'JavaScript',
+    jsx: 'JSX',
+    tsx: 'TSX',
+    sh: 'Shell',
+    bash: 'Bash',
+    zsh: 'Zsh',
+    py: 'Python',
+    golang: 'Go',
+    md: 'Markdown',
+    yml: 'YAML',
   };
+
+  if (languageLabels[normalized]) {
+    return languageLabels[normalized];
+  }
+
+  return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+}
+
+function highlightCodeLine(line: string, language: string): string {
+  if (!language || !hljs.getLanguage(language)) {
+    return escapeHtml(line);
+  }
+
+  return hljs.highlight(line, {
+    language,
+    ignoreIllegals: true,
+  }).value;
+}
+
+function renderCodeBlock(code: string, info: string): string {
+  const { highlight } = blogMarkdownConfig;
+  const language = resolveLanguage(info);
+  const languageClassName = language ? ` language-${escapeHtml(language)}` : '';
+  const languageLabel = formatLanguageLabel(language);
+  const lines = code.replace(/\n$/, '').split('\n');
+  const resolvedLines = lines.length > 0 ? lines : [''];
+
+  const renderedLines = resolvedLines
+    .map((line, index) => {
+      const lineContent = highlight.enabled
+        ? highlightCodeLine(line, language)
+        : escapeHtml(line);
+
+      return [
+        '<span class="md-code-line">',
+        `<span class="md-code-line-number" aria-hidden="true">${index + 1}</span>`,
+        `<span class="md-code-line-content">${lineContent || '&nbsp;'}</span>`,
+        '</span>',
+      ].join('');
+    })
+    .join('');
+
+  return [
+    '<div class="md-code-block">',
+    '<div class="md-code-toolbar">',
+    `<span class="md-code-language">${escapeHtml(languageLabel)}</span>`,
+    [
+      '<button',
+      ' type="button"',
+      ' class="md-code-copy"',
+      ` data-code="${escapeHtml(code)}"`,
+      ' aria-label="复制代码"',
+      '>',
+      '<span class="md-code-copy-icon" aria-hidden="true"></span>',
+      '</button>',
+    ].join(''),
+    '</div>',
+    `<pre class="${highlight.codeBlockClassName} md-code-pre"><code class="md-code${languageClassName}">`,
+    renderedLines,
+    '</code></pre>',
+    '</div>',
+  ].join('');
 }
 
 function createMarkdownRenderer(): MarkdownIt {
   const markdown = new MarkdownIt({
     ...blogMarkdownConfig.markdownIt,
-    highlight: createHighlightRenderer(),
   });
+
+  markdown.renderer.rules.fence = (tokens, idx) => {
+    const token = tokens[idx];
+    return renderCodeBlock(token.content, token.info);
+  };
 
   if (blogMarkdownConfig.texmath.enabled) {
     markdown.use(texmath, {

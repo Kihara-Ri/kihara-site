@@ -633,10 +633,26 @@
 }
 
 .progressTrack {
+  position: relative;
   height: 6px;
+  padding: 0;
+  border: none;
   border-radius: 999px;
   overflow: hidden;
   background: rgba(193, 177, 160, 0.38);
+  appearance: none;
+  cursor: pointer;
+  box-shadow: none;
+  touch-action: none;
+}
+
+.progressTrack:hover,
+.progressTrack:active {
+  transform: none;
+}
+
+.progressTrack:disabled {
+  cursor: default;
 }
 
 .progressFill {
@@ -645,6 +661,18 @@
   height: 100%;
   background: linear-gradient(90deg, #221915 0%, #735745 100%);
   transform-origin: left center;
+}
+
+.progressThumb {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #f5eee4;
+  box-shadow: 0 0 0 2px rgba(34, 25, 21, 0.12);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .transport {

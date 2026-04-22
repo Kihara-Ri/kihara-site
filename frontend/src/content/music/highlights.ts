@@ -4,20 +4,20 @@ export const musicHighlights: MusicHighlight[] = [
   {
     id: 'recently-on-repeat',
     label: 'Recently on repeat',
-    value: 'Racing Mount Pleasant',
-    meta: 'Racing Mount Pleasant',
+    value: 'Lift Your Skinny Fists Like Antennas to Heaven',
+    meta: 'Godspeed You! Black Emperor',
     track: {
-      title: 'Emily',
-      previewUrl: '/music/highlights/Emily - Racing Mount Pleasant.mp3',
+      title: 'Sleep',
+      previewUrl: '/music/highlights/03 Sleep.mp3',
     },
     tones: {
-      start: '#cfc6b8',
-      end: '#70665d',
-      accent: '#2b2623',
+      start: '#dfceb2',
+      end: '#7e6446',
+      accent: '#2c2114',
     },
     cover: {
-      src: '/music/highlights/racing-mount-pleasant.jpg',
-      alt: 'Racing Mount Pleasant cover',
+      src: '/music/highlights/lift-your-skinny-fists-like-antennas-to-heaven.jpg',
+      alt: 'Godspeed You! Black Emperor Lift Your Skinny Fists Like Antennas to Heaven cover',
     },
   },
   {

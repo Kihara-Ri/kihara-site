@@ -212,23 +212,14 @@ func (s *Store) load() ([]Article, error) {
 }
 
 func (s *Store) loadWithPolicy(failOnValidationError bool) ([]Article, error) {
-	entries, err := os.ReadDir(s.rootDir)
+	entries, err := collectMarkdownFiles(s.rootDir)
 	if err != nil {
 		return nil, err
 	}
 
 	articles := make([]Article, 0, len(entries))
 	loadErrors := make([]error, 0)
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue
-		}
-
-		if !strings.HasSuffix(entry.Name(), ".md") {
-			continue
-		}
-
-		path := filepath.Join(s.rootDir, entry.Name())
+	for _, path := range entries {
 		content, readErr := os.ReadFile(path)
 		if readErr != nil {
 			loadErrors = append(loadErrors, readErr)
@@ -259,6 +250,31 @@ func (s *Store) loadWithPolicy(failOnValidationError bool) ([]Article, error) {
 	})
 
 	return articles, nil
+}
+
+func collectMarkdownFiles(root string) ([]string, error) {
+	files := make([]string, 0)
+
+	err := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() {
+			return nil
+		}
+		if !strings.HasSuffix(d.Name(), ".md") {
+			return nil
+		}
+
+		files = append(files, path)
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	sort.Strings(files)
+	return files, nil
 }
 
 func IsValidationError(err error) bool {

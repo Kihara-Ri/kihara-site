@@ -32,7 +32,7 @@
   --accent: #2563eb;
   --accent-strong: #1d4ed8;
   --warn: #b54708;
-  --code-bg: #0f172a;
+  --code-bg: #ffffff;
   --shadow-sm: 0 10px 26px rgba(15, 23, 42, 0.08);
   --shadow-md: 0 24px 48px rgba(15, 23, 42, 0.12);
 
@@ -60,7 +60,7 @@
   --accent: #60a5fa;
   --accent-strong: #93c5fd;
   --warn: #f59e0b;
-  --code-bg: #020617;
+  --code-bg: #05070d;
   --shadow-sm: 0 10px 26px rgba(2, 6, 23, 0.24);
   --shadow-md: 0 24px 48px rgba(2, 6, 23, 0.32);
 }

@@ -164,6 +164,7 @@ function MusicMobile() {
   const [playbackModeHover, setPlaybackModeHover] = useState<PlaybackMode>('sequence');
   const [playlistOpen, setPlaylistOpen] = useState(false);
   const [playlistVisible, setPlaylistVisible] = useState(false);
+  const [scrubRatio, setScrubRatio] = useState<number | null>(null);
   const albumRailRef = useRef<HTMLDivElement | null>(null);
   const albumThumbRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const albumViewerRef = useRef<HTMLDivElement | null>(null);
@@ -182,6 +183,9 @@ function MusicMobile() {
     previewDuration,
     loadHighlight,
     togglePlayback,
+    beginScrub,
+    endScrub,
+    seekPreview,
     startPlayback,
   } = useMusicPlayer();
 
@@ -210,7 +214,48 @@ function MusicMobile() {
     ?? playableHighlights[0]
     ?? musicHighlights[0]
     ?? null;
-  const progressRatio = previewDuration > 0 ? Math.min(previewCurrentTime / previewDuration, 1) : 0;
+  const resolvedProgressRatio = previewDuration > 0 ? Math.min(previewCurrentTime / previewDuration, 1) : 0;
+  const progressRatio = scrubRatio ?? resolvedProgressRatio;
+  const displayedCurrentTime = scrubRatio !== null && previewDuration > 0 ? scrubRatio * previewDuration : previewCurrentTime;
+  const resolveScrubRatio = (element: HTMLButtonElement, clientX: number) => {
+    const rect = element.getBoundingClientRect();
+    if (rect.width <= 0) {
+      return null;
+    }
+
+    return Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+  };
+  const handleProgressTrackPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
+    const ratio = resolveScrubRatio(event.currentTarget, event.clientX);
+    if (ratio === null) {
+      return;
+    }
+
+    beginScrub();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setScrubRatio(ratio);
+    seekPreview(ratio);
+  };
+  const handleProgressTrackPointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+    if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
+      return;
+    }
+
+    const ratio = resolveScrubRatio(event.currentTarget, event.clientX);
+    if (ratio === null) {
+      return;
+    }
+
+    setScrubRatio(ratio);
+    seekPreview(ratio);
+  };
+  const handleProgressTrackPointerEnd = (event: PointerEvent<HTMLButtonElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    setScrubRatio(null);
+    endScrub();
+  };
 
   useEffect(() => {
     if (!sortedAlbums.length) {
@@ -839,12 +884,26 @@ function MusicMobile() {
 
                     <div className={styles.progressBlock}>
                       <div className={styles.progressHeader}>
-                        <span>{formatTime(previewCurrentTime)}</span>
+                        <span>{formatTime(displayedCurrentTime)}</span>
                         <span>{formatTime(previewDuration)}</span>
                       </div>
-                      <div className={styles.progressTrack} aria-hidden="true">
+                      <button
+                        type="button"
+                        className={styles.progressTrack}
+                        aria-label="定位播放进度"
+                        onPointerDown={handleProgressTrackPointerDown}
+                        onPointerMove={handleProgressTrackPointerMove}
+                        onPointerUp={handleProgressTrackPointerEnd}
+                        onPointerCancel={handleProgressTrackPointerEnd}
+                        onLostPointerCapture={() => {
+                          setScrubRatio(null);
+                          endScrub();
+                        }}
+                        disabled={!selectedHighlight?.track || previewDuration <= 0}
+                      >
                         <span className={styles.progressFill} style={{ transform: `scaleX(${progressRatio})` }} />
-                      </div>
+                        <span className={styles.progressThumb} style={{ left: `${progressRatio * 100}%` }} />
+                      </button>
                     </div>
 
                     <div className={styles.transport}>

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useToast } from '@/context/ToastContext';
 import { renderMarkdown } from '../markdown/renderer';
 import styles from './ArticleContent.module.css';
 
@@ -25,6 +26,7 @@ export function MarkdownArticle({
   className,
   wrapperClassName,
 }: MarkdownArticleProps) {
+  const { showToast } = useToast();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const articleRef = useRef<HTMLElement | null>(null);
   const activeTooltipHostRef = useRef<HTMLElement | null>(null);
@@ -84,8 +86,60 @@ export function MarkdownArticle({
       setTooltip(null);
     };
 
+    const copyCode = async (button: HTMLButtonElement) => {
+      const code = button.dataset.code ?? '';
+      if (!code) {
+        return;
+      }
+
+      const showSuccessIcon = () => {
+        button.classList.remove('is-success');
+        void button.offsetWidth;
+        button.classList.add('is-success');
+        window.setTimeout(() => {
+          if (button.isConnected) {
+            button.classList.remove('is-success');
+          }
+        }, 1400);
+      };
+
+      try {
+        await navigator.clipboard.writeText(code);
+        showSuccessIcon();
+        showToast('代码已复制');
+      } catch {
+        const textarea = document.createElement('textarea');
+        try {
+          textarea.value = code;
+          textarea.setAttribute('readonly', 'true');
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          const copied = document.execCommand('copy');
+          if (!copied) {
+            throw new Error('copy failed');
+          }
+          showSuccessIcon();
+          showToast('代码已复制');
+        } catch {
+          showToast('复制失败，请重试', 'error');
+        } finally {
+          document.body.removeChild(textarea);
+        }
+      }
+    };
+
     const onArticleClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
+      const copyButton = target.closest('.md-code-copy');
+
+      if (copyButton instanceof HTMLButtonElement) {
+        event.preventDefault();
+        void copyCode(copyButton);
+        return;
+      }
+
       const attach = target.closest('.md-attach');
       const annotation = target.closest('.md-annotation');
 

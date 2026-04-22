@@ -25,6 +25,9 @@ interface MusicPlayerContextValue {
   loadHighlight: (highlight: MusicHighlight) => void;
   startPlayback: (highlight: MusicHighlight) => Promise<void>;
   togglePlayback: () => Promise<void>;
+  beginScrub: () => void;
+  endScrub: () => void;
+  seekPreview: (ratio: number) => void;
   playAdjacentHighlight: (direction: 1 | -1) => void;
 }
 
@@ -45,6 +48,8 @@ export function MusicPlayerProvider({ children }: PropsWithChildren) {
   const wobbleTimeoutRef = useRef<number | null>(null);
   const playStartTimeoutRef = useRef<number | null>(null);
   const tonearmDelayTimeoutRef = useRef<number | null>(null);
+  const isScrubbingRef = useRef(false);
+  const resumeAfterScrubRef = useRef(false);
   const tonearmSettleDelayMs = 500;
   const playStartDelayMs = 860;
 
@@ -121,7 +126,9 @@ export function MusicPlayerProvider({ children }: PropsWithChildren) {
         window.clearTimeout(tonearmDelayTimeoutRef.current);
         tonearmDelayTimeoutRef.current = null;
       }
-      triggerArmWobble('pause');
+      if (!isScrubbingRef.current) {
+        triggerArmWobble('pause');
+      }
     };
     const handleEnded = () => {
       setIsPlayingPreview(false);
@@ -213,6 +220,65 @@ export function MusicPlayerProvider({ children }: PropsWithChildren) {
     audio.pause();
   };
 
+  const beginScrub = () => {
+    if (!previewAudioRef.current || !playableHighlight?.track) {
+      return;
+    }
+
+    const audio = previewAudioRef.current;
+    isScrubbingRef.current = true;
+    resumeAfterScrubRef.current = !audio.paused || playStartTimeoutRef.current !== null;
+
+    if (playStartTimeoutRef.current) {
+      window.clearTimeout(playStartTimeoutRef.current);
+      playStartTimeoutRef.current = null;
+    }
+    if (tonearmDelayTimeoutRef.current) {
+      window.clearTimeout(tonearmDelayTimeoutRef.current);
+      tonearmDelayTimeoutRef.current = null;
+    }
+
+    if (!audio.paused) {
+      audio.pause();
+    } else {
+      setIsPlayingPreview(false);
+      setTonearmTracking(false);
+    }
+  };
+
+  const endScrub = () => {
+    if (!previewAudioRef.current || !playableHighlight?.track) {
+      isScrubbingRef.current = false;
+      resumeAfterScrubRef.current = false;
+      return;
+    }
+
+    const audio = previewAudioRef.current;
+    const shouldResume = resumeAfterScrubRef.current;
+    isScrubbingRef.current = false;
+    resumeAfterScrubRef.current = false;
+
+    if (shouldResume) {
+      queueAudioPlayback(audio);
+    }
+  };
+
+  const seekPreview = (ratio: number) => {
+    if (!previewAudioRef.current || !playableHighlight?.track) {
+      return;
+    }
+
+    const audio = previewAudioRef.current;
+    const duration = Number.isFinite(audio.duration) ? audio.duration : previewDuration;
+    if (!duration || duration <= 0) {
+      return;
+    }
+
+    const nextTime = Math.min(Math.max(ratio, 0), 1) * duration;
+    audio.currentTime = nextTime;
+    setPreviewCurrentTime(nextTime);
+  };
+
   const playAdjacentHighlight = (direction: 1 | -1) => {
     if (!playableHighlights.length) {
       return;
@@ -244,6 +310,9 @@ export function MusicPlayerProvider({ children }: PropsWithChildren) {
     loadHighlight,
     startPlayback,
     togglePlayback,
+    beginScrub,
+    endScrub,
+    seekPreview,
     playAdjacentHighlight,
   }), [
     activeHighlightId,
@@ -257,7 +326,13 @@ export function MusicPlayerProvider({ children }: PropsWithChildren) {
     previewCurrentTime,
     previewDuration,
     armWobble,
+    beginScrub,
+    endScrub,
     loadHighlight,
+    playAdjacentHighlight,
+    seekPreview,
+    startPlayback,
+    togglePlayback,
   ]);
 
   return (

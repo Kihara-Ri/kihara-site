@@ -155,3 +155,36 @@ hidden`)
 		t.Fatalf("expected draft article to be hidden, got %v", err)
 	}
 }
+
+func TestStoreLoadsPublishedArticlesFromNestedDirectories(t *testing.T) {
+	dir := t.TempDir()
+	nestedDir := filepath.Join(dir, "algorithms")
+	if err := os.MkdirAll(nestedDir, 0o755); err != nil {
+		t.Fatalf("mkdir failed: %v", err)
+	}
+
+	writeFile(t, filepath.Join(nestedDir, "nested.md"), `---
+title: Nested
+date: 2026-03-14
+tags:
+  - algorithms
+published: true
+---
+
+ok`)
+
+	store := NewStore(dir, []string{"algorithms"}, true, true)
+
+	items, err := store.List("")
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	if len(items) != 1 {
+		t.Fatalf("expected 1 published article, got %d", len(items))
+	}
+
+	if items[0].Slug != "nested" {
+		t.Fatalf("unexpected slug: %s", items[0].Slug)
+	}
+}

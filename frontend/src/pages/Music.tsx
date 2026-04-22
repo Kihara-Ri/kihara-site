@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import RecordPlayer from '../components/music/RecordPlayer';
 import layout from '../components/layout/PageLayout.module.css';
@@ -341,6 +341,7 @@ function MusicDesktop() {
   const [turntableRecordExiting, setTurntableRecordExiting] = useState(false);
   const [playlistOpen, setPlaylistOpen] = useState(false);
   const [playlistPanelStyle, setPlaylistPanelStyle] = useState<CSSProperties | null>(null);
+  const [scrubRatio, setScrubRatio] = useState<number | null>(null);
   const railRef = useRef<HTMLDivElement | null>(null);
   const albumButtonRefs = useRef(new Map<string, HTMLButtonElement>());
   const playlistRef = useRef<HTMLDivElement | null>(null);
@@ -366,6 +367,9 @@ function MusicDesktop() {
     armWobble,
     startPlayback,
     togglePlayback,
+    beginScrub,
+    endScrub,
+    seekPreview,
     playAdjacentHighlight,
   } = useMusicPlayer();
 
@@ -931,8 +935,49 @@ function MusicDesktop() {
     return `${minutes}:${String(seconds).padStart(2, '0')}`;
   };
 
-  const progressRatio = previewDuration > 0 ? Math.min(previewCurrentTime / previewDuration, 1) : 0;
-  const tonearmAngle = tonearmTracking ? 24 + progressRatio * 34 : 0;
+  const resolvedProgressRatio = previewDuration > 0 ? Math.min(previewCurrentTime / previewDuration, 1) : 0;
+  const progressRatio = scrubRatio ?? resolvedProgressRatio;
+  const displayedCurrentTime = scrubRatio !== null && previewDuration > 0 ? scrubRatio * previewDuration : previewCurrentTime;
+  const tonearmAngle = tonearmTracking ? 24 + resolvedProgressRatio * 34 : 0;
+  const resolveScrubRatio = (element: HTMLButtonElement, clientX: number) => {
+    const rect = element.getBoundingClientRect();
+    if (rect.width <= 0) {
+      return null;
+    }
+
+    return Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+  };
+  const handleProgressTrackPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
+    const ratio = resolveScrubRatio(event.currentTarget, event.clientX);
+    if (ratio === null) {
+      return;
+    }
+
+    beginScrub();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setScrubRatio(ratio);
+    seekPreview(ratio);
+  };
+  const handleProgressTrackPointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+    if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
+      return;
+    }
+
+    const ratio = resolveScrubRatio(event.currentTarget, event.clientX);
+    if (ratio === null) {
+      return;
+    }
+
+    setScrubRatio(ratio);
+    seekPreview(ratio);
+  };
+  const handleProgressTrackPointerEnd = (event: PointerEvent<HTMLButtonElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    setScrubRatio(null);
+    endScrub();
+  };
   const mobileAlbum = displayedAlbums.find((album) => album.id === mobileAlbumId) ?? displayedAlbums[0] ?? null;
   const mobileAlbumIndex = mobileAlbum ? displayedAlbums.findIndex((album) => album.id === mobileAlbum.id) : -1;
   const mobileAlbumNote = mobileAlbum?.note ?? '暂无备注。';
@@ -1458,10 +1503,24 @@ function MusicDesktop() {
                   {playableHighlight?.track ? playableHighlight.track.title : '点击唱片放入唱片机'}
                 </p>
                 <div className={styles.playerProgress}>
-                  <span className={styles.playerTime}>{formatTime(previewCurrentTime)}</span>
-                  <div className={styles.playerProgressTrack} aria-hidden="true">
+                  <span className={styles.playerTime}>{formatTime(displayedCurrentTime)}</span>
+                  <button
+                    type="button"
+                    className={styles.playerProgressTrack}
+                    aria-label="定位播放进度"
+                    onPointerDown={handleProgressTrackPointerDown}
+                    onPointerMove={handleProgressTrackPointerMove}
+                    onPointerUp={handleProgressTrackPointerEnd}
+                    onPointerCancel={handleProgressTrackPointerEnd}
+                    onLostPointerCapture={() => {
+                      setScrubRatio(null);
+                      endScrub();
+                    }}
+                    disabled={!hasSelectedPlayableHighlight || previewDuration <= 0}
+                  >
                     <span className={styles.playerProgressFill} style={{ transform: `scaleX(${progressRatio})` }} />
-                  </div>
+                    <span className={styles.playerProgressThumb} style={{ left: `${progressRatio * 100}%` }} />
+                  </button>
                   <span className={styles.playerTime}>{formatTime(previewDuration)}</span>
                 </div>
               </div>
