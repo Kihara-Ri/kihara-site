@@ -4,10 +4,8 @@
 
 - `albums.json`
   站点实际读取的内容源。前端直接消费这份文件。
-- `../../../../scripts/music/import_cd_collection.py`
-  把原始 `CD统计.csv` 导入成 `albums.json`。
-- `../../../../scripts/music/fetch_itunes_covers.py`
-  尝试从 iTunes Search API 自动抓取专辑封面，并把结果写回 `albums.json`，同时把图片下载到 `frontend/public/music/covers/`。
+- `../../../../scripts/music/album_manager.py`
+  统一管理音乐专辑数据：支持单条新增、CSV 全量导入、CSV 增量合并，以及按范围抓取封面。
 
 ## 为什么用 JSON
 
@@ -44,17 +42,41 @@
 
 ## 推荐维护方式
 
-1. 先更新原始 `CD统计.csv`
-2. 运行导入脚本更新 `albums.json`
-3. 运行封面抓取脚本补齐 `cover`
+1. 如果只是新增一张专辑，优先使用 `add`
+2. 如果你维护了原始 `CD统计.csv`，按需求使用：
+   全量重建 `replace-from-csv`
+   增量追加 `merge-csv`
+3. 只给目标专辑补封面时，使用 `fetch-cover --id ...`
 4. 最后手动检查少数没匹配准的条目，必要时直接编辑 `albums.json`
 
 ## 常用命令
 
 ```bash
-python3 scripts/music/import_cd_collection.py --year 2026
-python3 scripts/music/fetch_itunes_covers.py
+python3 scripts/music/album_manager.py add \
+  --title "Funeral" \
+  --artist "Arcade Fire" \
+  --date "2026-04-22" \
+  --location "メルカリ" \
+  --price 800
+
+python3 scripts/music/album_manager.py merge-csv \
+  --input /path/to/CD统计.csv \
+  --year 2026
+
+python3 scripts/music/album_manager.py replace-from-csv \
+  --input /path/to/CD统计.csv \
+  --year 2026
+
+python3 scripts/music/album_manager.py fetch-cover \
+  --id arcade-fire-funeral
 ```
+
+## 设计约定
+
+- `add` 不再要求你先造一份临时 CSV
+- `fetch-cover` 默认不会扫全库；需要显式传 `--all` 才允许
+- 价格文本统一写成 `800 JPY`、`158 RMB` 这种形式，避免出现裸数字
+- `merge-csv` 与 `replace-from-csv` 共用同一套日期和备注解析逻辑
 
 ## 手动修正建议
 

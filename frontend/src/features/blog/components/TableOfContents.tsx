@@ -5,6 +5,7 @@ import styles from './TableOfContents.module.css';
 interface TableOfContentsProps {
   headings: HeadingItem[];
   activeIds: string[];
+  onNavigate?: () => void;
 }
 
 interface HeadingGroup {
@@ -37,7 +38,7 @@ function buildGroups(headings: HeadingItem[]): HeadingGroup[] {
   return groups;
 }
 
-export function TableOfContents({ headings, activeIds }: TableOfContentsProps) {
+export function TableOfContents({ headings, activeIds, onNavigate }: TableOfContentsProps) {
   const activeItemRef = useRef<HTMLAnchorElement | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
   const groups = useMemo(() => buildGroups(headings), [headings]);
@@ -74,7 +75,6 @@ export function TableOfContents({ headings, activeIds }: TableOfContentsProps) {
 
   return (
     <nav className={styles.toc} aria-label="文章目录">
-      <h3 className={styles.title}>目录</h3>
       <div ref={listRef} className={styles.list}>
         {groups.map((group, index) => {
           const isSectionActive =
@@ -91,6 +91,7 @@ export function TableOfContents({ headings, activeIds }: TableOfContentsProps) {
                 className={`${styles.item} ${styles.level2} ${
                   activeIdSet.has(group.heading.id) ? styles.active : ''
                 }`.trim()}
+                onClick={onNavigate}
               >
                 <span className={styles.badge}>{index + 1}</span>
                 <span className={styles.text}>{group.heading.text}</span>
@@ -106,6 +107,7 @@ export function TableOfContents({ headings, activeIds }: TableOfContentsProps) {
                       className={`${styles.item} ${styles.level3} ${
                         activeIdSet.has(heading.id) ? styles.active : ''
                       }`.trim()}
+                      onClick={onNavigate}
                     >
                       <span className={styles.childDot} aria-hidden="true" />
                       <span className={styles.text}>{heading.text}</span>

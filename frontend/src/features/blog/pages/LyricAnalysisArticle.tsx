@@ -67,14 +67,29 @@ export function LyricAnalysisArticle({
             <p className={styles.eyebrow}>Lyric Analysis</p>
             <h1 className={styles.title}>{article.title}</h1>
             <p className={styles.meta}>
-              <span>{formatDate(article.date)}</span>
-              <span>{article.wordCount.toLocaleString('zh-CN')} 字</span>
-              {article.series ? <span>Series: {article.series}</span> : null}
+              <span className={styles.metaItem}>
+                <span className={[styles.metaIcon, styles.metaIconDate].join(' ')} aria-hidden="true" />
+                <span>{formatDate(article.date)}</span>
+              </span>
+              <span className={styles.metaItem}>
+                <span className={[styles.metaIcon, styles.metaIconText].join(' ')} aria-hidden="true" />
+                <span>{article.wordCount.toLocaleString('zh-CN')} 字</span>
+              </span>
+              {article.series ? (
+                <span className={styles.metaItem}>
+                  <span className={[styles.metaIcon, styles.metaIconBook].join(' ')} aria-hidden="true" />
+                  <span>{article.series}</span>
+                </span>
+              ) : null}
             </p>
             {article.summary ? <p className={styles.summary}>{article.summary}</p> : null}
           </div>
 
           <div className={styles.tagsRow}>
+            <span className={styles.tagsLabel}>
+              <span className={[styles.metaIcon, styles.metaIconTag].join(' ')} aria-hidden="true" />
+              <span>标签</span>
+            </span>
             {article.tags.map((tag) => (
               <button
                 key={`${article.slug}-${tag}`}

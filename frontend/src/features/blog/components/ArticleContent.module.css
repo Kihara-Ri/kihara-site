@@ -10,6 +10,143 @@
   width: 250px;
 }
 
+.desktopOutline {
+  width: 100%;
+}
+
+.mobileTocButton,
+.mobileTocOverlay {
+  display: none;
+}
+
+.mobileTocButton {
+  position: fixed;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  z-index: 120;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line) 82%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--panel-strong) 92%, var(--background) 8%);
+  box-shadow: var(--shadow-md);
+  color: var(--accent-strong);
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  backdrop-filter: blur(14px);
+}
+
+.mobileTocButtonIcon {
+  width: 1.15rem;
+  height: 1.15rem;
+  display: block;
+  opacity: 0.94;
+  filter: brightness(0) saturate(100%) invert(14%) sepia(12%) saturate(931%) hue-rotate(182deg) brightness(94%) contrast(94%);
+}
+
+.mobileTocOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 160;
+  background: color-mix(in srgb, var(--ink) 28%, transparent);
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 calc(env(safe-area-inset-bottom) + 10px);
+}
+
+.mobileTocSheet {
+  width: min(100%, 760px);
+  max-height: min(78vh, 680px);
+  border: 1px solid var(--line);
+  border-radius: 28px 28px 0 0;
+  background: color-mix(in srgb, var(--panel-strong) 96%, var(--background) 4%);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileTocHandle {
+  width: 3rem;
+  height: 0.32rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--muted) 34%, transparent);
+  margin: 0.7rem auto 0.15rem;
+}
+
+.mobileTocHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.7rem 0.35rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.mobileTocTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.mobileTocClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: transparent;
+  color: color-mix(in srgb, var(--ink) 88%, transparent);
+}
+
+.mobileTocCloseIcon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  opacity: 0.96;
+  filter: brightness(0) saturate(100%) invert(14%) sepia(12%) saturate(931%) hue-rotate(182deg) brightness(94%) contrast(94%);
+  transition:
+    transform 0.28s ease,
+    filter 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.mobileTocClose:hover,
+.mobileTocClose:active {
+  transform: none;
+  background: transparent;
+}
+
+.mobileTocClose:hover .mobileTocCloseIcon,
+.mobileTocClose:focus-visible .mobileTocCloseIcon {
+  transform: rotate(180deg);
+  opacity: 1;
+  filter: brightness(0) saturate(100%) invert(40%) sepia(96%) saturate(2016%) hue-rotate(201deg) brightness(99%) contrast(95%);
+}
+
+:global([data-theme='dark']) .mobileTocClose {
+  background: transparent;
+}
+
+:global([data-theme='dark']) .mobileTocCloseIcon {
+  filter: brightness(0) saturate(100%) invert(92%) sepia(6%) saturate(165%) hue-rotate(186deg) brightness(102%) contrast(94%);
+}
+
+:global([data-theme='dark']) .mobileTocButtonIcon {
+  filter: brightness(0) saturate(100%) invert(92%) sepia(6%) saturate(165%) hue-rotate(186deg) brightness(102%) contrast(94%);
+}
+
+.mobileTocBody {
+  padding: 0.9rem 1rem 1rem;
+  overflow-y: auto;
+}
+
+.mobileTocBody :global(.toc) {
+  max-height: none;
+  border-radius: 22px;
+}
+
 .measureWrap {
   position: relative;
   height: 0;
@@ -221,6 +358,16 @@
   background: transparent;
 }
 
+.blogArticle :global(.md-code-block-single),
+.measureArticle :global(.md-code-block-single) {
+  border-radius: 16px;
+}
+
+.blogArticle :global(.md-code-block-single pre.md-code-pre),
+.measureArticle :global(.md-code-block-single pre.md-code-pre) {
+  padding: 0.25rem 0;
+}
+
 .blogArticle :global(pre.md-code-pre code.md-code),
 .measureArticle :global(pre.md-code-pre code.md-code) {
   display: block;
@@ -248,9 +395,57 @@
 .measureArticle :global(.md-code-line-content) {
   display: block;
   min-width: 100%;
+  box-sizing: border-box;
   padding: 0 1rem 0 0.95rem;
   white-space: pre;
   tab-size: 2;
+}
+
+.blogArticle :global(.md-code-line-single),
+.measureArticle :global(.md-code-line-single) {
+  display: block;
+  align-items: center;
+}
+
+.blogArticle :global(.md-code-line-single .md-code-line-content),
+.measureArticle :global(.md-code-line-single .md-code-line-content) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+  padding-top: 0.18rem;
+  padding-bottom: 0.18rem;
+  padding-left: 0.95rem;
+}
+
+.blogArticle :global(.md-code-line-text),
+.measureArticle :global(.md-code-line-text) {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.blogArticle :global(.md-code-line-text::-webkit-scrollbar),
+.measureArticle :global(.md-code-line-text::-webkit-scrollbar) {
+  display: none;
+}
+
+.blogArticle :global(.md-code-block-single .md-code-copy),
+.measureArticle :global(.md-code-block-single .md-code-copy) {
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--code-toolbar-bg) 74%, transparent);
+}
+
+.blogArticle :global(.md-code-block-single .md-code-copy-icon),
+.measureArticle :global(.md-code-block-single .md-code-copy-icon) {
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 .blogArticle :global(.hljs),
@@ -768,6 +963,22 @@
   }
 }
 
+@media (max-width: 980px) {
+  .desktopOutline {
+    display: none;
+  }
+
+  .mobileTocButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobileTocOverlay {
+    display: flex;
+  }
+}
+
 @media (max-width: 760px) {
   .blogArticle,
   .measureArticle {
@@ -855,6 +1066,11 @@
     padding: 0.72rem 0;
   }
 
+  .blogArticle :global(.md-code-block-single pre.md-code-pre),
+  .measureArticle :global(.md-code-block-single pre.md-code-pre) {
+    padding: 0.18rem 0;
+  }
+
   .blogArticle :global(.md-code-line),
   .measureArticle :global(.md-code-line) {
     grid-template-columns: 2.7rem minmax(0, 1fr);
@@ -870,6 +1086,12 @@
   .measureArticle :global(.md-code-line-content) {
     padding-left: 0.72rem;
     padding-right: 0.78rem;
+  }
+
+  .blogArticle :global(.md-code-line-single .md-code-line-content),
+  .measureArticle :global(.md-code-line-single .md-code-line-content) {
+    gap: 0.5rem;
+    padding-left: 0.72rem;
   }
 
   .blogArticle :global(code),
@@ -897,5 +1119,21 @@
   .measureArticle :global(.md-tooltip) {
     min-width: min(220px, calc(100vw - 56px));
     max-width: min(320px, calc(100vw - 32px));
+  }
+
+  .mobileTocButton {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    width: 44px;
+    height: 44px;
+  }
+
+  .mobileTocHeader {
+    padding-right: 0.55rem;
+  }
+
+  .mobileTocBody {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
   }
 }

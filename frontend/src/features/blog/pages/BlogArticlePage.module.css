@@ -117,6 +117,51 @@
   font-size: 0.9rem;
 }
 
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--panel) 78%, var(--accent-soft) 22%);
+  color: color-mix(in srgb, var(--muted) 82%, var(--ink) 18%);
+}
+
+.metaIcon {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: 0 0 auto;
+  display: inline-block;
+  background-color: currentColor;
+  opacity: 0.78;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+}
+
+.metaIconDate {
+  mask-image: url('/icons/UI/date.svg');
+  -webkit-mask-image: url('/icons/UI/date.svg');
+}
+
+.metaIconTag {
+  mask-image: url('/icons/UI/tag.svg');
+  -webkit-mask-image: url('/icons/UI/tag.svg');
+}
+
+.metaIconBook {
+  mask-image: url('/icons/UI/book.svg');
+  -webkit-mask-image: url('/icons/UI/book.svg');
+}
+
+.metaIconText {
+  mask-image: url('/icons/UI/text.svg');
+  -webkit-mask-image: url('/icons/UI/text.svg');
+}
+
 .summary {
   margin: 0.9rem 0 0;
   color: var(--muted);
@@ -139,7 +184,18 @@
   margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
+}
+
+.tagsLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  margin-right: 0.15rem;
+  color: color-mix(in srgb, var(--muted) 84%, var(--accent-strong) 16%);
+  font-size: 0.84rem;
+  font-weight: 600;
 }
 
 .tagButton {

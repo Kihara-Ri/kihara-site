@@ -9,6 +9,10 @@
     "deploy": "./scripts/deploy.sh",
     "books:search": "python3 ./scripts/books/search_books.py",
     "books:add": "python3 ./scripts/books/add_book.py",
-    "books:cover": "python3 ./scripts/books/fetch_cover_by_isbn.py"
+    "books:cover": "python3 ./scripts/books/fetch_cover_by_isbn.py",
+    "music:add": "python3 ./scripts/music/album_manager.py add",
+    "music:merge": "python3 ./scripts/music/album_manager.py merge-csv",
+    "music:replace": "python3 ./scripts/music/album_manager.py replace-from-csv",
+    "music:cover": "python3 ./scripts/music/album_manager.py fetch-cover"
   }
 }

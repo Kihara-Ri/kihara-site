@@ -10,13 +10,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-.title {
-  margin: 0 0 0.65rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .list {
   margin: 0;
   padding: 0;

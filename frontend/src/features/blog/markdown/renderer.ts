@@ -63,12 +63,34 @@ function renderCodeBlock(code: string, info: string): string {
   const languageLabel = formatLanguageLabel(language);
   const lines = code.replace(/\n$/, '').split('\n');
   const resolvedLines = lines.length > 0 ? lines : [''];
+  const isSingleLine = resolvedLines.length === 1;
+  const copyButton = [
+    '<button',
+    ' type="button"',
+    ' class="md-code-copy"',
+    ` data-code="${escapeHtml(code)}"`,
+    ' aria-label="复制代码"',
+    '>',
+    '<span class="md-code-copy-icon" aria-hidden="true"></span>',
+    '</button>',
+  ].join('');
 
   const renderedLines = resolvedLines
     .map((line, index) => {
       const lineContent = highlight.enabled
         ? highlightCodeLine(line, language)
         : escapeHtml(line);
+
+      if (isSingleLine) {
+        return [
+          '<span class="md-code-line md-code-line-single">',
+          '<span class="md-code-line-content">',
+          `<span class="md-code-line-text">${lineContent || '&nbsp;'}</span>`,
+          copyButton,
+          '</span>',
+          '</span>',
+        ].join('');
+      }
 
       return [
         '<span class="md-code-line">',
@@ -80,20 +102,15 @@ function renderCodeBlock(code: string, info: string): string {
     .join('');
 
   return [
-    '<div class="md-code-block">',
-    '<div class="md-code-toolbar">',
-    `<span class="md-code-language">${escapeHtml(languageLabel)}</span>`,
-    [
-      '<button',
-      ' type="button"',
-      ' class="md-code-copy"',
-      ` data-code="${escapeHtml(code)}"`,
-      ' aria-label="复制代码"',
-      '>',
-      '<span class="md-code-copy-icon" aria-hidden="true"></span>',
-      '</button>',
-    ].join(''),
-    '</div>',
+    `<div class="md-code-block${isSingleLine ? ' md-code-block-single' : ''}">`,
+    ...(!isSingleLine
+      ? [
+          '<div class="md-code-toolbar">',
+          `<span class="md-code-language">${escapeHtml(languageLabel)}</span>`,
+          copyButton,
+          '</div>',
+        ]
+      : []),
     `<pre class="${highlight.codeBlockClassName} md-code-pre"><code class="md-code${languageClassName}">`,
     renderedLines,
     '</code></pre>',

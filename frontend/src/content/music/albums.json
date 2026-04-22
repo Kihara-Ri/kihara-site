@@ -1938,5 +1938,27 @@
       "source": "rateyourmusic",
       "status": "missing"
     }
+  },
+  {
+    "id": "arcade-fire-funeral",
+    "title": "Funeral",
+    "artist": "Arcade Fire",
+    "releaseYear": 2004,
+    "purchase": {
+      "date": "2026-04-22",
+      "display": "2026-4-22",
+      "location": "メルカリ",
+      "priceText": "800 JPY",
+      "priceValue": 800.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "800 JPY",
+    "cover": {
+      "file": "/music/covers/arcade-fire-funeral.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Funeral"
+    }
   }
 ]

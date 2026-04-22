@@ -70,6 +70,7 @@ export function ArticleContent({ markdown }: ArticleContentProps) {
 
 export function ArticleOutline({ markdown }: ArticleOutlineProps) {
   const [activeHeadingIds, setActiveHeadingIds] = useState<string[]>([]);
+  const [isMobileTocOpen, setIsMobileTocOpen] = useState(false);
   const rendered = useMemo(() => renderMarkdown(markdown), [markdown]);
 
   useEffect(() => {
@@ -98,9 +99,82 @@ export function ArticleOutline({ markdown }: ArticleOutlineProps) {
     };
   }, [rendered.env.headings]);
 
+  useEffect(() => {
+    if (!isMobileTocOpen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileTocOpen(false);
+      }
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isMobileTocOpen]);
+
   return (
     <div className={styles.outlineWrap}>
-      <TableOfContents headings={rendered.env.headings} activeIds={activeHeadingIds} />
+      <div className={styles.desktopOutline}>
+        <TableOfContents headings={rendered.env.headings} activeIds={activeHeadingIds} />
+      </div>
+
+      <button
+        type="button"
+        className={styles.mobileTocButton}
+        onClick={() => setIsMobileTocOpen(true)}
+        aria-haspopup="dialog"
+        aria-expanded={isMobileTocOpen}
+        aria-controls="mobile-toc-dialog"
+        aria-label="打开目录"
+      >
+        <img src="/icons/UI/list.svg" alt="" aria-hidden="true" className={styles.mobileTocButtonIcon} />
+      </button>
+
+      {isMobileTocOpen ? (
+        <div
+          className={styles.mobileTocOverlay}
+          onClick={() => setIsMobileTocOpen(false)}
+          role="presentation"
+        >
+          <div
+            id="mobile-toc-dialog"
+            className={styles.mobileTocSheet}
+            role="dialog"
+            aria-modal="true"
+            aria-label="文章目录"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className={styles.mobileTocHandle} aria-hidden="true" />
+            <div className={styles.mobileTocHeader}>
+              <h3 className={styles.mobileTocTitle}>目录</h3>
+              <button
+                type="button"
+                className={styles.mobileTocClose}
+                onClick={() => setIsMobileTocOpen(false)}
+                aria-label="关闭目录"
+              >
+                <img src="/icons/UI/close.svg" alt="" aria-hidden="true" className={styles.mobileTocCloseIcon} />
+              </button>
+            </div>
+
+            <div className={styles.mobileTocBody}>
+              <TableOfContents
+                headings={rendered.env.headings}
+                activeIds={activeHeadingIds}
+                onNavigate={() => setIsMobileTocOpen(false)}
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
