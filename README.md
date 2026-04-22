@@ -1,20 +1,34 @@
-## 需要修改的地方
+## 当前部署方式
 
-- 音乐页面的模态窗口关闭按钮在浅色模式下需要修改颜色
-- 专辑价格的地方需要带上货币的单位
-- 换行符`\n`不生效
+生产环境当前由 Nginx 反向代理到本机 `127.0.0.1:8080`，真正提供服务的是 `kihara-site` 的 systemd 服务。
 
+- Nginx 入口：`/etc/nginx/sites-available/public-entry`
+- systemd 服务：`kihara-site.service`
+- 实际发布目录：`~/.deployments/kihara-site-stable`
+- 外置前端目录：`~/.deployments/kihara-site-stable/frontend-dist`
 
-部署目录
+## 一键部署
+
+仓库已经提供了和当前机器实际环境一致的脚本：
 
 ```bash
-sudo mkdir -p /opt/kihara-site/release
-sudo mkdir -p /opt/kihara-site/backend
+npm run deploy
+```
 
-sudo cp release/kihara-site /opt/kihara-site/release/
-sudo cp -r backend/articles /opt/kihara-site/backend/
-sudo cp backend/tag_config.yaml /opt/kihara-site/backend/
+这条命令会完成下面几件事：
 
-sudo chown -R www-data:www-data /opt/kihara-site
-sudo chmod +x /opt/kihara-site/release/kihara-site
+1. 先执行 `npm run build`
+2. 同步 `release/kihara-site`
+3. 同步 `backend/articles/` 和 `backend/tag_config.yaml`
+4. 同步 `frontend/dist/` 到 `~/.deployments/kihara-site-stable/frontend-dist`
+5. 重启 `kihara-site.service`
+6. 校验本机 `127.0.0.1:8080` 和 `nginx -t`
+
+## 可选环境变量
+
+```bash
+DEPLOY_ROOT=/home/kihara/.deployments/kihara-site-stable \
+SERVICE_NAME=kihara-site \
+PORT=8080 \
+npm run deploy
 ```

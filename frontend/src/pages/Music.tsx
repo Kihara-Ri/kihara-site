@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import RecordPlayer from '../components/music/RecordPlayer';
 import layout from '../components/layout/PageLayout.module.css';
@@ -947,7 +947,7 @@ function MusicDesktop() {
 
     return Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
   };
-  const handleProgressTrackPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
+  const handleProgressTrackPointerDown = (event: ReactPointerEvent<HTMLButtonElement>) => {
     const ratio = resolveScrubRatio(event.currentTarget, event.clientX);
     if (ratio === null) {
       return;
@@ -958,7 +958,7 @@ function MusicDesktop() {
     setScrubRatio(ratio);
     seekPreview(ratio);
   };
-  const handleProgressTrackPointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+  const handleProgressTrackPointerMove = (event: ReactPointerEvent<HTMLButtonElement>) => {
     if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
       return;
     }
@@ -971,7 +971,7 @@ function MusicDesktop() {
     setScrubRatio(ratio);
     seekPreview(ratio);
   };
-  const handleProgressTrackPointerEnd = (event: PointerEvent<HTMLButtonElement>) => {
+  const handleProgressTrackPointerEnd = (event: ReactPointerEvent<HTMLButtonElement>) => {
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
