@@ -372,6 +372,10 @@ function MusicDesktop() {
     seekPreview,
     playAdjacentHighlight,
   } = useMusicPlayer();
+  const playerHeadline = activeHighlight?.value ?? '唱片机里还没有唱片';
+  const playerMetaText = activeHighlight?.meta ?? '';
+  const playerTextLabel = [playerHeadline, playerMetaText].filter(Boolean).join(' ');
+  const shouldScrollPlayerText = playerTextLabel.length > 48;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 900px)');
@@ -1495,9 +1499,24 @@ function MusicDesktop() {
               ) : null}
 
               <div className={styles.playerMeta}>
-                <div className={styles.playerTextRow}>
-                  <strong className={styles.playerTitle}>{activeHighlight?.value ?? '唱片机里还没有唱片'}</strong>
-                  {activeHighlight?.meta ? <span className={styles.playerMetaInline}>{activeHighlight.meta}</span> : null}
+                <div className={styles.playerTextRow} title={playerTextLabel}>
+                  <div
+                    className={[
+                      styles.playerTextScroller,
+                      shouldScrollPlayerText ? styles.playerTextScrollerMarquee : '',
+                    ].join(' ').trim()}
+                  >
+                    <span className={styles.playerTextSegment}>
+                      <strong className={styles.playerTitle}>{playerHeadline}</strong>
+                      {playerMetaText ? <span className={styles.playerMetaInline}>{playerMetaText}</span> : null}
+                    </span>
+                    {shouldScrollPlayerText ? (
+                      <span className={styles.playerTextSegment} aria-hidden="true">
+                        <strong className={styles.playerTitle}>{playerHeadline}</strong>
+                        {playerMetaText ? <span className={styles.playerMetaInline}>{playerMetaText}</span> : null}
+                      </span>
+                    ) : null}
+                  </div>
                 </div>
                 <p className={styles.playerTrackText}>
                   {playableHighlight?.track ? playableHighlight.track.title : '点击唱片放入唱片机'}

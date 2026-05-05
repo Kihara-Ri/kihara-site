@@ -856,13 +856,46 @@
 }
 
 .playerTextRow {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  flex-wrap: wrap;
   gap: 0.55rem;
   width: 100%;
   min-width: 0;
+  height: 1.25rem;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, black 1rem, black calc(100% - 1rem), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, black 1rem, black calc(100% - 1rem), transparent 100%);
+}
+
+.playerTextScroller {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  max-width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.playerTextScrollerMarquee {
+  justify-content: flex-start;
+  width: max-content;
+  max-width: none;
+  gap: 2.4rem;
+  animation: playerTextMarquee 22s linear infinite;
+}
+
+.playerTextSegment {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.55rem;
+  min-width: 0;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.playerTextScrollerMarquee .playerTextSegment {
+  flex: 0 0 auto;
+  max-width: none;
 }
 
 .playerTitle {
@@ -875,11 +908,24 @@
   text-overflow: ellipsis;
 }
 
+.playerTextScrollerMarquee .playerTitle {
+  overflow: visible;
+  text-overflow: clip;
+}
+
 .playerMetaInline {
+  min-width: 0;
   color: color-mix(in srgb, var(--warn) 82%, var(--ink));
   font-size: 0.85rem;
   font-weight: 700;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playerTextScrollerMarquee .playerMetaInline {
+  overflow: visible;
+  text-overflow: clip;
 }
 
 :global([data-theme='dark']) .playerTitle {
@@ -913,6 +959,18 @@
   flex-direction: column;
   align-items: stretch;
   gap: 0.16rem;
+}
+
+@keyframes playerTextMarquee {
+  0%,
+  12% {
+    transform: translateX(0);
+  }
+
+  88%,
+  100% {
+    transform: translateX(calc(-50% - 1.2rem));
+  }
 }
 
 .playerProgress {

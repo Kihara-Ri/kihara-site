@@ -1960,5 +1960,92 @@
       "status": "fetched",
       "matchedTitle": "Funeral"
     }
+  },
+  {
+    "id": "godspeed-you-black-emperor-lift-your-skinny-fists-like-antennas-to-heaven",
+    "title": "Lift Your Skinny Fists Like Antennas To Heaven",
+    "artist": "Godspeed You! Black Emperor",
+    "releaseYear": 2000,
+    "purchase": {
+      "date": "2026-04-29",
+      "display": "2026-04-29",
+      "location": "tower.jp",
+      "priceText": "3610 JPY",
+      "priceValue": 3610.0,
+      "currency": "JPY"
+    },
+    "note": "特意买的全新的专辑，最近听得最多的一张专辑，很耐听。一开始我只听Storm，后面突然在某一刻沉迷Sleep后无法自拔，黑帝的音乐总有一种能让你沉浸到情绪中去的神秘力量，让二十多分钟的大长曲一点也不漫长",
+    "rawRemark": "3610 JPY 特意买的全新的专辑，最近听得最多的一张专辑，很耐听。一开始我只听Storm，后面突然在某一刻沉迷Sleep后无法自拔，黑帝的音乐总有一种能让你沉浸到情绪中去的神秘力量，让二十多分钟的大长曲一点也不漫长",
+    "cover": {
+      "file": "/music/covers/godspeed-you-black-emperor-lift-your-skinny-fists-like-antennas-to-heaven.jpg",
+      "source": "manual",
+      "status": "manual"
+    }
+  },
+  {
+    "id": "album-dd9671e2dc",
+    "title": "空の飛び方",
+    "artist": "スピッツ",
+    "releaseYear": 1994,
+    "purchase": {
+      "date": "2026-04-30",
+      "display": "2026-04-30",
+      "location": "メルカリ",
+      "priceText": "300 JPY",
+      "priceValue": 300.0,
+      "currency": "JPY"
+    },
+    "note": "「空も飛べるはず」",
+    "rawRemark": "300 JPY 「空も飛べるはず」",
+    "cover": {
+      "file": "/music/covers/album-dd9671e2dc.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "空の飛び方"
+    }
+  },
+  {
+    "id": "the-beach-boys-pet-sounds",
+    "title": "Pet Sounds",
+    "artist": "The Beach Boys",
+    "releaseYear": 1966,
+    "purchase": {
+      "date": "2026-05-05",
+      "display": "2026-05-05",
+      "location": "tower records market place",
+      "priceText": "651 JPY",
+      "priceValue": 651.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "651 JPY",
+    "cover": {
+      "file": "/music/covers/the-beach-boys-pet-sounds.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Pet Sounds"
+    }
+  },
+  {
+    "id": "radiohead-in-rainbows",
+    "title": "In Rainbows",
+    "artist": "Radiohead",
+    "releaseYear": 2007,
+    "purchase": {
+      "date": "2026-05-05",
+      "display": "2026-05-05",
+      "location": "tower records market place",
+      "priceText": "616 JPY",
+      "priceValue": 616.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "616 JPY",
+    "cover": {
+      "file": "/music/covers/radiohead-in-rainbows.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "In Rainbows"
+    }
   }
 ]
