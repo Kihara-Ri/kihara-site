@@ -2047,5 +2047,49 @@
       "status": "fetched",
       "matchedTitle": "In Rainbows"
     }
+  },
+  {
+    "id": "linkin-park-meteora",
+    "title": "Meteora",
+    "artist": "Linkin Park",
+    "releaseYear": 2003,
+    "purchase": {
+      "date": "2026-05-07",
+      "display": "2026-05-07",
+      "location": "BOOKOFF BOOKOFF ロッテシティ錦糸町店",
+      "priceText": "692 JPY",
+      "priceValue": 692.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "692 JPY",
+    "cover": {
+      "file": "/music/covers/linkin-park-meteora.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Meteora (Deluxe Edition)"
+    }
+  },
+  {
+    "id": "sufjan-stevens-javelin",
+    "title": "Javelin",
+    "artist": "Sufjan Stevens",
+    "releaseYear": 2023,
+    "purchase": {
+      "date": "2026-05-07",
+      "display": "2026-05-07",
+      "location": "Tower Records 錦糸町パルコ店",
+      "priceText": "2150 JPY",
+      "priceValue": 2150.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "2150 JPY",
+    "cover": {
+      "file": "/music/covers/sufjan-stevens-javelin.jpg",
+      "source": "itunes",
+      "status": "fetched",
+      "matchedTitle": "Javelin"
+    }
   }
 ]
