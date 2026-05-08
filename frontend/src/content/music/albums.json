@@ -2091,5 +2091,27 @@
       "status": "fetched",
       "matchedTitle": "Javelin"
     }
+  },
+  {
+    "id": "godspeed-you-black-emperor-slow-riot-for-new-zer-kanada-e-p",
+    "title": "Slow Riot for New Zerø Kanada E.P.",
+    "artist": "Godspeed You! Black Emperor",
+    "releaseYear": 1999,
+    "purchase": {
+      "date": "2026-05-08",
+      "display": "2026-05-08",
+      "location": "Amazon",
+      "priceText": "2235 JPY",
+      "priceValue": 2235.0,
+      "currency": "JPY"
+    },
+    "note": null,
+    "rawRemark": "2235 JPY",
+    "cover": {
+      "file": "/music/covers/godspeed-you-black-emperor-slow-riot-for-new-zer-kanada-e-p.jpg",
+      "source": "coverartarchive",
+      "status": "fetched",
+      "matchedTitle": "Slow Riot for New Zero Kanada E.P."
+    }
   }
 ]
