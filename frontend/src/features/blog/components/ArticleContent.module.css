@@ -704,6 +704,51 @@
   box-shadow: var(--shadow-sm);
 }
 
+.blogArticle :global(.md-image-figure),
+.measureArticle :global(.md-image-figure) {
+  display: grid;
+  justify-items: center;
+}
+
+.blogArticle :global(.md-image-button),
+.measureArticle :global(.md-image-button) {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  border-radius: 22px;
+  background: transparent;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.blogArticle :global(.md-image-button:hover img),
+.measureArticle :global(.md-image-button:hover img) {
+  filter: brightness(0.98);
+}
+
+.blogArticle :global(.md-image-button:focus-visible),
+.measureArticle :global(.md-image-button:focus-visible) {
+  outline: 3px solid color-mix(in srgb, var(--accent) 58%, transparent);
+  outline-offset: 4px;
+}
+
+.blogArticle :global(.md-image-button img),
+.measureArticle :global(.md-image-button img) {
+  width: auto;
+  height: auto;
+  max-width: min(100%, 760px);
+  max-height: min(52vh, 460px);
+  object-fit: contain;
+}
+
+.blogArticle :global(.md-inline-image),
+.measureArticle :global(.md-inline-image) {
+  max-width: min(100%, 760px);
+  max-height: min(52vh, 460px);
+  height: auto;
+  vertical-align: middle;
+}
+
 .blogArticle :global(figcaption),
 .measureArticle :global(figcaption) {
   margin-top: 0.7rem;
@@ -813,6 +858,116 @@
   line-height: 1.55;
   white-space: pre-wrap;
   pointer-events: none;
+}
+
+.imageLightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 420;
+  display: grid;
+  place-items: center;
+  padding: 4.5rem 1.2rem 1.6rem;
+  background: rgba(7, 10, 16, 0.82);
+  backdrop-filter: blur(14px);
+  animation: md-image-lightbox-fade-in 180ms ease-out both;
+}
+
+.imageLightboxFigure {
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
+  max-width: min(1180px, 96vw);
+  max-height: calc(100dvh - 6.5rem);
+  margin: 0;
+}
+
+.imageLightboxFigure img {
+  display: block;
+  max-width: min(1180px, 96vw);
+  max-height: calc(100dvh - 9.5rem);
+  width: auto;
+  height: auto;
+  border-radius: 18px;
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.42);
+  object-fit: contain;
+  transform-origin: top left;
+  will-change: transform;
+}
+
+.imageLightboxFigure figcaption {
+  max-width: min(760px, 92vw);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.94rem;
+  line-height: 1.65;
+  text-align: center;
+  animation: md-image-lightbox-caption-in 220ms ease-out 120ms both;
+}
+
+.imageLightboxClose {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.54);
+  cursor: pointer;
+}
+
+.imageLightboxClose::before,
+.imageLightboxClose::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.imageLightboxClose::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.imageLightboxClose::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@keyframes md-image-lightbox-fade-in {
+  from {
+    background: rgba(7, 10, 16, 0);
+    backdrop-filter: blur(0);
+  }
+
+  to {
+    background: rgba(7, 10, 16, 0.82);
+    backdrop-filter: blur(14px);
+  }
+}
+
+@keyframes md-image-lightbox-caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imageLightbox,
+  .imageLightboxFigure figcaption {
+    animation: none;
+  }
+
+  .imageLightboxFigure img {
+    will-change: auto;
+  }
 }
 
 .blogArticle :global(.md-citation),
@@ -1071,6 +1226,11 @@
 
   .blogArticle :global(figure img),
   .measureArticle :global(figure img) {
+    border-radius: 16px;
+  }
+
+  .blogArticle :global(.md-image-button),
+  .measureArticle :global(.md-image-button) {
     border-radius: 16px;
   }
 

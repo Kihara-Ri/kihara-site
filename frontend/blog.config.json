@@ -24,7 +24,8 @@
       { "name": "furigana", "enabled": true },
       { "name": "referenceSection", "enabled": true },
       { "name": "headingAnchor", "enabled": true },
-      { "name": "linkIcon", "enabled": true }
+      { "name": "linkIcon", "enabled": true },
+      { "name": "image", "enabled": true }
     ]
   }
 }

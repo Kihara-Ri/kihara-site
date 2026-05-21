@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { ECharts, EChartsOption } from 'echarts';
 import { useToast } from '@/context/ToastContext';
@@ -20,6 +20,13 @@ interface FloatingTooltipState {
   left: number;
   top: number;
   placement: 'top' | 'bottom';
+}
+
+interface ImageLightboxState {
+  src: string;
+  alt: string;
+  caption: string;
+  origin: DOMRectReadOnly | null;
 }
 
 type ChartRecord = Record<string, unknown>;
@@ -166,7 +173,9 @@ export function MarkdownArticle({
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const articleRef = useRef<HTMLElement | null>(null);
   const activeTooltipHostRef = useRef<HTMLElement | null>(null);
+  const lightboxImageRef = useRef<HTMLImageElement | null>(null);
   const [tooltip, setTooltip] = useState<FloatingTooltipState | null>(null);
+  const [lightboxImage, setLightboxImage] = useState<ImageLightboxState | null>(null);
   const rendered = useMemo(() => renderMarkdown(markdown), [markdown]);
 
   useEffect(() => {
@@ -357,6 +366,22 @@ export function MarkdownArticle({
         return;
       }
 
+      const imageButton = target.closest('.md-image-button');
+      if (imageButton instanceof HTMLButtonElement) {
+        event.preventDefault();
+        const image = imageButton.querySelector('img');
+        const origin = image?.getBoundingClientRect() ?? imageButton.getBoundingClientRect();
+        setLightboxImage({
+          src: imageButton.dataset.src ?? '',
+          alt: imageButton.dataset.alt ?? '',
+          caption: imageButton.dataset.caption ?? '',
+          origin,
+        });
+        closeAll();
+        clearTooltip();
+        return;
+      }
+
       const attach = target.closest('.md-attach');
       const annotation = target.closest('.md-annotation');
 
@@ -457,6 +482,80 @@ export function MarkdownArticle({
     };
   }, [rendered.html]);
 
+  useEffect(() => {
+    if (!lightboxImage) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setLightboxImage(null);
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [lightboxImage]);
+
+  useLayoutEffect(() => {
+    const image = lightboxImageRef.current;
+    const origin = lightboxImage?.origin;
+    if (!image || !origin || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    let animation: Animation | null = null;
+    let frame = 0;
+
+    const play = () => {
+      frame = window.requestAnimationFrame(() => {
+        const target = image.getBoundingClientRect();
+        if (target.width <= 0 || target.height <= 0) {
+          return;
+        }
+
+        const translateX = origin.left - target.left;
+        const translateY = origin.top - target.top;
+        const scaleX = origin.width / target.width;
+        const scaleY = origin.height / target.height;
+
+        animation = image.animate(
+          [
+            {
+              transform: `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`,
+            },
+            {
+              transform: 'translate(0, 0) scale(1, 1)',
+            },
+          ],
+          {
+            duration: 320,
+            easing: 'cubic-bezier(0.2, 0.86, 0.2, 1)',
+            fill: 'both',
+          },
+        );
+      });
+    };
+
+    if (image.complete) {
+      play();
+    } else {
+      image.addEventListener('load', play, { once: true });
+    }
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      image.removeEventListener('load', play);
+      animation?.cancel();
+    };
+  }, [lightboxImage]);
+
   const articleNode = (
     <article
       ref={articleRef}
@@ -464,26 +563,51 @@ export function MarkdownArticle({
       dangerouslySetInnerHTML={{ __html: rendered.html }}
     />
   );
+  const tooltipNode = tooltip
+    ? createPortal(
+        <div
+          className={styles.floatingTooltip}
+          style={{
+            left: tooltip.left,
+            top: tooltip.top,
+            transform: tooltip.placement === 'top' ? 'translateY(-100%)' : undefined,
+          }}
+        >
+          {tooltip.content}
+        </div>,
+        document.body,
+      )
+    : null;
+  const lightboxNode = lightboxImage
+    ? createPortal(
+        <div
+          className={styles.imageLightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightboxImage.caption || lightboxImage.alt || '图片大图'}
+          onClick={() => setLightboxImage(null)}
+        >
+          <button
+            type="button"
+            className={styles.imageLightboxClose}
+            aria-label="关闭大图"
+            onClick={() => setLightboxImage(null)}
+          />
+          <figure className={styles.imageLightboxFigure} onClick={(event) => event.stopPropagation()}>
+            <img ref={lightboxImageRef} src={lightboxImage.src} alt={lightboxImage.alt} />
+            {lightboxImage.caption ? <figcaption>{lightboxImage.caption}</figcaption> : null}
+          </figure>
+        </div>,
+        document.body,
+      )
+    : null;
 
   if (!wrapperClassName) {
     return (
       <>
         {articleNode}
-        {tooltip
-          ? createPortal(
-              <div
-                className={styles.floatingTooltip}
-                style={{
-                  left: tooltip.left,
-                  top: tooltip.top,
-                  transform: tooltip.placement === 'top' ? 'translateY(-100%)' : undefined,
-                }}
-              >
-                {tooltip.content}
-              </div>,
-              document.body,
-            )
-          : null}
+        {tooltipNode}
+        {lightboxNode}
       </>
     );
   }
@@ -491,21 +615,8 @@ export function MarkdownArticle({
   return (
     <div ref={wrapperRef} className={wrapperClassName}>
       {articleNode}
-      {tooltip
-        ? createPortal(
-            <div
-              className={styles.floatingTooltip}
-              style={{
-                left: tooltip.left,
-                top: tooltip.top,
-                transform: tooltip.placement === 'top' ? 'translateY(-100%)' : undefined,
-              }}
-            >
-              {tooltip.content}
-            </div>,
-            document.body,
-          )
-        : null}
+      {tooltipNode}
+      {lightboxNode}
     </div>
   );
 }

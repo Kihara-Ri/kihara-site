@@ -5,7 +5,8 @@ export type CustomPluginName =
   | 'furigana'
   | 'referenceSection'
   | 'headingAnchor'
-  | 'linkIcon';
+  | 'linkIcon'
+  | 'image';
 
 export interface MarkdownPluginConfig {
   name: CustomPluginName;

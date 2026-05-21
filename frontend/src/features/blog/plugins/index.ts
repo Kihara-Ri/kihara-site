@@ -5,6 +5,7 @@ import { attachPlugin } from './attachPlugin';
 import { citationPlugin } from './citationPlugin';
 import { furiganaPlugin } from './furiganaPlugin';
 import { headingAnchorPlugin } from './headingAnchorPlugin';
+import { imagePlugin } from './imagePlugin';
 import { linkIconPlugin } from './linkIconPlugin';
 import { referenceSectionPlugin } from './referenceSectionPlugin';
 
@@ -16,6 +17,7 @@ const customPluginRegistry: Record<CustomPluginName, (md: MarkdownIt) => void> =
   referenceSection: referenceSectionPlugin,
   headingAnchor: headingAnchorPlugin,
   linkIcon: linkIconPlugin,
+  image: imagePlugin,
 };
 
 export function applyCustomPlugins(md: MarkdownIt, config: BlogMarkdownConfig): void {
