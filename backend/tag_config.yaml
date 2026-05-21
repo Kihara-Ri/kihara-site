@@ -1,7 +1,7 @@
 # Toggle strict tag whitelist checking.
 # true  -> tags must exist in allowed_tags
 # false -> tags can be any value
-whitelist_enabled: true
+whitelist_enabled: false
 
 # Toggle strict content validation behavior.
 # true  -> any invalid article blocks startup and API loading

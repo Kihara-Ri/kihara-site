@@ -59,6 +59,21 @@ function highlightCodeLine(line: string, language: string): string {
 function renderCodeBlock(code: string, info: string): string {
   const { highlight } = blogMarkdownConfig;
   const language = resolveLanguage(info);
+
+  if (language === 'echarts') {
+    return [
+      '<figure class="md-echarts-figure">',
+      '<div',
+      ' class="md-echarts"',
+      ' role="img"',
+      ` data-option="${escapeHtml(code)}"`,
+      '>',
+      '<span class="md-echarts-loading">图表加载中...</span>',
+      '</div>',
+      '</figure>',
+    ].join('');
+  }
+
   const languageClassName = language ? ` language-${escapeHtml(language)}` : '';
   const languageLabel = formatLanguageLabel(language);
   const lines = code.replace(/\n$/, '').split('\n');

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import type { ECharts, EChartsOption } from 'echarts';
 import { useToast } from '@/context/ToastContext';
 import { renderMarkdown } from '../markdown/renderer';
 import styles from './ArticleContent.module.css';
@@ -21,6 +22,141 @@ interface FloatingTooltipState {
   placement: 'top' | 'bottom';
 }
 
+type ChartRecord = Record<string, unknown>;
+
+function isRecord(value: unknown): value is ChartRecord {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function normalizeEscapedNewlines(value: unknown): unknown {
+  if (typeof value === 'string') {
+    return value.replace(/\\n/g, '\n');
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => normalizeEscapedNewlines(item));
+  }
+
+  if (isRecord(value)) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, normalizeEscapedNewlines(item)]),
+    );
+  }
+
+  return value;
+}
+
+function mergeRecordDefaults(value: unknown, defaults: ChartRecord): ChartRecord {
+  return {
+    ...defaults,
+    ...(isRecord(value) ? value : {}),
+  };
+}
+
+function withTextStyle(value: unknown, defaults: ChartRecord): ChartRecord {
+  const record = isRecord(value) ? value : {};
+  return {
+    ...record,
+    textStyle: mergeRecordDefaults(record.textStyle, defaults),
+  };
+}
+
+function mapChartAxis(value: unknown, textColor: string, lineColor: string, splitLineColor: string): unknown {
+  if (Array.isArray(value)) {
+    return value.map((item) => mapChartAxis(item, textColor, lineColor, splitLineColor));
+  }
+
+  if (!isRecord(value)) {
+    return value;
+  }
+
+  return {
+    ...value,
+    axisLabel: mergeRecordDefaults(value.axisLabel, { color: textColor }),
+    nameTextStyle: mergeRecordDefaults(value.nameTextStyle, { color: textColor }),
+    axisLine: {
+      ...(isRecord(value.axisLine) ? value.axisLine : {}),
+      lineStyle: mergeRecordDefaults(isRecord(value.axisLine) ? value.axisLine.lineStyle : undefined, {
+        color: lineColor,
+      }),
+    },
+    splitLine: {
+      ...(isRecord(value.splitLine) ? value.splitLine : {}),
+      lineStyle: mergeRecordDefaults(isRecord(value.splitLine) ? value.splitLine.lineStyle : undefined, {
+        color: splitLineColor,
+      }),
+    },
+  };
+}
+
+function mapChartSeries(value: unknown, textColor: string): unknown {
+  if (Array.isArray(value)) {
+    return value.map((item) => mapChartSeries(item, textColor));
+  }
+
+  if (!isRecord(value)) {
+    return value;
+  }
+
+  return {
+    ...value,
+    label: mergeRecordDefaults(value.label, {
+      color: textColor,
+      textBorderWidth: 0,
+      textShadowBlur: 0,
+    }),
+    emphasis: isRecord(value.emphasis)
+      ? {
+          ...value.emphasis,
+          label: mergeRecordDefaults(value.emphasis.label, {
+            color: textColor,
+            textBorderWidth: 0,
+            textShadowBlur: 0,
+          }),
+        }
+      : value.emphasis,
+  };
+}
+
+function createThemedChartOption(option: EChartsOption, isDark: boolean): EChartsOption {
+  const normalized = normalizeEscapedNewlines(option);
+  const record = isRecord(normalized) ? normalized : {};
+  const textColor = isDark ? '#f8fafc' : '#1f2937';
+  const mutedTextColor = isDark ? '#cbd5e1' : '#64748b';
+  const lineColor = isDark ? 'rgba(203, 213, 225, 0.52)' : 'rgba(71, 85, 105, 0.58)';
+  const splitLineColor = isDark ? 'rgba(148, 163, 184, 0.20)' : 'rgba(100, 116, 139, 0.18)';
+
+  return {
+    ...record,
+    textStyle: mergeRecordDefaults(record.textStyle, { color: textColor }),
+    title: Array.isArray(record.title)
+      ? record.title.map((item) =>
+          isRecord(item)
+            ? {
+                ...item,
+                textStyle: mergeRecordDefaults(item.textStyle, { color: textColor }),
+                subtextStyle: mergeRecordDefaults(item.subtextStyle, { color: mutedTextColor }),
+              }
+            : item,
+        )
+      : isRecord(record.title)
+        ? {
+            ...record.title,
+            textStyle: mergeRecordDefaults(record.title.textStyle, { color: textColor }),
+            subtextStyle: mergeRecordDefaults(record.title.subtextStyle, { color: mutedTextColor }),
+          }
+        : record.title,
+    legend: Array.isArray(record.legend)
+      ? record.legend.map((item) => withTextStyle(item, { color: textColor }))
+      : isRecord(record.legend)
+        ? withTextStyle(record.legend, { color: textColor })
+        : record.legend,
+    xAxis: mapChartAxis(record.xAxis, mutedTextColor, lineColor, splitLineColor),
+    yAxis: mapChartAxis(record.yAxis, mutedTextColor, lineColor, splitLineColor),
+    series: mapChartSeries(record.series, textColor),
+  } as EChartsOption;
+}
+
 export function MarkdownArticle({
   markdown,
   className,
@@ -32,6 +168,87 @@ export function MarkdownArticle({
   const activeTooltipHostRef = useRef<HTMLElement | null>(null);
   const [tooltip, setTooltip] = useState<FloatingTooltipState | null>(null);
   const rendered = useMemo(() => renderMarkdown(markdown), [markdown]);
+
+  useEffect(() => {
+    const article = articleRef.current;
+    if (!article) {
+      return;
+    }
+
+    const chartNodes = Array.from(article.querySelectorAll<HTMLElement>('.md-echarts'));
+    if (chartNodes.length === 0) {
+      return;
+    }
+
+    let active = true;
+    const charts: ECharts[] = [];
+    const observers: ResizeObserver[] = [];
+    const resizeHandlers: Array<() => void> = [];
+    const themeObservers: MutationObserver[] = [];
+
+    void import('echarts').then((echarts) => {
+      if (!active) {
+        return;
+      }
+
+      chartNodes.forEach((node) => {
+        try {
+          const rawOption = node.dataset.option;
+          if (!rawOption) {
+            throw new Error('missing chart option');
+          }
+
+          const option = JSON.parse(rawOption) as EChartsOption;
+          node.textContent = '';
+
+          const chart = echarts.init(node, undefined, { renderer: 'svg' });
+          const setThemedOption = () => {
+            chart.setOption(
+              createThemedChartOption(option, document.documentElement.dataset.theme === 'dark'),
+              { notMerge: true },
+            );
+          };
+
+          setThemedOption();
+          charts.push(chart);
+
+          const resize = () => {
+            chart.resize();
+          };
+          resizeHandlers.push(resize);
+
+          if (typeof ResizeObserver !== 'undefined') {
+            const observer = new ResizeObserver(resize);
+            observer.observe(node);
+            observers.push(observer);
+          }
+
+          window.addEventListener('resize', resize);
+
+          if (typeof MutationObserver !== 'undefined') {
+            const themeObserver = new MutationObserver(setThemedOption);
+            themeObserver.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme'],
+            });
+            themeObservers.push(themeObserver);
+          }
+        } catch (error) {
+          node.classList.add('md-echarts-error');
+          node.textContent = '图表配置解析失败';
+          console.error('ECharts markdown render failed', error);
+        }
+      });
+    });
+
+    return () => {
+      active = false;
+      observers.forEach((observer) => observer.disconnect());
+      themeObservers.forEach((observer) => observer.disconnect());
+      resizeHandlers.forEach((resize) => window.removeEventListener('resize', resize));
+      charts.forEach((chart) => chart.dispose());
+    };
+  }, [rendered.html]);
 
   useEffect(() => {
     const article = articleRef.current;
