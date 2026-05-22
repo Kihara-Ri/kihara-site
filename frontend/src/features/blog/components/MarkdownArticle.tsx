@@ -96,6 +96,42 @@ function mapChartAxis(value: unknown, textColor: string, lineColor: string, spli
   };
 }
 
+function mapChartLabel(value: unknown, textColor: string): ChartRecord {
+  return {
+    ...(isRecord(value) ? value : {}),
+    color: textColor,
+    textBorderWidth: 0,
+    textShadowBlur: 0,
+  };
+}
+
+function mapChartMarkerData(value: unknown, textColor: string): unknown {
+  if (Array.isArray(value)) {
+    return value.map((item) => mapChartMarkerData(item, textColor));
+  }
+
+  if (!isRecord(value)) {
+    return value;
+  }
+
+  return {
+    ...value,
+    label: mapChartLabel(value.label, textColor),
+  };
+}
+
+function mapChartMarker(value: unknown, textColor: string): unknown {
+  if (!isRecord(value)) {
+    return value;
+  }
+
+  return {
+    ...value,
+    label: mapChartLabel(value.label, textColor),
+    data: mapChartMarkerData(value.data, textColor),
+  };
+}
+
 function mapChartSeries(value: unknown, textColor: string): unknown {
   if (Array.isArray(value)) {
     return value.map((item) => mapChartSeries(item, textColor));
@@ -107,21 +143,15 @@ function mapChartSeries(value: unknown, textColor: string): unknown {
 
   return {
     ...value,
-    label: mergeRecordDefaults(value.label, {
-      color: textColor,
-      textBorderWidth: 0,
-      textShadowBlur: 0,
-    }),
+    label: mapChartLabel(value.label, textColor),
     emphasis: isRecord(value.emphasis)
       ? {
           ...value.emphasis,
-          label: mergeRecordDefaults(value.emphasis.label, {
-            color: textColor,
-            textBorderWidth: 0,
-            textShadowBlur: 0,
-          }),
+          label: mapChartLabel(value.emphasis.label, textColor),
         }
       : value.emphasis,
+    markPoint: mapChartMarker(value.markPoint, textColor),
+    markLine: mapChartMarker(value.markLine, textColor),
   };
 }
 
@@ -132,6 +162,8 @@ function createThemedChartOption(option: EChartsOption, isDark: boolean): EChart
   const mutedTextColor = isDark ? '#cbd5e1' : '#64748b';
   const lineColor = isDark ? 'rgba(203, 213, 225, 0.52)' : 'rgba(71, 85, 105, 0.58)';
   const splitLineColor = isDark ? 'rgba(148, 163, 184, 0.20)' : 'rgba(100, 116, 139, 0.18)';
+  const tooltipBackgroundColor = isDark ? 'rgba(15, 23, 42, 0.96)' : 'rgba(255, 255, 255, 0.96)';
+  const tooltipBorderColor = isDark ? 'rgba(148, 163, 184, 0.34)' : 'rgba(15, 23, 42, 0.14)';
 
   return {
     ...record,
@@ -158,6 +190,15 @@ function createThemedChartOption(option: EChartsOption, isDark: boolean): EChart
       : isRecord(record.legend)
         ? withTextStyle(record.legend, { color: textColor })
         : record.legend,
+    tooltip: isRecord(record.tooltip)
+      ? {
+          ...record.tooltip,
+          backgroundColor: tooltipBackgroundColor,
+          borderColor: tooltipBorderColor,
+          borderWidth: 1,
+          textStyle: mergeRecordDefaults(record.tooltip.textStyle, { color: textColor }),
+        }
+      : record.tooltip,
     xAxis: mapChartAxis(record.xAxis, mutedTextColor, lineColor, splitLineColor),
     yAxis: mapChartAxis(record.yAxis, mutedTextColor, lineColor, splitLineColor),
     series: mapChartSeries(record.series, textColor),
